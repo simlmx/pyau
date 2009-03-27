@@ -6,7 +6,7 @@
 #  Copyright (c) 2009. All rights reserved.
 #
 
-import _audiounit as AU
+import audiounit as au
 
 class CAComponentDescription:
 	'''
@@ -14,7 +14,8 @@ class CAComponentDescription:
 	'''
 	
 	def __init__(self, type, subtype, manufacturer):
-		self.ccd = AU.CAComponentDescription(type, subtype, manufacturer)
+		self.ccd = au.CAComponentDescription()
+		self.ccd.Type = type
 		
 	def __str__(self):
 		return self.ccd.type() + ' ' + self.ccd.subtype() + ' ' + self.ccd.manufacturer()
