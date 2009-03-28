@@ -8,21 +8,22 @@
 #include "CAComponentDescription.h"
 #include "Parameter.h"
 	
-//#include "FileSystemUtils.h"
+#include "FileSystemUtils.h"
+	
+
+	
 %}
 
 %typemap(in) OSType
 {
-	
-	
 	OSType a;
-	memcpy(&a, PyString_AsString($input), 4);
+	FileSystemUtils::str2OSType(PyString_AsString($input) ,a);
 	$1 = a;
 }
 
 %typemap(out) OSType {
-	char temp[4];
-	memcpy(temp, &$1, 4);
+	char temp[5];
+	FileSystemUtils::OSType2str($1, temp);
 	$result = PyString_FromStringAndSize(temp,4);
 }
 
