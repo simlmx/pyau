@@ -3,13 +3,15 @@
 
 
 %{
+#include "AUComponent.h"
+#include "Defs.h"
 #include "CAComponentDescription.h"
-//#include "CAAudioUnit"
-#include "Parameter.h"
+#include "CAAudioUnit.h"
+//#include "Parameter.h"
 #include "AudioUnitWrapper.h"
 #include "AUChain.h"
-#include "FileMidi2AudioGenerator.h"
-	
+#include "AUChainGroup.h"
+#include "FileMidi2AudioGenerator.h"	
 #include "FileSystemUtils.h"
 #undef check
 %}
@@ -42,6 +44,10 @@ typedef double              Float64;
 
 
 %template(AudioUnitWrapperPtrList) std::list<AudioUnitWrapper*>;
+
+%template(AUChainPtrList) std::list<AUChain*>;
+
+%template(StringList) std::list<std::string>;
 
 
 
@@ -80,23 +86,108 @@ typedef double              Float64;
 //
 // %INCLUDEs
 //
+class FileSystemUtils
+{
+public:
+	static void GetRelativeFilePaths( const std::string& root, const std::string& extension, std::list<std::string>& filePaths);
+	static std::string TrimTrailingSeparators( const std::string& inputString );
+};
+
+const UInt32 DEFAULT_BUFFER_SIZE = 512;
+const Float64 DEFAULT_SAMPLE_RATE = 44100;
+
+const std::string AUPRESET_EXTENSION = ".aupreset";
+const std::string SOUNDFONT_EXTENSION = ".sf2";
+
+class CAComponentDescription
+{
+public:
+	CAComponentDescription (OSType inType, OSType inSubtype = 0, OSType inManu = 0);
+	OSType	Type () const;
+	OSType	SubType () const;
+	OSType 	Manu () const;
+	int		Count() const;
+};
+
+class CAComponent
+{
+public:
+	const CAComponentDescription&	Desc () const;
+};
+
+class CAAudioUnit
+{
+public:
+	const CAComponent&		Comp() const;
+};
+
+class AudioUnitWrapper : public CAAudioUnit
+{
+public:	
+	AudioUnitWrapper(const AUNode &inNode, const AudioUnit& inUnit):CAAudioUnit(inNode, inUnit) {}
+
+//	TODO : add some methods!
+//	virtual void LoadAUPresetFromFile(std::string aupresetPath);
+//	virtual void SaveAuPresetToFile(std::string aupresetPath);
+	
+//	virtual std::list<Parameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
+	
+//	virtual ~AudioUnitWrapper() {}
+};
+
+class AUChain
+{
+public:
+	AUChain(CAComponentDescription audioSourceDescription, AUGraphWrapper& graph);
+	void SetAudioSource(CAComponentDescription desc);
+	AudioUnitWrapper& GetAudioSource() { return *audioSource_; }
+	
+	void AddEffect(CAComponentDescription desc);
+	void RemoveEffect();	
+	std::list<AudioUnitWrapper*> GetEffects() { reutrn effects_; }
+};
+
+typedef std::list<AUChain*> AUChainList;
+
+class AUChainGroup
+{
+public:
+    AUChainGroup( CAComponentDescription outputDesc = GENERIC_OUTPUT_DESCRIPTION,
+				 UInt32 bufferSize = DEFAULT_BUFFER_SIZE, Float64 sampleRate = DEFAULT_SAMPLE_RATE );
+    
+    void AddAudioSource( CAComponentDescription instrumentDescription );
+//    AudioUnitWrapper& GetAudioSource( UInt32 chainIndex );
+	
+//  AudioUnitWrapper* GetMixer() { return mixer_; }
+//  void UpdateMixerConnections();
+    
+    void SetOutput(CAComponentDescription desc);
+	AudioUnitWrapper& GetOutput() { return *output_; }
+    
+    AUChainList& GetAUChains() { return auChains_; }
+    AUChain& GetAUChain( UInt32 index = 0 );
+    
+    void Start() { graphWrapper_.Start(); }
+	void Stop() { graphWrapper_.Stop(); }
+    
+    UInt32 GetBufferSize() { return graphWrapper_.GetBufferSize(); }
+    Float64 GetSampleRate() { return graphWrapper_.GetSampleRate(); }
+    AUGraph GetAUGraph() { return graphWrapper_.GetAUGraph(); }
+};
+
+class FileMidi2AudioGenerator : public Midi2AudioGeneratorBase
+{
+public:
+    FileMidi2AudioGenerator( AUChainGroup* auChainGroup, const std::string& midiParameter,
+							const std::string& instrumentDirectory, const std::list<std::string>& instruments, const std::string& outputDirectory, 
+							bool flattenMidiHierarchy = true, bool flattenSoundfontHierarchy = false, bool midiHierarchyBeforeSoundfont = false );
+
+    void GenerateAudio();    
+};
 
 
-%include "CAComponentDescription.h"
-%include "Parameter.h"
-%include "CAAudioUnit.h"
-%include "AudioUnitWrapper.h"
-%include "AUChain.h"
-%include "CAComponent.h"
-%include "FileMidi2AudioGenerator.h"
 
 
 
-
-
-
-
-
-
-
-
+//%include "Parameter.h"
+//%include "FileMidi2AudioGenerator.h"
