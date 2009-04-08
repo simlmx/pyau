@@ -4,16 +4,18 @@
 
 %{
 #include "AUComponent.h"
+
 #include "Defs.h"
 #include "CAComponentDescription.h"
 #include "CAAudioUnit.h"
-//#include "Parameter.h"
 #include "AudioUnitWrapper.h"
 #include "AUChain.h"
 #include "AUChainGroup.h"
 #include "FileMidi2AudioGenerator.h"	
 #include "FileSystemUtils.h"
-#include "Midi2AudioGeneral.h"
+#include "CAAUParameter.h"
+#include "Parameter.h"
+
 #undef check
 %}
 
@@ -21,7 +23,7 @@
 %include std_list.i
 %include std_string.i
 
-// somes typedefs from MacTypes.h
+// some typedefs from MacTypes.h
 
 typedef unsigned char                   UInt8;
 typedef signed char                     SInt8;
@@ -38,6 +40,14 @@ typedef signed long                     SInt32;
 
 typedef float               Float32;
 typedef double              Float64;
+
+// some typedefs from AUComponent.h
+
+typedef UInt32							AudioUnitPropertyID;
+typedef UInt32							AudioUnitParameterID;
+typedef UInt32							AudioUnitScope;
+typedef UInt32							AudioUnitElement;
+typedef	Float32							AudioUnitParameterValue;
 
 //
 // %TEMPLATEs
@@ -183,6 +193,55 @@ public:
 							bool flattenMidiHierarchy = true, bool flattenSoundfontHierarchy = false, bool midiHierarchyBeforeSoundfont = false );
 
     void GenerateAudio();    
+};
+
+
+class CAAUParameter : public AudioUnitParameter {
+public:
+	CAAUParameter(AudioUnit au, AudioUnitParameterID param, AudioUnitScope scope, AudioUnitElement element);
+	
+	CAAUParameter(AudioUnitParameter &inParam);
+	
+	Float32						GetValue() const;
+	
+	void						SetValue(	AUParameterListenerRef			inListener, 
+										 void *							inObject,
+										 Float32							inValue) const;
+	
+	CFStringRef					GetName() const;  
+	
+	CFStringRef					GetStringFromValueCopy(const Float32 *value = NULL) const;	
+	bool						ValuesHaveStrings () const;
+	
+	Float32						GetValueFromString (CFStringRef str) const;					
+	
+	const AudioUnitParameterInfo & ParamInfo() const;
+	
+	CFStringRef					GetParamTag() const	{ return mParamTag; }
+	// this may return null! - 
+	// in which case there is no descriptive tag for the parameter
+	
+	/*! @method GetParamName */
+	CFStringRef					GetParamName (int inIndex) const;
+	// this can return null if there is no name for the parameter
+	
+	int							GetNumIndexedParams () const;	
+
+	bool						IsIndexedParam () const;	
+
+	bool						HasNamedParams () const;	
+
+	bool						GetClumpID (UInt32 &outClumpID) const;	
+
+	bool						HasDisplayTransformation () const;	
+
+	bool						IsExpert () const;
+};
+
+class Parameter : public CAAUParameter
+{
+public:
+	Parameter(AudioUnit au, AudioUnitParameterID param, AudioUnitScope scope, AudioUnitElement element);
 };
 
 

@@ -40,7 +40,8 @@ class CAComponentDescription(object):
 		return (self.type if self.type != '\0\0\0\0' else r'\0\0\0\0') + "' '" \
 				+ (self.subtype if self.subtype != '\0\0\0\0' else r'\0\0\0\0') + "' '" \
 				+ (self.manu if self.manu != '\0\0\0\0' else r'\0\0\0\0') + "'"
-		
+	
+			
 class AudioUnit(object):
 	""" Wrapper of an c++ AudioUnitWrapper.
 		Should not be created directly, but instead be taken from an AUChain.
@@ -64,7 +65,8 @@ class AudioUnit(object):
 	def __str__(self):
 		s = self.desc.__str__()
 		return s
-		
+	
+			
 class AUChain(object):
 	"""	Reprensents a chain of audio units : an audio source (e.g. instrument, generator, etc.) and a list of effects.
 		Should not be created directly, but instead be taken from an AUChainGroup. 
@@ -125,7 +127,8 @@ class AUChain(object):
 			s += ' => '
 			s += '( ' + e.desc.__str__() + ' )'
 		return s
-		
+	
+			
 class AUChainGroup(object):
 	""" Group of AUChains.
 	"""
@@ -140,8 +143,6 @@ class AUChainGroup(object):
 			output_desc
 				CAComponentDescription representing the output
 		"""
-		print buffer_size
-		print sample_rate
 		self._acg = au.AUChainGroup(output_desc._ccd, buffer_size, sample_rate)
 		self._au_chains = None
 		self._output = None
@@ -200,25 +201,30 @@ class AUChainGroup(object):
 		return s
 		
 		
-#TODO : changer les noms des params dans le constructeur, idem dans la version c++
 class FileMidi2AudioGenerator:
-	""" TODO
+	""" Takes a AUChainGroup and generates audio from midi files
+		TODO : This class is currentlyt a work in progress.
 	"""
 	
 	def __init__(self, auchain_group, midiDirectory, presetDirectory, outputDirectory):
-		""" TODO """
+		""" Constructor.
+		
+			auchain_group
+				A AUChainGroup!
+			midiDirectory
+				A directory of midi files.
+			presetDirectory
+				A directory containing .aupreset files.
+			outputDirectory
+				Where to bounce the .wav files.
+		"""
 		
 		#midiDirectory = au.FileSystemUtils_TrimTrailingSeparators(midiDirectory)
 		#presetDirectory = au.FileSystemUtils_TrimTrailingSeparators(presetDirectory)
 		#outputDirectory = au.FileSystemUtils_TrimTrailingSeparators(outputDirectory)
 
 		instruments = au.FileSystemUtils_GetRelativeFilePaths(presetDirectory, ".aupreset")
-		
-		print midiDirectory
-		print presetDirectory
-		print instruments
-		print outputDirectory
-		
+				
 		self._fm2ag = au.FileMidi2AudioGenerator(
 			auchain_group._acg,
 			midiDirectory,
@@ -228,11 +234,11 @@ class FileMidi2AudioGenerator:
 			True, False, False)
 			
 	def generate_audio(self):
-		""" TODO """
+		""" Generates the .wav files. """
 		self._fm2ag.GenerateAudio()
 		
 		
-	
+
 		
 				
 		
