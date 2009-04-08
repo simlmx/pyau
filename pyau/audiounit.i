@@ -13,6 +13,7 @@
 #include "AUChainGroup.h"
 #include "FileMidi2AudioGenerator.h"	
 #include "FileSystemUtils.h"
+#include "Midi2AudioGeneral.h"
 #undef check
 %}
 
@@ -82,14 +83,13 @@ typedef double              Float64;
 	$1 = ( (PyString_Check($input) && PyString_Size($input)==4) || PyString_Size($input)==0 ) ? 1 : 0;
 }
 
-
 //
 // %INCLUDEs
 //
 class FileSystemUtils
 {
 public:
-	static void GetRelativeFilePaths( const std::string& root, const std::string& extension, std::list<std::string>& filePaths);
+	static void GetRelativeFilePaths( const std::string& root, const std::string& extension, std::list<std::string>& OUTPUT);
 	static std::string TrimTrailingSeparators( const std::string& inputString );
 };
 
@@ -186,8 +186,7 @@ public:
 };
 
 
-
-
+%include "Midi2AudioGeneral.h"
 
 //%include "Parameter.h"
 //%include "FileMidi2AudioGenerator.h"

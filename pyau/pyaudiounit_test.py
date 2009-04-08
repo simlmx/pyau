@@ -14,12 +14,12 @@ from pyaudiounit import *
 audiosource_desc = CAComponentDescription('aumu', 'Nif8', '-NI-')
 effect_desc = CAComponentDescription('aufx', 'dist', 'appl')
 
-print audiosource_desc
-print
+#print audiosource_desc
+#print
 
 chain_group = AUChainGroup()
-print chain_group
-print
+#print chain_group
+#print
 
 chain_group.add_audiosource(audiosource_desc)
 #chain_group.add_audiosource(audiosource_desc)

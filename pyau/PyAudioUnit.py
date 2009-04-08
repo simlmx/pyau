@@ -6,7 +6,7 @@
 #  Copyright (c) 2009. All rights reserved.
 #
 
-import pygmy.audiounit as au
+import audiounit as au
 
 class CAComponentDescription(object):
 	"""
@@ -132,7 +132,7 @@ class AUChainGroup(object):
 	
 	def __init__(	self,
 					#TODO : changer le CAComponentDescription de la ligne d'apres pour au.DEFAULT_OUTPUT_DESCRIPTION
-					output_desc = CAComponentDescription('auou', 'def ', 'appl'),
+					output_desc = CAComponentDescription('auou', 'genr', 'appl'),
 					buffer_size = au.DEFAULT_BUFFER_SIZE,
 					sample_rate = au.DEFAULT_SAMPLE_RATE):
 		""" Constructor.
@@ -140,7 +140,8 @@ class AUChainGroup(object):
 			output_desc
 				CAComponentDescription representing the output
 		"""
-		
+		print buffer_size
+		print sample_rate
 		self._acg = au.AUChainGroup(output_desc._ccd, buffer_size, sample_rate)
 		self._au_chains = None
 		self._output = None
@@ -207,18 +208,17 @@ class FileMidi2AudioGenerator:
 	def __init__(self, auchain_group, midiDirectory, presetDirectory, outputDirectory):
 		""" TODO """
 		
-		midiDirectory = au.FileSystemUtils_TrimTrailingSeparators(midiDirectory)
-		presetDirectory = au.FileSystemUtils_TrimTrailingSeparators(presetDirectory)
-		outputDirectory = au.FileSystemUtils_TrimTrailingSeparators(outputDirectory)
+		#midiDirectory = au.FileSystemUtils_TrimTrailingSeparators(midiDirectory)
+		#presetDirectory = au.FileSystemUtils_TrimTrailingSeparators(presetDirectory)
+		#outputDirectory = au.FileSystemUtils_TrimTrailingSeparators(outputDirectory)
 
-		temp = au.StringList()
-		au.FileSystemUtils_GetRelativeFilePaths(presetDirectory, ".aupreset", temp)
-		instruments = temp
+		instruments = au.FileSystemUtils_GetRelativeFilePaths(presetDirectory, ".aupreset")
 		
 		print midiDirectory
 		print presetDirectory
+		print instruments
 		print outputDirectory
-				
+		
 		self._fm2ag = au.FileMidi2AudioGenerator(
 			auchain_group._acg,
 			midiDirectory,
@@ -230,7 +230,6 @@ class FileMidi2AudioGenerator:
 	def generate_audio(self):
 		""" TODO """
 		self._fm2ag.GenerateAudio()
-		
 		
 		
 	
