@@ -245,7 +245,5 @@ public:
 };
 
 
-%include "Midi2AudioGeneral.h"
-
 //%include "Parameter.h"
 //%include "FileMidi2AudioGenerator.h"
