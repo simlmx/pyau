@@ -62,6 +62,11 @@ class AudioUnit(object):
 					
 	desc = property(_get_ccd, doc='Gets the CAComponentDescription associated with the AudioUnit')
 	
+	def get_parameters(self, scope = au.kAudioUnitScope_Global, element = 0):
+		""" Returns the list of parameters of the audio unit for a scope and an element.
+		"""
+		return [Parameter(x) for x in self._auw.GetParameterList(scope, element)]
+		
 	def __str__(self):
 		s = self.desc.__str__()
 		return s
@@ -96,7 +101,7 @@ class AUChain(object):
 	def _get_effects(self):
 		if self._effects is None:
 			self._effects = self._auchain.GetEffects()
-			self._effects = map(lambda e : AudioUnit(e), self._effects)
+			self._effects = [AudioUnit(e) for e in self._effects]
 		return self._effects
 		
 	effects = property( _get_effects,
@@ -172,7 +177,7 @@ class AUChainGroup(object):
 	def _get_auchains(self):
 		if self._au_chains is None:
 			self._au_chains = self._acg.GetAUChains()
-			self._au_chains = map( lambda x : AUChain(x), self._au_chains)
+			self._au_chains = [AUChain(x) for x in self._au_chains]
 		return self._au_chains
 		
 	auchains = property(_get_auchains,
@@ -201,7 +206,7 @@ class AUChainGroup(object):
 		return s
 		
 		
-class FileMidi2AudioGenerator:
+class FileMidi2AudioGenerator(object):
 	""" Takes a AUChainGroup and generates audio from midi files
 		TODO : This class is currentlyt a work in progress.
 	"""
@@ -236,6 +241,67 @@ class FileMidi2AudioGenerator:
 	def generate_audio(self):
 		""" Generates the .wav files. """
 		self._fm2ag.GenerateAudio()
+		
+
+class Parameter(object):
+	"""	Represents a parameter of an Audio Unit. """
+	
+	def __init__(self, real_parameter):
+		""" Constructor.
+			Should not be called directly but instead returned from an AudioUnit.
+		"""
+		self._param = real_parameter
+		
+	_info = property(lambda self : self._param.ParamInfo(), doc='Gets the AudioUnitParameterInfo of the parameter.')
+	
+	name = property(lambda self : self._param.GetName(), doc='Gets the name of the parameter.')
+	
+	value = property(
+		lambda self : self._param.GetValue(),
+		lambda self : self._param.SetValue(),
+		doc='Gets/Sets the value of the parameter.')
+		
+	unit = property(lambda self : self._param.GetParamTag(), doc = 'Gets a string representing the unit of the parameter.')
+	
+	def _get_range(self):
+		return self._info.minValue, self._info.defaultValue, self._info.maxValue
+	
+	range = property(_get_range, doc='Gets the triplet (minValue, defaultValue, maxValue) for the parameter.')
+	
+	def _get_clumpID(self):
+		has_clump, clumpID = self._param.GetClumpID()
+		return clumpID if has_clump else None
+	
+	clumpID = property(_get_clumpID, doc="Gets the clump ID of the parameter (None if there isn't any)")
+	
+	def get_str_from_value(self, value=None):
+		""" Returns a string representing the value.
+			A value of 'None' says the use the current value of the parameter.
+		"""
+		return self._param.GetStringFromValueCopy(value)
+		
+	def get_value_from_str(self, string):
+		""" Returns the value represented by a string. """
+		return self._param.GetValueFromString(string)
+		
+	num_indexed_params = property(lambda self : self._param.GetNumIndexedParams(), doc='Gets the number of indexed parameters, 0 if the parameter is not indexed')
+	
+	def has_display_transformation(self):
+		""" Tells if the parameter value needs to be transformed before displayed to the user.
+		"""
+		return self._param.HasDisplayTransformation()
+		
+	#TODO : deal with the differents diplay transformations
+			
+	def __str__(self):
+		#return '%s = %s %s' % (self.name, self.get_str_from_value(), self.unit)
+		return str(self.unit)
+	
+	
+	
+		
+		
+	
 		
 		
 

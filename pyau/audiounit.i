@@ -61,12 +61,15 @@ typedef	Float32							AudioUnitParameterValue;
 %template(StringList) std::list<std::string>;
 
 
+%template(ParameterList) std::list<Parameter>;
+
+
 
 //
 // %TYPEMAPs
 //
 
-//OSType
+// OSType
 
 %typemap(in) OSType
 {
@@ -93,9 +96,40 @@ typedef	Float32							AudioUnitParameterValue;
 	$1 = ( (PyString_Check($input) && PyString_Size($input)==4) || PyString_Size($input)==0 ) ? 1 : 0;
 }
 
+// CFStringRef
+
+%include typemap_cfstringref.i
+
 //
 // %INCLUDEs
 //
+
+// AudioUnitProperty.h
+
+enum {
+	kAudioUnitScope_Global	= 0,
+	kAudioUnitScope_Input	= 1,
+	kAudioUnitScope_Output	= 2,
+	kAudioUnitScope_Group	= 3,
+	kAudioUnitScope_Part	= 4,
+	kAudioUnitScope_Note	= 5
+};
+
+typedef struct AudioUnitParameterInfo
+{
+	char						name[52];
+	CFStringRef					unitName;
+	UInt32						clumpID;
+	CFStringRef					cfNameString;
+	AudioUnitParameterUnit		unit;						
+	AudioUnitParameterValue		minValue;			
+	AudioUnitParameterValue		maxValue;			
+	AudioUnitParameterValue		defaultValue;		
+	UInt32						flags;				
+} AudioUnitParameterInfo;
+
+// FileSystemUtils.h
+
 class FileSystemUtils
 {
 public:
@@ -103,11 +137,15 @@ public:
 	static std::string TrimTrailingSeparators( const std::string& inputString );
 };
 
+// Defs.h
+
 const UInt32 DEFAULT_BUFFER_SIZE = 512;
 const Float64 DEFAULT_SAMPLE_RATE = 44100;
 
 const std::string AUPRESET_EXTENSION = ".aupreset";
 const std::string SOUNDFONT_EXTENSION = ".sf2";
+
+// CAComponentDescription.h
 
 class CAComponentDescription
 {
@@ -119,17 +157,23 @@ public:
 	int		Count() const;
 };
 
+// CAComponent.h
+
 class CAComponent
 {
 public:
 	const CAComponentDescription&	Desc () const;
 };
 
+// CAAudioUnit.h
+
 class CAAudioUnit
 {
 public:
 	const CAComponent&		Comp() const;
 };
+
+// AudioUnitWrapper.h
 
 class AudioUnitWrapper : public CAAudioUnit
 {
@@ -140,10 +184,12 @@ public:
 //	virtual void LoadAUPresetFromFile(std::string aupresetPath);
 //	virtual void SaveAuPresetToFile(std::string aupresetPath);
 	
-//	virtual std::list<Parameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
+	virtual std::list<Parameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
 	
 //	virtual ~AudioUnitWrapper() {}
 };
+
+// AUChain.h
 
 class AUChain
 {
@@ -156,6 +202,8 @@ public:
 	void RemoveEffect();	
 	std::list<AudioUnitWrapper*> GetEffects() { reutrn effects_; }
 };
+
+// AUChainGroup.h
 
 typedef std::list<AUChain*> AUChainList;
 
@@ -185,6 +233,8 @@ public:
     AUGraph GetAUGraph() { return graphWrapper_.GetAUGraph(); }
 };
 
+// FileMidi2AudioGenerator.h
+
 class FileMidi2AudioGenerator : public Midi2AudioGeneratorBase
 {
 public:
@@ -195,6 +245,7 @@ public:
     void GenerateAudio();    
 };
 
+// CAAUParameter.h
 
 class CAAUParameter : public AudioUnitParameter {
 public:
@@ -231,19 +282,19 @@ public:
 
 	bool						HasNamedParams () const;	
 
-	bool						GetClumpID (UInt32 &outClumpID) const;	
+	bool						GetClumpID (UInt32 &OUTPUT) const;	
 
 	bool						HasDisplayTransformation () const;	
 
 	bool						IsExpert () const;
 };
 
+// Parameter.h
+
 class Parameter : public CAAUParameter
 {
 public:
-	Parameter(AudioUnit au, AudioUnitParameterID param, AudioUnitScope scope, AudioUnitElement element);
+	Parameter(AudioUnit au, AudioUnitParameterID param, AudioUnitScope scope, AudioUnitElement element)
+:CAAUParameter(au, param, scope, element) {}
+	Parameter(){}
 };
-
-
-//%include "Parameter.h"
-//%include "FileMidi2AudioGenerator.h"
