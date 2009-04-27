@@ -8,31 +8,34 @@
 
 """ Test/Example of how works pygmy.audiounit
 """
-
+import sys
 from pygmy.audiounit import *
 
-desc_ins = CAComponentDescription('aumu', 'aut1', 'Alfa')
-desc_ins2 = CAComponentDescription('aumu', 'Nif8', '-NI-')
-dist_desc = CAComponentDescription('aufx', 'dist', 'appl')
-delay_desc = CAComponentDescription('aufx', 'dely', 'appl')
 
-group = AUChainGroup()
+g = AUChainGroup()
 
-ins1 = group.add_audiosource(desc_ins)
-ins2 = group.add_audiosource(desc_ins2)
+print g
 
-m2ag = Midi2AudioGenerator(group)
-m2ag.midifile = '/Users/simon/tmp/awesome_midi.mid'
+aut1 = g.add_audiosource(CAComponentDescription('aumu', 'aut1', 'Alfa'))
+fm8 = g.add_audiosource(CAComponentDescription('aumu', 'Nif8', '-NI-'))
+fm82 = g.add_audiosource(CAComponentDescription('aumu', 'Nif8', '-NI-'))
 
-ins1.load_aupreset('/Users/simon/tmp/test_82.aupreset')
-ins2.load_aupreset('/Users/simon/tmp/303.aupreset')
+print g
+
+m2ag = Midi2AudioGenerator(g)
+m2ag.midifile = '/Users/simon/tmp/link.mid'
+
+#m2ag.play()
+
+aut1.load_aupreset('/Users/simon/tmp/test_52.aupreset')
+fm8.load_aupreset('/Users/simon/tmp/808.aupreset')
+fm82.load_aupreset('/Users/simon/tmp/303.aupreset')
 
 m2ag.play()
 
-eff = group.add_effect(delay_desc, 0)
-eff.load_aupreset('/Users/simon/tmp/delay.aupreset')
+g.add_effect(CAComponentDescription('aufx', 'dist', 'appl'), 2)
+g.add_effect(CAComponentDescription('aufx', 'dely', 'appl'), 2)
 
-eff2 = group.add_effect(dist_desc, 1)
-eff2.load_aupreset('/Users/simon/tmp/dist.aupreset')
+print g
 
 m2ag.play()

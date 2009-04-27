@@ -76,6 +76,8 @@ typedef struct AUListenerBase *AUParameterListenerRef;
 
 %template(CAComponentDescriptionList) std::list<CAComponentDescription>;
 
+%template (CAComponentList) std::list<CAComponent>;
+
 //
 // %TYPEMAPs
 //
@@ -174,6 +176,7 @@ class CAComponent
 {
 public:
 	const CAComponentDescription&	Desc () const;
+	CFStringRef		GetAUName () const { SetCompNames (); return mAUName ? mAUName : mCompName; }
 };
 
 // CAAudioUnit.h
@@ -225,13 +228,15 @@ public:
 				 UInt32 bufferSize = DEFAULT_BUFFER_SIZE, Float64 sampleRate = DEFAULT_SAMPLE_RATE );
     
     AudioUnitWrapper& AddAudioSource( CAComponentDescription instrumentDescription );
+	void RemoveAudioSource();
 //    AudioUnitWrapper& GetAudioSource( UInt32 chainIndex );
 	
 //  AudioUnitWrapper* GetMixer() { return mixer_; }
 //  void UpdateMixerConnections();
 	
 	AudioUnitWrapper& AddEffect(CAComponentDescription effectDescription, UInt32 chainIndex);
-	AudioUnitWrapper& GetEffect(UInt32 chainIndex, UInt32 effectIndex);
+	AudioUnitWrapper& GetEffect(UInt32 chainIndex, UInt32 effectIndex);	
+	void RemoveEffect(UInt32 chainIndex);
     
     void SetOutput(CAComponentDescription desc);
 	AudioUnitWrapper& GetOutput() { return *output_; }
@@ -256,7 +261,7 @@ public:
 	void LoadMidiFile(const std::string midiFile);
 	void PlayAudio();
 	void BounceAudioToFile(const std::string wavFile);
-	
+	void SetTrackInstrument(UInt32 trackIndex, UInt32 instrumentIndex);
 	void Reset();
 };
 
@@ -318,4 +323,4 @@ public:
 // AUUtils.h
 
 long CountAudioUnits(OSType AUType);
-std::list<CAComponentDescription> GetCAComponentDescriptions(CAComponentDescription desc);
+std::list<CAComponent> GetMatchingCAComponents(CAComponentDescription desc);

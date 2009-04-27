@@ -13,6 +13,7 @@ def print_usage_and_exit():
 	print
 	print '  example :'
 	print '  "python list_audio_units.py aumu" will print all music devices'
+	print '  "python list_audio_units.py aufx" will print all effects'
 	print
 	
 	sys.exit()
@@ -27,7 +28,5 @@ if __name__ == '__main__':
 	
 	desc = CAComponentDescription(type)
 	
-	ccds = get_CAComponentDescriptions(desc)
-	for ccd in ccds:
-		print ccd
+	print_matching_components(desc)
 	

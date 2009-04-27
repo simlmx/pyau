@@ -30,7 +30,7 @@ class CAComponentDescription(object):
 	def count(self):
 		"""
 		Gives the number of Components with this type/subtype/manufacturer
-		(makes sens only when at least one is empty (''))
+		(makes sense only when at least one is empty (''))
 		"""
 		return self._ccd.Count()
 			
@@ -39,8 +39,8 @@ class CAComponentDescription(object):
 	manu = property(lambda self : self._ccd.Manu(), doc='Returns the Manufacturer of the Component.')
 				
 	def __str__(self):
-		return "'" + (self.type if self.type != '\0\0\0\0' else r'\0\0\0\0') + "' '" \
-				+ (self.subtype if self.subtype != '\0\0\0\0' else r'\0\0\0\0') + "' '" \
+		return "'" + (self.type if self.type != '\0\0\0\0' else r'\0\0\0\0') + "', '" \
+				+ (self.subtype if self.subtype != '\0\0\0\0' else r'\0\0\0\0') + "', '" \
 				+ (self.manu if self.manu != '\0\0\0\0' else r'\0\0\0\0') + "'"
 	
 			
@@ -97,7 +97,7 @@ class AudioUnit(object):
 	
 			
 class AUChain(object):
-	"""	Reprensents a chain of audio units : an audio source (e.g. instrument, generator, etc.) and a list of effects.
+	"""	Represents a chain of audio units : an audio source (e.g. instrument, generator, etc.) and a list of effects.
 		Should not be created directly, but instead be taken from an AUChainGroup. 
 	"""
 	
@@ -130,25 +130,6 @@ class AUChain(object):
 		
 	effects = property( _get_effects,
 						doc='Get the list of effects.')
-	
-	def add_effect(self, desc):
-		""" Adds an effect at the end of the chain. """
-		self._effects = None
-		return AudioUnit(self._auchain.AddEffect(desc._ccd))
-		
-	def remove_effect(self):
-		""" Removes the last effect in the chain. """
-		self._auchain.RemoveEffect()
-		self._effects = None
-		
-	#TODO : verify if we need the next two methods
-	def start():
-		""" Starts the audio unit. """
-		self._auchain.Start()
-		
-	def stop():
-		""" Stops the audio unit. """
-		self._auchain.Stop()
 		
 	def __str__(self):
 		s = '( ' + self.audiosource.desc.__str__() + ' )'
@@ -180,15 +161,21 @@ class AUChainGroup(object):
 		""" Adds an AUChain (with audiosource described by 'desc') to the group. """
 		self._au_chains = None
 		return AudioUnit(self._acg.AddAudioSource(desc._ccd))
+		
+	def remove_audiosource(self):
+		""" Removes the last AUChain in the group. """
+		self._au_chains = None
+		self._acg.RemoveAudioSource()
 				
 	def add_effect(self, desc, index_chain):
 		""" Adds an effect at then end of the 'index_chain'-th AUChain. """
+		self.auchains[index_chain]._effects = None
 		return AudioUnit(self._acg.AddEffect(desc._ccd, index_chain))
 		
-	
-	def get_audiosource(self, index):
-		""" Gets the audiosource of the index-th AUGraph in the group. """
-		return self.auchains[index]
+	def remove_effect(self, index_chain):
+		""" Removes the last effect of the one of the chains of the group. """
+		self.auchains[index_chain]._effects = None
+		self._acg.RemoveEffect(index_chain)
 		
 	def _set_output(self, desc):
 		self._acg.SetOutput(desc._ccd)
@@ -211,15 +198,7 @@ class AUChainGroup(object):
 		
 	auchains = property(_get_auchains,
 						doc='Gets the list of AUChains.')
-						
-	def start(self):
-		""" Starts the group. """
-		self._acg.Start()
-		
-	def stop(self):
-		""" Stops the group. """
-		self._acg.Stop()
-		
+								
 	buffer_size = property( lambda self : self._acg.GetBufferSize,
 							doc = 'Gets the buffer size of the AUChainGroup.')
 	
@@ -227,49 +206,16 @@ class AUChainGroup(object):
 							doc = 'Gets the sample rate of the AUChainGroup.')
 							
 	def __str__(self):
-		s = 'AUChains :\n'
-		for auc in self.auchains:
-			s += ' ' + auc.__str__() + '\n'
+		s = ''
+		if len(self.auchains) == 0:
+			s += 'No AUChain\n'
+		else:
+			s += 'AUChains :\n'
+			for i,auc in enumerate(self.auchains):
+				s += '%i: %s\n' % (i, auc.__str__())
 		s += 'output :\n '
 		s += self.output.__str__()		
 		return s
-		
-		
-class FileMidi2AudioGenerator(object):
-	""" Takes a AUChainGroup and generates audio from midi files
-		TODO : This class is currentlyt a work in progress.
-	"""
-	
-	def __init__(self, auchain_group, midiDirectory, presetDirectory, outputDirectory):
-		""" Constructor.
-		
-			auchain_group
-				A AUChainGroup!
-			midiDirectory
-				A directory of midi files.
-			presetDirectory
-				A directory containing .aupreset files.
-			outputDirectory
-				Where to bounce the .wav files.
-		"""
-		
-		#midiDirectory = au.FileSystemUtils_TrimTrailingSeparators(midiDirectory)
-		#presetDirectory = au.FileSystemUtils_TrimTrailingSeparators(presetDirectory)
-		#outputDirectory = au.FileSystemUtils_TrimTrailingSeparators(outputDirectory)
-
-		instruments = au.FileSystemUtils_GetRelativeFilePaths(presetDirectory, ".aupreset")
-				
-		self._fm2ag = au.FileMidi2AudioGenerator(
-			auchain_group._acg,
-			midiDirectory,
-			presetDirectory,
-			instruments,
-			outputDirectory,
-			True, False, False)
-			
-	def generate_audio(self):
-		""" Generates the .wav files. """
-		self._fm2ag.GenerateAudio()
 		
 
 class Parameter(object):
@@ -367,12 +313,25 @@ class Midi2AudioGenerator(object):
 		else:
 			self._m2ag.PlayAudio()
 		
-	def bounce(wavfile_path):
+	def bounce(self, wavfile_path):
 		""" Renders the midi file using the AUChainGraph. """
 		if self.midifile is None:
 			print '\nYou have to set a midi file first'
 		else:
-			self._m2ag.BounceAudioToFile(wavefile_path)
+			self._m2ag.BounceAudioToFile(wavfile_path)
+			
+	def set_track_instrument(self, instrument_indexes):
+		""" Tells where to send which track of the midi file.
+			
+			instrument_indexes
+				example : if 'instrument_indexes = [2,1,3,0], track 0 will go to instrument 2
+															track 1 will go to instrument 1
+															track 2 will go to instrument 3
+															track 3 will go to instrument 0
+		"""
+		#faut pe verifier si le fichier midi est loade?
+		for track,ins in enumerate(instrument_indexes):
+			self._m2ag.SetTrackInstrument(track, ins)
 			
 	def reset(self):
 		""" It isn't clear when it has to be called.
@@ -384,15 +343,16 @@ class Midi2AudioGenerator(object):
 
 		
 	
-def get_CAComponentDescriptions(desc):
-	""" Gets all the CAComponentDescriptions that matches 'desc'.
-		For example CAComponentDescription('aumu') would return all the components of type 'aumu'.
+def print_matching_components(desc):
+	""" Print the infos of all the components that matches 'desc'.
+		For example "desc = CAComponentDescription('aumu')" would return all the components of type 'aumu'.
 		
 		desc
 			The CAComponentDescription to be matched
 	"""
-	return [CAComponentDescription(x) for x in au.GetCAComponentDescriptions(desc._ccd)]
-
+	#return [CAComponentDescription(x) for x in au.GetCAComponentDescriptions(desc._ccd)]
+	for x in au.GetMatchingCAComponents(desc._ccd):
+		print "%s :   %s" % (CAComponentDescription(x.Desc()).__str__(), x.GetAUName())
 	
 		
 		
