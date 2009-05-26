@@ -12,7 +12,7 @@ import sys
 from pygmy.audiounit import *
 
 
-g = AUChainGroup()
+g = AUChainGroup(CAComponentDescription('auou', 'genr', 'appl'))
 
 print g
 
@@ -26,6 +26,11 @@ m2ag = Midi2AudioGenerator(g)
 m2ag.midifile = '/Users/simon/tmp/link.mid'
 
 #m2ag.play()
+#m2ag.bounce('/Users/simon/tmp/bounce1.wav')
+test = m2ag.bounce()
+sys.exit()
+
+
 
 aut1.load_aupreset('/Users/simon/tmp/test_52.aupreset')
 fm8.load_aupreset('/Users/simon/tmp/808.aupreset')

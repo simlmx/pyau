@@ -6,9 +6,11 @@
 #  Copyright (c) 2009. All rights reserved.
 #
 
-import audiounit as au
+from copy import deepcopy
 
 from numpy.random import rand
+
+import audiounit as au
 
 class CAComponentDescription(object):
 	"""
@@ -19,7 +21,7 @@ class CAComponentDescription(object):
 		"""
 		constructor
 		type, subtype, manufacturer : 4 char long strings
-		half-hack : if 'type' has type au.CAComponentDescription, we use it as our ca_component_description
+		half-hack : if 'type' has type au.CAComponentDescription, we use it as self._ccd
 		"""
 		
 		if isinstance(type, au.CAComponentDescription):
@@ -37,12 +39,32 @@ class CAComponentDescription(object):
 	type = property(lambda self : self._ccd.Type(), doc='Returns the Type of the Component.')
 	subtype = property(lambda self : self._ccd.SubType(), doc='Returns the SubType of the Component.')
 	manu = property(lambda self : self._ccd.Manu(), doc='Returns the Manufacturer of the Component.')
+	
+	def copy(self):
+		"""
+		Returns a new CAComponentDescription with the same type, subtype and manu
+		"""
+		return CAComponentDescription(self.type, self.subtype, self.
+		manu)
 				
 	def __str__(self):
 		return "'" + (self.type if self.type != '\0\0\0\0' else r'\0\0\0\0') + "', '" \
 				+ (self.subtype if self.subtype != '\0\0\0\0' else r'\0\0\0\0') + "', '" \
 				+ (self.manu if self.manu != '\0\0\0\0' else r'\0\0\0\0') + "'"
+				
+	def __eq__(self, other):
+		if isinstance(other, CAComponentDescription):
+			return self.type == other.type and self.subtype == other.subtype and self.manu == other.manu
+		else:
+			return NotImplemented
+			
+	def __ne__(self, other):		
+		return (not self.__eq__(other) if isinstance(other, CAComponentDescription) else NotImplemented)
+				
 	
+#some CAComponentDescription consts
+DEFAULT_OUTPUT = CAComponentDescription('auou', 'def ', 'appl')
+GENERIC_OUTPUT = CAComponentDescription('auou', 'genr', 'appl')
 			
 class AudioUnit(object):
 	""" Wrapper of an c++ AudiparpoUnitWrapper.
@@ -144,8 +166,8 @@ class AUChainGroup(object):
 	"""
 	
 	def __init__(	self,
-					#TODO : changer le CAComponentDescription de la ligne d'apres pour au.DEFAULT_OUTPUT_DESCRIPTION
-					output_desc = CAComponentDescription('auou', 'def ', 'appl'),
+					#TODO : changer le CAComponentDescription de la ligne d'apres pour au.DEFAULT_OUTPUT_DESCRIPTION ??
+					output_desc = GENERIC_OUTPUT,
 					buffer_size = au.DEFAULT_BUFFER_SIZE,
 					sample_rate = au.DEFAULT_SAMPLE_RATE):
 		""" Constructor.
@@ -297,6 +319,7 @@ class Midi2AudioGenerator(object):
 		""" Constructor. """
 		self._m2ag = au.Midi2AudioGenerator(au_chain_group._acg)
 		self._midifile = None
+		self._acg = au_chain_group
 				
 	def _set_midi(self, midifile):	
 		self._midifile = midifile
@@ -311,14 +334,28 @@ class Midi2AudioGenerator(object):
 		if self.midifile is None:
 			print '\nYou have to set a midi file first'
 		else:
-			self._m2ag.PlayAudio()
+			#if the output unit of the graph is not the default output unit, we're use it temporarly
+			if self._acg.output.desc != DEFAULT_OUTPUT:
+				temp = self._acg.output.desc.copy()
+				self._acg.output = DEFAULT_OUTPUT
+				self._m2ag.PlayAudio()
+				self._acg.output = temp
+			else:
+				self._m2ag.PlayAudio()
 		
-	def bounce(self, wavfile_path):
-		""" Renders the midi file using the AUChainGraph. """
+	def bounce(self, wavfile_path=None):
+		""" Renders the midi file using the AUChainGraph.
+		
+			if 'wavfile_path' is specified, renders to that file
+			if not (None) return the audio in a numpy array
+		"""
 		if self.midifile is None:
 			print '\nYou have to set a midi file first'
 		else:
-			self._m2ag.BounceAudioToFile(wavfile_path)
+			if wavfile_path is not None:
+				self._m2ag.Bounce(wavfile_path)
+			else:
+				return self._m2ag.GenerateAudio()
 			
 	def set_track_instrument(self, instrument_indexes):
 		""" Tells where to send which track of the midi file.
@@ -331,15 +368,7 @@ class Midi2AudioGenerator(object):
 		"""
 		#faut pe verifier si le fichier midi est loade?
 		for track,ins in enumerate(instrument_indexes):
-			self._m2ag.SetTrackInstrument(track, ins)
-			
-	def reset(self):
-		""" It isn't clear when it has to be called.
-			At least when aupreset are changed in the audio units of the AUChainGroup...
-			TODO : check that!!)
-		"""
-		self._m2ag.Reset()
-		
+			self._m2ag.SetTrackInstrument(track, ins)	
 
 		
 	
@@ -348,10 +377,13 @@ def print_matching_components(desc):
 		For example "desc = CAComponentDescription('aumu')" would return all the components of type 'aumu'.
 		
 		desc
-			The CAComponentDescription to be matched
+			The CAComponentDescription to be matched or a 4-char string 'abcd' in which case CAComponentDescription('abcd') will be used			
 	"""
+	if type(desc) is str:
+		desc = CAComponentDescription(desc)
 	#return [CAComponentDescription(x) for x in au.GetCAComponentDescriptions(desc._ccd)]
-	for x in au.GetMatchingCAComponents(desc._ccd):
+	components = au.GetMatchingCAComponents(desc._ccd)
+	for x in components:
 		print "%s :   %s" % (CAComponentDescription(x.Desc()).__str__(), x.GetAUName())
 	
 		

@@ -3,6 +3,8 @@
 
 
 %{
+#define SWIG_FILE_WITH_INIT
+	
 #include "AudioUnit/AUComponent.h"
 
 #include "AUUtils.h"
@@ -16,9 +18,12 @@
 #include "FileSystemUtils.h"
 #include "CAAUParameter.h"
 #include "Parameter.h"
-
+	
 #undef check
+	
 %}
+
+%include "numpy.i"
 
 %include cpointer.i
 
@@ -26,6 +31,13 @@
 %include std_list.i
 %include std_string.i
 %include std_vector.i
+
+
+%init %{
+import_array();
+%}
+
+
 
 
 // some typedefs from MacTypes.h
@@ -76,7 +88,14 @@ typedef struct AUListenerBase *AUParameterListenerRef;
 
 %template(CAComponentDescriptionList) std::list<CAComponentDescription>;
 
-%template (CAComponentList) std::list<CAComponent>;
+%template(CAComponentList) std::list<CAComponent>;
+
+//%template(FloatVectorListVector) std::vector< std::list< std::vector<float> > >;
+
+%template(FloatVector) std::vector<float>;
+%template(FloatVectorList) std::list< std::vector< float > >;
+%template(FloatVectorListVector) std::vector< std::list< std::vector< float > > >;
+//%template(FloatVectorListVector) std::vector<std::list<std::vector<float> > >;
 
 //
 // %TYPEMAPs
@@ -84,34 +103,54 @@ typedef struct AUListenerBase *AUParameterListenerRef;
 
 // OSType
 
-%typemap(in) OSType
-{
-	if (PyString_Size($input) == 0)
-		$1 = 0;
-	else
-	{
-		OSType a;
-		FileSystemUtils::str2OSType(PyString_AsString($input) ,a);
-		$1 = a;
-	}
-}
-
-%typemap(out) OSType
-{
-	char temp[5];
-	FileSystemUtils::OSType2str($1, temp);
-	$result = PyString_FromStringAndSize(temp,4);
-}
-
-%typecheck(SWIG_TYPECHECK_STRING)
-	OSType
-{
-	$1 = ( (PyString_Check($input) && PyString_Size($input)==4) || PyString_Size($input)==0 ) ? 1 : 0;
-}
+%include typemap_ostype.i
 
 // CFStringRef
 
 %include typemap_cfstringref.i
+
+// FloatVectorListVector (this is used only for audio data in Midi2AudioGenerator)
+%typemap(out) std::vector< std::list< std::vector< float > > >
+{
+	// vector< list< vector< float > > > 
+	// (channels < list of buffers >)
+
+	if ( $1.size() )
+	{
+		int nbChannels = $1.size();
+		int bufferSize = $1[0].front().size();
+		int nbBuffers = $1[0].size();
+
+		int nd = 2;
+		npy_intp dims [] = { nbChannels, bufferSize*nbBuffers };
+		
+		PyObject* array = PyArray_SimpleNew(nd, dims, PyArray_DOUBLE);
+
+		for (int chan=0; chan<nbChannels; chan++)
+		{
+			int index = 0;
+			for (std::list< std::vector< float > >::iterator it=$1[chan].begin(); it!=$1[chan].end(); it++)
+			{
+				for (int i=0; i<bufferSize; i++)
+				{
+					
+					void* itemptr = PyArray_GETPTR2(array, chan, index);
+					if ( PyArray_SETITEM(array, itemptr, PyFloat_FromDouble((*it)[i])) )
+					{
+						printf("\nerror : failed setting array item");
+						$result = PyArray_SimpleNew(0, NULL, 0);
+					}
+					index++;
+				}
+			}
+		}
+		$result = array;
+	}
+	else					
+		$result = PyArray_SimpleNew(0, NULL, 0);//this case has not been tested yet	
+	
+}
+
 
 //
 // %INCLUDEs
@@ -258,13 +297,16 @@ class Midi2AudioGenerator : public Midi2AudioGeneratorBase
 {
 public:
 	Midi2AudioGenerator( AUChainGroup* auChainGroup);
-	void LoadMidiFile(const std::string midiFile);
+    
+    void LoadMidiFile(const std::string midiFile);
+	
+	std::vector< std::list< std::vector<float> > > GenerateAudio();
 	void PlayAudio();
-	void BounceAudioToFile(const std::string wavFile);
+	
 	void SetTrackInstrument(UInt32 trackIndex, UInt32 instrumentIndex);
-	void Reset();
+	
+    void Bounce( const std::string& wavPath );
 };
-
 
 // CAAUParameter.h
 
