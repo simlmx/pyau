@@ -113,6 +113,10 @@ class AudioUnit(object):
 		"""
 		self._auw.SaveAUPresetToFile(aupreset_file)
 		
+	name = property(lambda self : self._auw.GetName(), doc = 'Returns the name of the audiounit')
+	manu = property(lambda self : self._auw.GetManu(), doc = 'Returns the manufacturer of the audiounit')
+		
+		
 	def __str__(self):
 		s = self.desc.__str__()
 		return s
@@ -167,7 +171,7 @@ class AUChainGroup(object):
 	
 	def __init__(	self,
 					#TODO : changer le CAComponentDescription de la ligne d'apres pour au.DEFAULT_OUTPUT_DESCRIPTION ??
-					output_desc = GENERIC_OUTPUT,
+					output_desc = DEFAULT_OUTPUT,
 					buffer_size = au.DEFAULT_BUFFER_SIZE,
 					sample_rate = au.DEFAULT_SAMPLE_RATE):
 		""" Constructor.
@@ -312,88 +316,82 @@ class Parameter(object):
 		
 	
 class Midi2AudioGenerator(object):
-	""" Uses a AUChainGraph to transform a midi file to an audio file.
-	"""
-	
-	def __init__(self, au_chain_group):
-		""" Constructor. """
-		self._m2ag = au.Midi2AudioGenerator(au_chain_group._acg)
-		self._midifile = None
-		self._acg = au_chain_group
-				
-	def _set_midi(self, midifile):	
-		self._midifile = midifile
-		self._m2ag.LoadMidiFile(midifile)
-		
-	midifile = property(	lambda self : self._midifile,
-							_set_midi,
-							doc = 'Gets/sets the current midi file.\nUsually the number of tracks has to match the number of instruments (audiosources) in the AUChainGroup')
-	
-	def play(self):
-		""" Plays the midi file using the AUChainGraph. """
-		if self.midifile is None:
-			print '\nYou have to set a midi file first'
-		else:
-			#if the output unit of the graph is not the default output unit, we're use it temporarly
-			if self._acg.output.desc != DEFAULT_OUTPUT:
-				temp = self._acg.output.desc.copy()
-				self._acg.output = DEFAULT_OUTPUT
-				self._m2ag.PlayAudio()
-				self._acg.output = temp
-			else:
-				self._m2ag.PlayAudio()
-		
-	def bounce(self, wavfile_path=None):
-		""" Renders the midi file using the AUChainGraph.
-		
-			if 'wavfile_path' is specified, renders to that file
-			if not (None) return the audio in a numpy array
-		"""
-		if self.midifile is None:
-			print '\nYou have to set a midi file first'
-		else:
-			if wavfile_path is not None:
-				self._m2ag.Bounce(wavfile_path)
-			else:
-				return self._m2ag.GenerateAudio()
-			
-	def set_track_instrument(self, instrument_indexes):
-		""" Tells where to send which track of the midi file.
-			
-			instrument_indexes
-				example : if 'instrument_indexes = [2,1,3,0], track 0 will go to instrument 2
-															track 1 will go to instrument 1
-															track 2 will go to instrument 3
-															track 3 will go to instrument 0
-		"""
-		#faut pe verifier si le fichier midi est loade?
-		for track,ins in enumerate(instrument_indexes):
-			self._m2ag.SetTrackInstrument(track, ins)	
+    """ Uses a AUChainGraph to transform a midi file to an audio file.
+    """
 
-		
+    def __init__(self, auchaingroup):
+        """ Constructor. """
+        self._m2ag = au.Midi2AudioGenerator(auchaingroup._acg)
+        self._midifile = None
+        self._acg = auchaingroup
+
+    def _set_midi(self, midifile):	
+        self._midifile = midifile
+        self._m2ag.LoadMidiFile(midifile)
+        
+    midifile = property(    lambda self : self._midifile,
+                            _set_midi,
+                            doc = 'Gets/sets the current midi file.\nUsually the number of tracks has to match the number of instruments (audiosources) in the AUChainGroup')
+                            
+    auchaingroup = property(lambda self : self._acg, doc = 'Gets the AUChainGroup')
+
+    def play(self):
+        """ Plays the midi file using the AUChainGraph. """
+        if self.midifile is None:
+            print '\nYou have to set a midi file first'
+        else:
+            self._m2ag.PlayAudio()
+				
+    def stop(self):
+        """ Stops the playing started with 'play'. """
+        self._m2ag.StopAudio()
+
+    def bounce(self, wavfile_path=None):
+        """ Renders the midi file using the AUChainGraph.
+        
+            if 'wavfile_path' is specified, renders to that file
+            if not (None) return the audio in a numpy array
+        """
+        if self.midifile is None:
+            print '\nYou have to set a midi file first'
+        else:
+            if wavfile_path is not None:
+                self._m2ag.Bounce(wavfile_path)
+            else:
+                return self._m2ag.GenerateAudio()
+            
+    def set_track_instrument(self, instrument_indexes):
+        """ Tells where to send which track of the midi file.
+            
+            instrument_indexes
+                example : if 'instrument_indexes = [2,1,3,0], track 0 will go to instrument 2
+                                                            track 1 will go to instrument 1
+                                                            track 2 will go to instrument 3
+                                                            track 3 will go to instrument 0
+        """
+        #faut pe verifier si le fichier midi est loade?
+        for track,ins in enumerate(instrument_indexes):
+            self._m2ag.SetTrackInstrument(track, ins)	
+
+
+    def panic(self):
+        """ Sends note-off events to every note.
+            This is a temporary solution for the 'stuck notes' problem
+        """
+        self._m2ag.Panic()
+        
+        
 	
 def print_matching_components(desc):
-	""" Print the infos of all the components that matches 'desc'.
-		For example "desc = CAComponentDescription('aumu')" would return all the components of type 'aumu'.
-		
-		desc
-			The CAComponentDescription to be matched or a 4-char string 'abcd' in which case CAComponentDescription('abcd') will be used			
-	"""
-	if type(desc) is str:
-		desc = CAComponentDescription(desc)
-	#return [CAComponentDescription(x) for x in au.GetCAComponentDescriptions(desc._ccd)]
-	components = au.GetMatchingCAComponents(desc._ccd)
-	for x in components:
-		print "%s :   %s" % (CAComponentDescription(x.Desc()).__str__(), x.GetAUName())
-	
-		
-		
-
-		
-				
-		
-	
-		
-
-		
-		
+    """ Print the infos of all the components that matches 'desc'.
+        For example "desc = CAComponentDescription('aumu')" would return all the components of type 'aumu'.
+        
+        desc
+            The CAComponentDescription to be matched or a 4-char string 'abcd' in which case CAComponentDescription('abcd') will be used			
+    """
+    if type(desc) is str:
+        desc = CAComponentDescription(desc)
+    #return [CAComponentDescription(x) for x in au.GetCAComponentDescriptions(desc._ccd)]
+    components = au.GetMatchingCAComponents(desc._ccd)
+    for x in components:
+        print "%s :   %s" % (CAComponentDescription(x.Desc()).__str__(), x.GetAUName())

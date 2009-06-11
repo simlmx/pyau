@@ -239,6 +239,9 @@ public:
 	
 	virtual std::list<Parameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
 	
+	CFStringRef GetName();
+	CFStringRef GetManu();
+	
 //	virtual ~AudioUnitWrapper() {}
 };
 
@@ -302,10 +305,13 @@ public:
 	
 	std::vector< std::list< std::vector<float> > > GenerateAudio();
 	void PlayAudio();
+	void StopAudio();
 	
 	void SetTrackInstrument(UInt32 trackIndex, UInt32 instrumentIndex);
 	
     void Bounce( const std::string& wavPath );
+    
+    void Panic();
 };
 
 // CAAUParameter.h
