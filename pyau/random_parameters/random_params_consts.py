@@ -1,5 +1,5 @@
 import random_parameters as rp
-from numpy.random import rand, randint
+from numpy.random import rand, randint, normal
 #
 # Presets dirs
 #
@@ -20,15 +20,14 @@ def uniform_list(values):
 		index = randint(len(values))
 		return values[index]
 	return f
-
-
-
+    
+automat1_volume_parameter_idx = 89
 
 automat1_functions = [
-uniform_list( range(1,6) + range(7,12) ), #0- OSC1_Wave (indexed params : 11)
+uniform_list( range(1,6) ), #0- OSC1_Wave (indexed params : 11)
 rp.uniform, #1- OSC1_Width (0.000000, 1.000000)
 rp.default, #2- OSC1_Tune (indexed params : 49)
-rp.uniform, #3- OSC1_Detune (0.000000, 1.000000)
+rp.normal(.5,.05), #3- OSC1_Detune (0.000000, 1.000000)
 rp.default, #4- OSC1_Sync (indexed params : 3)
 rp.default, #5- OSC1_SyncOffset (0.000000, 1.000000)
 rp.uniform, #6- OSC1_Stack (indexed params : 5)
@@ -46,10 +45,10 @@ rp.uniform, #15- SHP1_Drive (0.000000, 1.000000)
 rp.default, #16- Mix1_Panorama (0.000000, 1.000000)
 rp.uniform, #17- Mix1_Level (0.000000, 1.000000)
 
-uniform_list( range(1,6) + range(7,12) ), #18- OSC2_Wave (indexed params : 11)
+uniform_list( range(1,6) + [8] ), #18- OSC2_Wave (indexed params : 11)
 rp.uniform, #19- OSC2_Width (0.000000, 1.000000)
 rp.default, #20- OSC2_Tune (indexed params : 49)
-rp.uniform, #21- OSC2_Detune (0.000000, 1.000000)
+rp.normal(.5,.05), #21- OSC2_Detune (0.000000, 1.000000)
 rp.default, #22- OSC2_Sync (indexed params : 3)
 rp.default, #23- OSC2_SyncOffset (0.000000, 1.000000)
 rp.uniform, #24- OSC2_Stack (indexed params : 5)
@@ -226,3 +225,6 @@ rp.default, #190- REV_Position (0.000000, 1.000000)
 rp.default, #191- REV_Delay (0.000000, 1.000000)
 rp.default, #192- REV_Mix (0.000000, 1.000000)
 ]
+
+automat1_mix_functions = [rp.mix_default] * 193
+automat1_mix_functions[35] = lambda v1,v2,p,a : 1.-a.get_parameters()[17].value #35- MIX2_Level (0.000000, 1.000000)                        

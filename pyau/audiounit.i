@@ -134,12 +134,16 @@ typedef struct AUListenerBase *AUParameterListenerRef;
 				for (int i=0; i<bufferSize; i++)
 				{
 					
-					void* itemptr = PyArray_GETPTR2(array, chan, index);
-					if ( PyArray_SETITEM(array, itemptr, PyFloat_FromDouble((*it)[i])) )
+                    void* itemptr = PyArray_GETPTR2(array, chan, index);
+                    PyObject * newItem = PyFloat_FromDouble((*it)[i]);
+					if ( PyArray_SETITEM(array, itemptr, newItem) )
 					{
 						printf("\nerror : failed setting array item");
 						$result = PyArray_SimpleNew(0, NULL, 0);
+                        return $result;
 					}
+                    else
+                        Py_DECREF(newItem);
 					index++;
 				}
 			}
