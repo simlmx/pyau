@@ -1,0 +1,3 @@
+BUGS IN PYGMY.AUDIOUNIT
+
+- load a midi file in a Midi2AudioGeneartor which has a AUChainGroup with no audiosource

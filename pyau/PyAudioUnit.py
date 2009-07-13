@@ -342,6 +342,7 @@ class Midi2AudioGenerator(object):
         else:
             self._m2ag.PlayAudio()
 				
+
     def stop(self):
         """ Stops the playing started with 'play'. """
         self._m2ag.StopAudio()
@@ -372,7 +373,6 @@ class Midi2AudioGenerator(object):
         #faut pe verifier si le fichier midi est loade?
         for track,ins in enumerate(instrument_indexes):
             self._m2ag.SetTrackInstrument(track, ins)	
-
 
     def panic(self):
         """ Sends note-off events to every note.
