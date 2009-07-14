@@ -1,4 +1,4 @@
-import os
+import os, sys
 import numpy as N
 
 import tables as T
@@ -11,15 +11,39 @@ dir = '/Users/simon/Desktop/timbre/test3_mix'
 h5 = '/Users/simon/tmp/big.h5'
 h5 = T.openFile(h5)
 
-mfcc = h5.getNode('/', 'mfcc')
 paths = h5.getNode('/', 'rel_path')
 labels = paths.read()
-data = mfcc.read()[:,0,:]
+
+nb_mfcc = 12
+mfcc = h5.getNode('/', 'mfcc')
+dmfcc = h5.getNode('/', 'dmfcc')
+data_mfcc = mfcc.read()[:,0,:nb_mfcc]
+data_dmfcc_temp = dmfcc.read()[:,0,:]
+data_dmfcc = data_dmfcc_temp[:,:nb_mfcc]
+data_ddmfcc = data_dmfcc_temp[:, 40:40+nb_mfcc]
+
+data = N.hstack((data_mfcc, data_dmfcc, data_ddmfcc))
+
+feat_mean = N.mean(data,axis=0)
+feat_cov = N.cov(data, rowvar=0)
 print data.shape
+print feat_mean.shape
+print feat_cov.shape
+
+sys.exit()
 
 pos_file = '/Users/simon/tmp/pos.txt'
 lm_file = '/Users/simon/tmp/lm.txt'
-if 1:
+
+
+def find_neighbors(idx):
+    
+    feats = data[idx]
+    label = labels[idx]
+    path = paths[idx]
+
+
+if 0:
 
     from pygmy.projects.timbre.knngrapher import buildKnnGraph
     from pygmy.projects.timbre.render.GraphWindow import GraphWindow
