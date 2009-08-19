@@ -314,8 +314,6 @@ public:
 	void SetTrackInstrument(UInt32 trackIndex, UInt32 instrumentIndex);
 	
     void Bounce( const std::string& wavPath );
-    
-    void Panic();
 };
 
 // CAAUParameter.h

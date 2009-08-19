@@ -9,8 +9,10 @@ from pygmy.projects.timbre.fast_tsne import calc_tsne as tsne
 
 dir = '/Users/simon/Desktop/timbre/test3_mix'
 h5 = '/Users/simon/tmp/big.h5'
+print 'Reading h5 file...'
 h5 = T.openFile(h5)
 
+print 'Getting data...'
 paths = h5.getNode('/', 'rel_path')
 labels = paths.read()
 
@@ -26,22 +28,38 @@ data = N.hstack((data_mfcc, data_dmfcc, data_ddmfcc))
 
 feat_mean = N.mean(data,axis=0)
 feat_cov = N.cov(data, rowvar=0)
+inv_feat_cov = N.linalg.inv(feat_cov)
 print data.shape
 print feat_mean.shape
 print feat_cov.shape
 
-sys.exit()
-
 pos_file = '/Users/simon/tmp/pos.txt'
 lm_file = '/Users/simon/tmp/lm.txt'
 
-
-def find_neighbors(idx):
+def find_neighbors(idx, nb=20):
     
     feats = data[idx]
     label = labels[idx]
-    path = paths[idx]
+    
+    #print label
+    #print feats
+    
+    #print data  
+    A = N.vstack([feats]) - data
+    #print A
+    dists = N.apply_along_axis(N.sum, 1, N.dot(A,inv_feat_cov)*A)
+    #print dists
+    
+    min_ind = N.argsort(dists)[:nb]
+    print min_ind
+    print N.sqrt(dists[min_ind])
+    
+from setup_m2ag import *
 
+def load_instrument(idx):
+    path = os.path.join(dir,labels[idx])[:-2] + 'aupreset'
+    print 'Loading %s ...' % path
+    au.load_aupreset(path) 
 
 if 0:
 

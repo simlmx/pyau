@@ -372,14 +372,7 @@ class Midi2AudioGenerator(object):
         """
         #faut pe verifier si le fichier midi est loade?
         for track,ins in enumerate(instrument_indexes):
-            self._m2ag.SetTrackInstrument(track, ins)	
-
-    def panic(self):
-        """ Sends note-off events to every note.
-            This is a temporary solution for the 'stuck notes' problem
-        """
-        self._m2ag.Panic()
-        
+            self._m2ag.SetTrackInstrument(track, ins)        
         
 	
 def print_matching_components(desc):
