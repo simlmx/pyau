@@ -6,6 +6,7 @@
 #  Copyright (c) 2009 University of Montreal. All rights reserved.
 #
 
+# TODO : don't use the max ('peak') of the signal, but some function of the 'mean' over the signal to normalize
 
 """
 Used to normalize the volume of one or several .aupreset.

@@ -202,20 +202,20 @@ class AUChainGroup(object):
 		""" Removes the last effect of the one of the chains of the group. """
 		self.auchains[index_chain]._effects = None
 		self._acg.RemoveEffect(index_chain)
-		
-	def _set_output(self, desc):
-		self._acg.SetOutput(desc._ccd)
-		self._output = None
-		
-	def _get_output(self):
-		if self._output is None:
-			self._output = AudioUnit( self._acg.GetOutput() )
-		return self._output
-	
-	output = property(	_get_output,
-						_set_output,
-						doc='Gets/Sets the output unit.\nReturns an AudioUnit but takes a CAComponentDescription')
-						
+#		
+#	def _set_output(self, desc):
+#		self._acg.SetOutput(desc._ccd)
+#		self._output = None
+#		
+#   def _get_output(self):
+#		if self._output is None:
+#			self._output = AudioUnit( self._acg.GetOutput() )
+#		return self._output
+#	
+#	output = property(	_get_output,
+#						_set_output,
+#						doc='Gets/Sets the output unit.\nReturns an AudioUnit but takes a CAComponentDescription')
+#						
 	def _get_auchains(self):
 		if self._au_chains is None:
 			self._au_chains = self._acg.GetAUChains()
@@ -239,8 +239,8 @@ class AUChainGroup(object):
 			s += 'AUChains :\n'
 			for i,auc in enumerate(self.auchains):
 				s += '%i: %s\n' % (i, auc.__str__())
-		s += 'output :\n '
-		s += self.output.__str__()		
+		#s += 'output :\n '
+		#s += self.output.__str__()		
 		return s
 		
 

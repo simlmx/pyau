@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #
 #  random_parameters.py
 #  
@@ -49,8 +48,8 @@ def mix_parameters(audiounit, aupreset1, aupreset2, functions):
 
         
 ###
-### fonctions for generating random parameter values
-### (Parameter, Audiounit) --> float
+### functions for generating random parameter values
+### (Parameter, Audiounit) --> float/int
 ###
         
 def _uniform_interval(a,b):
@@ -76,7 +75,7 @@ def normal(mean,std):
 
 ###
 ### fonctions for mixing two parameter's values
-### (float, float, Parameter, Audiounit) --> float
+### (float, float, Parameter, Audiounit) --> float/int
 ###
     
     

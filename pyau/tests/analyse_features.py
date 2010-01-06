@@ -1,123 +1,104 @@
-import os
-
+import os, sys
 import numpy as N
-#import pylab as P
+
+import tables as T
 import networkx as NX
-import pyglet
-import pyglet.window.key as key
-
-from setup_m2ag import *
-from pygmy.audio import calc_feat as C
+#import itertools as IT
+import pygmy.projects.timbre.h5io as h5io
 from pygmy.projects.timbre.fast_tsne import calc_tsne as tsne
-from pygmy.projects.timbre.render.GraphWindow import GraphWindow
-from pygmy.projects.timbre.normalization import normalize
 
-import features as F
-import parameter_gen_util as PA
+dir = '/Users/simon/Desktop/timbre/test3_mix'
+h5 = '/Users/simon/tmp/big.h5'
+print 'Reading h5 file...'
+h5 = T.openFile(h5)
 
+print 'Getting data...'
+paths = h5.getNode('/', 'rel_path')
+labels = paths.read()
 
-preset_dir = '/Users/simon/Library/Audio/Presets/' + au.manu + '/' + au.name + '/test3_mix'
+nb_mfcc = 12
+mfcc = h5.getNode('/', 'mfcc')
+dmfcc = h5.getNode('/', 'dmfcc')
+data_mfcc = mfcc.read()[:,0,:nb_mfcc]
+data_dmfcc_temp = dmfcc.read()[:,0,:]
+data_dmfcc = data_dmfcc_temp[:,:nb_mfcc]
+data_ddmfcc = data_dmfcc_temp[:, 40:40+nb_mfcc]
 
-features = ['mfcc']
+data = N.hstack((data_mfcc, data_dmfcc, data_ddmfcc))
 
-feature_values = []
-labels = []
-
-#compte =0
-#ok = False
-#min=99
-for root, dirs, files in os.walk(preset_dir):   
-    print 'now in dir %s' % root
-    #if root.split('/')[-1] != 'test3_mix' and int(root.split('/')[-1]) == min:
-    #    ok = True
-    
-    #if not ok:
-    #    continue
-    #compte +=1
-    #if compte > 3:
-    #    break
-    for file in files:
-        if not file.endswith('.h5'):
-            continue        
-        h5_path = os.path.join(root, file)
-        
-        # reads the features from the h5 file
-        all_features_for_one_sound = []
-        for f in features:
-            try:
-                all_features_for_one_sound.append(C.read_feature_file(h5_path, f)[0])
-            except: 
-                presets = map(int,h5_path[:-3].split('/')[-2:])
-                print presets
-                raw_input('press enter to continue')
-                import parameter_gen_util as PA
-                PA.mix_presets(*presets)
-                au.save_aupreset(h5_path[:-3] + '.aupreset')
-                os.remove(h5_path)
-                os.remove(h5_path[:-3] + '.wav')
-                
-                
-            while all_features_for_one_sound[-1].shape != (3,40):
-                print 'redoing', file
-                os.remove(h5_path)
-                os.remove(h5_path[:-3] + '.wav')
-                presets = map(int,h5_path[:-3].split('/')[-2:])
-                PA.mix_presets(*presets)
-                au.save_aupreset(h5_path[:-3] + '.aupreset')
-                F.calculate_features(h5_path[:-3] + '.aupreset')
-                all_features_for_one_sound[-1] = C.read_feature_file(h5_path, f)[0]
-                
-        feature_values.append(all_features_for_one_sound)
-        labels.append('%s_%s' % tuple(h5_path[:-3].split('/')[-2:]))
-
-dim0 = len(feature_values)
-dim1 = feature_values[0][0].shape[0]
-dim2 = sum( [ feature_values[0][i].shape[1] for i in range(len(features)) ] )
-print dim0, dim1, dim2
-# dim0 = nb of aupresets = nb of sounds
-# dim1 = nb of steps in time where the features are calculated
-# dim2 = total nb of features for a sound
-
-data = N.empty((0, dim1, dim2), dtype=float)
-
-#dim0
-for son in feature_values:    
-    #dim1 and dim2
-    concatenated_features = N.empty((dim1, 0), dtype=float)
-
-    for values in son:
-        concatenated_features = N.hstack((concatenated_features, values))
-        
-    concatenated_features = concatenated_features.reshape((1, dim1, dim2))
-    
-    data = N.vstack((data, concatenated_features))
-    
-data2 = data.copy()
-means, stds = normalize(data.reshape(dim0*dim1,dim2))
-
+feat_mean = N.mean(data,axis=0)
+feat_cov = N.cov(data, rowvar=0)
+inv_feat_cov = N.linalg.inv(feat_cov)
 print data.shape
+print feat_mean.shape
+print feat_cov.shape
 
-#pour simplifier
-#data = data[:,dim1//2,:]
-data = data.mean(1)
+pos_file = '/Users/simon/tmp/pos.txt'
+lm_file = '/Users/simon/tmp/lm.txt'
 
-N.savetxt('data.txt', data)
+def find_neighbors(idx, nb=20):
+    
+    feats = data[idx]
+    label = labels[idx]
+    
+    #print label
+    #print feats
+    
+    #print data  
+    A = N.vstack([feats]) - data
+    #print A
+    dists = N.apply_along_axis(N.sum, 1, N.dot(A,inv_feat_cov)*A)
+    #print dists
+    
+    min_ind = N.argsort(dists)[:nb]
+    print min_ind
+    print N.sqrt(dists[min_ind])
+    
+from setup_m2ag import *
 
-if 1:
+def load_instrument(idx):
+    path = os.path.join(dir,labels[idx])[:-2] + 'aupreset'
+    print 'Loading %s ...' % path
+    au.load_aupreset(path) 
+
+if 0:
 
     from pygmy.projects.timbre.knngrapher import buildKnnGraph
+    from pygmy.projects.timbre.render.GraphWindow import GraphWindow
+    import pyglet
+    import pyglet.window.key as key
     
-    #graph = NX.empty_graph(dim0)
-    graph = buildKnnGraph(data,3)
-    pos = tsne(data, PERPLEX=15)
+    from setup_m2ag import *
 
-    gw = GraphWindow(1000,900, graph, pos, labels)
-    gw.colorizeAllGraph()
+    nb_lm=6000
+    graph = NX.empty_graph(nb_lm)
+    #graph = 
+    if os.path.exists(pos_file):
+        print 'loading data'
+        pos = N.loadtxt(pos_file)
+        if os.path.exists(lm_file):
+            lm = N.loadtxt(lm_file)
+    else:
+        print 'doing tsne'
+        pos,lm = tsne(data, PERPLEX=15, LANDMARKS=1.*nb_lm/len(labels))
+        N.savetxt(pos_file, pos)
+        N.savetxt(lm_file, lm)
+        
+    print pos.shape#, type(pos), pos.shape
+    print type(lm)
+    lm = map(int,lm)
+    
+    gw = GraphWindow(1000,800, graph, pos, labels[lm])
+    #gw.colorizeAllGraph()
+    gw.draw_labels = False
+    gw.colorizeAllNodes()
 
     @gw.event
     def on_click_node(node):
-        print node, ':', labels[node]        
-        au.load_aupreset( preset_dir + '/%s/%s.aupreset' % tuple(labels[node].split('_')) )
+        print node, ':', labels[lm[node]]
+        aupreset = dir + '/' + labels[lm[node]][:-3] + '.aupreset'
+        print aupreset
+        au.load_aupreset(aupreset)
         #print 'node %i (%s) has been clicked' % (node, ig.labels[node])
         
     @gw.event
@@ -128,15 +109,3 @@ if 1:
 
     pyglet.app.run()
 
-def find_neibhors(preset_no, n=12):
-    preset = str(preset_no) + '.aupreset'
-    idx = presets.index(preset)
-    
-    distances = [ [i, N.sum(N.abs(data_2d[idx] - data_2d[i]))] for i in range(data_2d.shape[0]) ]
-    
-    distances.sort(cmp= lambda x,y : -1 if x[1]<y[1] else 1)
-    
-    #print distances
-    
-    return [ presets[d[0]] for d in distances[1:11] ]
-    
