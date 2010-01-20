@@ -21,7 +21,11 @@ def randomize_parameters(audiounit, functions):
     """
     for p,f in zip(audiounit.get_parameters(), functions):
         p.value = f(p,audiounit)
-
+        
+def randomize_parameter(parameter, audiounit, function):
+    """ Same as *randomize_parameters* but for a single parameter. """
+    parameter.value = function(parameter,audiounit)
+        
 def mix_parameters(audiounit, aupreset1, aupreset2, functions):
     """ Sets some audiounit's parameters using two exising aupresets. 
         
@@ -53,9 +57,9 @@ def mix_parameters(audiounit, aupreset1, aupreset2, functions):
 ###
         
 def _uniform_interval(a,b):
-	""" Return a uniform value between 'a' and 'b'. """
-	return NR.rand() * (b-a) + a
-	
+    """ Return a uniform value between 'a' and 'b'. """
+    return NR.rand() * (b-a) + a
+
 def uniform(param, au):
 	""" Sets the value of the param to a random value uniformly distributed between the min and max value of the param
 		or in [0,1,2, ... ,p.num_indexed_params-1] if the param has indexed params.
@@ -64,6 +68,10 @@ def uniform(param, au):
 		return NR.randint(param.num_indexed_params)
 	else:
 		return _uniform_interval(*param.range)
+        
+def uniform_custom(a,b):
+    """ Returns a function taking a Parameter and an Audiounit and returning a random number between *a* and *b*. """
+    return lambda param,au : _uniform_interval(a,b)
 	
 def default(param, au):
 	""" Sets the value of a parameter to its default value. """
@@ -72,6 +80,15 @@ def default(param, au):
 def normal(mean,std):
     """ Returns a fonction taking a param and a audiounit and returning a normal distributed number of mean 'mean' and standard deviation 'std'. """
     return lambda param,au : NR.normal(mean,std)
+    
+def uniform_list(values):
+    """ Returns a fonction taking a param and a audiounit and returning a value in *values* with uniformly distributed probability. """
+    def f(p,a):
+        index = NR.randint(len(values))
+        return values[index]
+    return f
+    
+
 
 ###
 ### fonctions for mixing two parameter's values

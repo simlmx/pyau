@@ -252,9 +252,11 @@ class Parameter(object):
 			Should not be called directly but instead returned from an AudioUnit.
 		"""
 		self._param = real_parameter
-		
+
 	_info = property(lambda self : self._param.ParamInfo(), doc='Gets the AudioUnitParameterInfo of the parameter.')
-	
+
+	id = property(lambda self : self._param.GetParameterID(), doc='Gets the ID of the parameter.')
+
 	name = property(lambda self : self._param.GetName(), doc='Gets the name of the parameter.')
 	
 	value = property(
@@ -308,8 +310,8 @@ class Parameter(object):
 		#return str(self.unit)
 	
 	def detailed_str(self):
-		s = '%s | current value = %s | range = %s | default value = %s' % \
-			(self.name, self.get_str_from_value(), self.range, self.get_str_from_value(self.default_value))
+		s = '%s | %s | current value = %s | range = %s | default value = %s' % \
+			(self.id, self.name, self.get_str_from_value(), self.range, self.get_str_from_value(self.default_value))
 		if self.num_indexed_params > 0:
 			s += ' | indexed parameter (%i)' % self.num_indexed_params
 		return s

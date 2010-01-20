@@ -1,4 +1,9 @@
-# this is used to study with random generated presets
+#
+# Used to generate presets and listen/plot them
+# We can also save them
+# There are also functions du randomly mix two presets
+#
+
 import sys, os
 import numpy as N
 import pylab as P
