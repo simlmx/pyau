@@ -202,20 +202,20 @@ class AUChainGroup(object):
 		""" Removes the last effect of the one of the chains of the group. """
 		self.auchains[index_chain]._effects = None
 		self._acg.RemoveEffect(index_chain)
-		
-	def _set_output(self, desc):
-		self._acg.SetOutput(desc._ccd)
-		self._output = None
-		
-	def _get_output(self):
-		if self._output is None:
-			self._output = AudioUnit( self._acg.GetOutput() )
-		return self._output
-	
-	output = property(	_get_output,
-						_set_output,
-						doc='Gets/Sets the output unit.\nReturns an AudioUnit but takes a CAComponentDescription')
-						
+#		
+#	def _set_output(self, desc):
+#		self._acg.SetOutput(desc._ccd)
+#		self._output = None
+#		
+#   def _get_output(self):
+#		if self._output is None:
+#			self._output = AudioUnit( self._acg.GetOutput() )
+#		return self._output
+#	
+#	output = property(	_get_output,
+#						_set_output,
+#						doc='Gets/Sets the output unit.\nReturns an AudioUnit but takes a CAComponentDescription')
+#						
 	def _get_auchains(self):
 		if self._au_chains is None:
 			self._au_chains = self._acg.GetAUChains()
@@ -239,8 +239,8 @@ class AUChainGroup(object):
 			s += 'AUChains :\n'
 			for i,auc in enumerate(self.auchains):
 				s += '%i: %s\n' % (i, auc.__str__())
-		s += 'output :\n '
-		s += self.output.__str__()		
+		#s += 'output :\n '
+		#s += self.output.__str__()		
 		return s
 		
 
@@ -252,9 +252,11 @@ class Parameter(object):
 			Should not be called directly but instead returned from an AudioUnit.
 		"""
 		self._param = real_parameter
-		
+
 	_info = property(lambda self : self._param.ParamInfo(), doc='Gets the AudioUnitParameterInfo of the parameter.')
-	
+
+	id = property(lambda self : self._param.GetParameterID(), doc='Gets the ID of the parameter.')
+
 	name = property(lambda self : self._param.GetName(), doc='Gets the name of the parameter.')
 	
 	value = property(
@@ -308,8 +310,8 @@ class Parameter(object):
 		#return str(self.unit)
 	
 	def detailed_str(self):
-		s = '%s | current value = %s | range = %s | default value = %s' % \
-			(self.name, self.get_str_from_value(), self.range, self.get_str_from_value(self.default_value))
+		s = '%s | %s | current value = %s | range = %s | default value = %s' % \
+			(self.id, self.name, self.get_str_from_value(), self.range, self.get_str_from_value(self.default_value))
 		if self.num_indexed_params > 0:
 			s += ' | indexed parameter (%i)' % self.num_indexed_params
 		return s
