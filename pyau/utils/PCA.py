@@ -5,11 +5,12 @@ def PCA(dataMatrix, NDIMS) :
     """
     Performs PCA on data.
     Reduces the dimensionality to NDIMS
+    Returns dataMatrix,eigVectors,eigValues,dataMean
     """
     if dataMatrix.shape[1]<=NDIMS:
         NDIMS=dataMatrix.shape[1]
         print 'Cannot reduce from %i to %i dimensions'%(dataMatrix.shape[1],NDIMS)
-        return dataMatrix
+        return dataMatrix,None,None,None
     
     print 'Performing PCA from %i to %i dimensions'%(dataMatrix.shape[1],NDIMS)
     
@@ -22,10 +23,13 @@ def PCA(dataMatrix, NDIMS) :
     eigVectors=eigVectors[:,perm[0:NDIMS]]
     dataMatrix=np.dot(dataMatrix,eigVectors)
 #    print dataMatrix.shape
-    return dataMatrix,eigVectors,dataMean
+    return dataMatrix,eigVectors,eigValues,dataMean
 
 def invPCA(reducedMatrix, eigVectors, dataMean):
-    return np.dot(reducedMatrix,np.linalg.pinv(eigVectors))+dataMean
+    if eigVectors is not None:
+        return np.dot(reducedMatrix,np.linalg.pinv(eigVectors))+dataMean
+    else:
+        return reducedMatrix
 
 #TODO
 #def savePCA(reducedMatrix, eigVectors, dataMean, fileName='PCA'):
