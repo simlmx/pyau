@@ -7,7 +7,7 @@ def PCA(dataMatrix, NDIMS) :
     Reduces the dimensionality to NDIMS
     Returns dataMatrix,eigVectors,eigValues,dataMean
     """
-    if dataMatrix.shape[1]<=NDIMS:
+    if dataMatrix.shape[1]<NDIMS:
         NDIMS=dataMatrix.shape[1]
         print 'Cannot reduce from %i to %i dimensions'%(dataMatrix.shape[1],NDIMS)
         return dataMatrix,None,None,None
