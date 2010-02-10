@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from numpy.random import rand
 
-import audiounit as au
+import audiounit_swig as au
 
 class CAComponentDescription(object):
 	"""
@@ -193,8 +193,10 @@ class AUChainGroup(object):
 		self._au_chains = None
 		self._acg.RemoveAudioSource()
 				
-	def add_effect(self, desc, index_chain):
-		""" Adds an effect at then end of the 'index_chain'-th AUChain. """
+	def add_effect(self, desc, index_chain=0):
+		""" Adds an effect at then end of the 'index_chain'-th AUChain.
+            If 'index_chain' is not specified, we will use the first chain.
+        """
 		self.auchains[index_chain]._effects = None
 		return AudioUnit(self._acg.AddEffect(desc._ccd, index_chain))
 		

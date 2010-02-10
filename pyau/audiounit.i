@@ -1,4 +1,4 @@
-%module audiounit
+%module audiounit_swig
 
 
 
