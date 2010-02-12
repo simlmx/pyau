@@ -5,7 +5,9 @@
 # Simon Lemieux
 #
 
-import random_parameters as RP
+import numpy.random as NR
+import pygmy.audiounit.random_parameters.randfunc as RF
+from common import *
 
 def monstachorus_random_params(m2ag, au, verbose=False):
     '''
@@ -15,5 +17,5 @@ def monstachorus_random_params(m2ag, au, verbose=False):
     '''
     
     reset_parameters(au)
-    for p in au.get_parameters()
-        RP.randomize_parameter(p, au, RP.uniform)
+    for p in au.get_parameters():
+        RF.randomize_parameter(p, au, RF.uniform)

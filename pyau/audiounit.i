@@ -39,7 +39,6 @@ import_array();
 
 
 
-
 // some typedefs from MacTypes.h
 
 typedef unsigned char                   UInt8;
@@ -57,6 +56,8 @@ typedef signed long                     SInt32;
 
 typedef float               Float32;
 typedef double              Float64;
+
+typedef SInt32                          OSStatus;
 
 // some typedefs from AUComponent.h
 

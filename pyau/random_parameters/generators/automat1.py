@@ -9,10 +9,10 @@
 import pylab as P
 import numpy as N
 
-import random_parameters as RP
 import pygmy.audiounit as AU
-from normalize_volume import normalize_volume, check_volume
-from generate_common import *
+import pygmy.audiounit.random_parameters.randfunc as RF
+from pygmy.audiounit.random_parameters.volume import normalize_volume, check_volume
+from common import *
 
 
 
@@ -56,7 +56,7 @@ def automat1_random_params(m2ag, au, verbose=False):
             
         # selecting which type of wave
         listes = [range(1,6), range(0,6), range(0,6)+[8]] # it can only be sin, tri, rect, saw, table / + off / + noise
-        RP.randomize_parameter(params["OSC%i_Wave" % osc_no], au, RP.uniform_list(listes[osc_no-1]))
+        RF.randomize_parameter(params["OSC%i_Wave" % osc_no], au, RF.uniform_list(listes[osc_no-1]))
         
         if verbose:
             print 'Wave type : %s' % params["OSC%i_Wave" % osc_no].get_str_from_value()
@@ -66,30 +66,30 @@ def automat1_random_params(m2ag, au, verbose=False):
             
         # selecting other things
         while True : 
-            RP.randomize_parameter(params["OSC%i_Width" % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params["OSC%i_Stack" % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params["OSC%i_StackOffset" % osc_no], au, RP.uniform_custom(0., .55))
-            RP.randomize_parameter(params["SHP%i_FilterType" % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params["SHP%i_CutOff" % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params["SHP%i_Resonance" % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params['SHP%i_ShapeType' % osc_no], au, RP.uniform_list(range(4)+[5]))
+            RF.randomize_parameter(params["OSC%i_Width" % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params["OSC%i_Stack" % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params["OSC%i_StackOffset" % osc_no], au, RF.uniform_custom(0., .55))
+            RF.randomize_parameter(params["SHP%i_FilterType" % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params["SHP%i_CutOff" % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params["SHP%i_Resonance" % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params['SHP%i_ShapeType' % osc_no], au, RF.uniform_list(range(4)+[5]))
             if verbose: 
                 print 'Shape type : %s (%i)' % (params['SHP%i_ShapeType' % osc_no].get_str_from_value(), params['SHP%i_ShapeType' % osc_no].value), 
                 
             if params['SHP%i_ShapeType' % osc_no].value == 3:
-                RP.randomize_parameter(params['SHP%i_Bias' % osc_no], au, RP.uniform_custom(0., .25))
+                RF.randomize_parameter(params['SHP%i_Bias' % osc_no], au, RF.uniform_custom(0., .25))
             else:
-                RP.randomize_parameter(params['SHP%i_Bias' % osc_no], au, RP.uniform)
-            RP.randomize_parameter(params['SHP%i_Drive' % osc_no], au, RP.uniform)
+                RF.randomize_parameter(params['SHP%i_Bias' % osc_no], au, RF.uniform)
+            RF.randomize_parameter(params['SHP%i_Drive' % osc_no], au, RF.uniform)
             if verbose:
                 print 'and bias is %s' % params['SHP%i_Bias' % osc_no].get_str_from_value()
                 
             
             # some "not osc1" specific parameters
             if osc_no != 1:
-                RP.randomize_parameter(params['OSC%i_Detune' % osc_no], au, RP.normal(.5, .05))
+                RF.randomize_parameter(params['OSC%i_Detune' % osc_no], au, RF.normal(.5, .05))
                 params['OSC%i_Sync' % osc_no].value = 2.
-                RP.randomize_parameter(params['OSC%i_SyncOffset' % osc_no], au, RP.uniform)
+                RF.randomize_parameter(params['OSC%i_SyncOffset' % osc_no], au, RF.uniform)
                 
             if verbose:
                 print 'listening to OSC %i' % osc_no
@@ -113,14 +113,14 @@ def automat1_random_params(m2ag, au, verbose=False):
         if params['OSC%i_Wave' % i].value == 0:
             params['MIX%i_Level' % i].value = params['MIX%i_Level' % i].default_value
         else:
-            RP.randomize_parameter(params['MIX%i_Level' % i], au, RP.uniform) 
+            RF.randomize_parameter(params['MIX%i_Level' % i], au, RF.uniform) 
                  
     normalize_volume(m2ag, params["OUT_Master"], target_peak=.4, verbose=verbose)
     vol = params['OUT_Master']
     
     if vol.value >= vol.range[1] or vol.value <= vol.range[0]:
         # let's start over
-        automat1_random_params(m2ag, au, verbose):
+        automat1_random_params(m2ag, au, verbose)
         if verbose:
             print "It did't work with these settings, volume would have to be %f" % vol.value
             raw_input()
@@ -145,9 +145,9 @@ m2ag.midifile = midi
    
     
 
-while True:
-    automat1_random_params(m2ag=m2ag, au=au, verbose=False)
-    raw_input('press Enter')
+#while True:
+#    automat1_random_params(m2ag=m2ag, au=au, verbose=False)
+#    raw_input('press Enter')
 
 del m2ag
 del g
