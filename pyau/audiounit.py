@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from numpy.random import rand
 
-import audiounit as au
+import audiounit_swig as au
 
 class CAComponentDescription(object):
 	"""
@@ -67,61 +67,63 @@ DEFAULT_OUTPUT = CAComponentDescription('auou', 'def ', 'appl')
 GENERIC_OUTPUT = CAComponentDescription('auou', 'genr', 'appl')
 			
 class AudioUnit(object):
-	""" Wrapper of an c++ AudiparpoUnitWrapper.
-		Should not be created directly, but instead be taken from an AUChain.
-	"""
-	
-	def __init__(self, real_audio_unit_wrapper):
-		""" Constructor.
-			Should not be called directly.
-			Should be called from AUChain, when getting an audiosource, effect or output.
-		"""
-		self._auw = real_audio_unit_wrapper
-		self._desc = None
-		self._parameters = {}
-		
-	def _get_ccd(self):
-		if self._desc is None:
-			self._desc = CAComponentDescription(self._auw.Comp().Desc())
-		return self._desc
-					
-	desc = property(_get_ccd, doc='Gets the CAComponentDescription associated with the AudioUnit')
-	
-	def get_parameters(self, scope = au.kAudioUnitScope_Global, element = 0):
-		""" Returns the list of parameters of the audio unit for a scope and an element.
-		"""
-		# we keep somewhere the parameters so we don't do the next line each time
-		if (scope, element) not in self._parameters:
-			self._parameters[(scope, element)] = [Parameter(x) for x in self._auw.GetParameterList(scope, element)]
-		return self._parameters[(scope, element)]
+    """ Wrapper of an c++ AudiparpoUnitWrapper.
+        Should not be created directly, but instead be taken from an AUChain.
+    """
 
-		
-	def load_aupreset(self, aupreset_file):
-		""" Sets the parameters of the Audio Unit according to those in the 'aupreset_file'.
-		
-			aupreset_file
-				A path pointing the the .aupreset file.
-		"""
-		
-		self._auw.LoadAUPresetFromFile(aupreset_file)
-		
-	def save_aupreset(self, aupreset_file):
-		""" Saves the current setting of the parameters in a aupreset file.
-		
-			aupreset_file:
-				Where to save the preset (usually a path pointing to a .aupreset file).
-		"""
-		self._auw.SaveAUPresetToFile(aupreset_file)
-		
-	name = property(lambda self : self._auw.GetName(), doc = 'Returns the name of the audiounit')
-	manu = property(lambda self : self._auw.GetManu(), doc = 'Returns the manufacturer of the audiounit')
-		
-		
-	def __str__(self):
-		s = self.desc.__str__()
-		return s
-	
-			
+    def __init__(self, real_audio_unit_wrapper):
+        """ Constructor.
+            Should not be called directly.
+            Should be called from AUChain, when getting an audiosource, effect or output.
+        """
+        self._auw = real_audio_unit_wrapper
+        self._desc = None
+        self._parameters = {}
+        
+    def _get_ccd(self):
+        if self._desc is None:
+            self._desc = CAComponentDescription(self._auw.Comp().Desc())
+        return self._desc
+                    
+    desc = property(_get_ccd, doc='Gets the CAComponentDescription associated with the AudioUnit')
+
+    def get_parameters(self, scope = au.kAudioUnitScope_Global, element = 0):
+        """ Returns the list of parameters of the audio unit for a scope and an element.
+        """
+        # we keep somewhere the parameters so we don't do the next line each time
+        if (scope, element) not in self._parameters:
+            self._parameters[(scope, element)] = [Parameter(x) for x in self._auw.GetParameterList(scope, element)]
+        return self._parameters[(scope, element)]
+
+        
+    def load_aupreset(self, aupreset_file):
+        """ Sets the parameters of the Audio Unit according to those in the 'aupreset_file'.
+        
+            aupreset_file
+                A path pointing the the .aupreset file.
+        """
+        
+        self._auw.LoadAUPresetFromFile(aupreset_file)
+        
+    def save_aupreset(self, aupreset_file):
+        """ Saves the current setting of the parameters in a aupreset file.
+        
+            aupreset_file:
+                Where to save the preset (usually a path pointing to a .aupreset file).
+        """
+        self._auw.SaveAUPresetToFile(aupreset_file)
+        
+    name = property(lambda self : self._auw.GetName(), doc = 'Returns the name of the audiounit')
+    manu = property(lambda self : self._auw.GetManu(), doc = 'Returns the manufacturer of the audiounit')
+
+    bypass = property(lambda self : self._auw.GetBypass(),
+                      lambda self, x : self._auw.SetBypass(x),
+                      doc = 'If True the audio unit passed its input unchanged through its output.')
+
+    def __str__(self):
+        s = self.desc.__str__()
+        return s
+        
 class AUChain(object):
 	"""	Represents a chain of audio units : an audio source (e.g. instrument, generator, etc.) and a list of effects.
 		Should not be created directly, but instead be taken from an AUChainGroup. 
@@ -193,8 +195,10 @@ class AUChainGroup(object):
 		self._au_chains = None
 		self._acg.RemoveAudioSource()
 				
-	def add_effect(self, desc, index_chain):
-		""" Adds an effect at then end of the 'index_chain'-th AUChain. """
+	def add_effect(self, desc, index_chain=0):
+		""" Adds an effect at then end of the 'index_chain'-th AUChain.
+            If 'index_chain' is not specified, we will use the first chain.
+        """
 		self.auchains[index_chain]._effects = None
 		return AudioUnit(self._acg.AddEffect(desc._ccd, index_chain))
 		
@@ -333,14 +337,14 @@ class Midi2AudioGenerator(object):
         
     midifile = property(    lambda self : self._midifile,
                             _set_midi,
-                            doc = 'Gets/sets the current midi file.\nUsually the number of tracks has to match the number of instruments (audiosources) in the AUChainGroup')
+                            doc = 'Gets/sets the current midi file path.\nUsually the number of tracks has to match the number of instruments (audiosources) in the AUChainGroup')
                             
     auchaingroup = property(lambda self : self._acg, doc = 'Gets the AUChainGroup')
 
     def play(self):
         """ Plays the midi file using the AUChainGraph. """
         if self.midifile is None:
-            print '\nYou have to set a midi file first'
+            print '\nYou can not play without having set a midi file first'
         else:
             self._m2ag.PlayAudio()
 				

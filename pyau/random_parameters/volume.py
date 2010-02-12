@@ -9,7 +9,6 @@
 
 """
 Used to normalize the volume of one or several .aupreset.
-Not particularly clean but works!
 """
 
 import os, sys
@@ -19,9 +18,14 @@ import numpy as N
 
 import pygmy.audiounit as AU
 
-def check_volume(midi2audio_generator, rms_min, window_offset=1000, window_length=30000, verbose=False):
-    """ We bounce from the *midi2audio_generator* and see if the RMS is > rms_min is a window of the signal. """
-    audio = midi2audio_generator.bounce()[:,window_offset:window_offset+window_length]
+def check_volume(midi2audio_generator, rms_min, window_offset=0, window_length=None, verbose=False):
+    """ We bounce from the *midi2audio_generator* and see if the RMS is > rms_min is a window of the signal.
+        If window_length is None, we take until the end of the signal.
+    """
+    audio = midi2audio_generator.bounce()#[:,window_offset:window_offset+window_length]
+    if window_length is None:
+        window_length = audio.shape[1] - window_offset
+    audio = audio[window_offset : window_offset + window_length]
     audio = (audio[0]+audio[1])/2.
     rms_ = rms(audio)
     if verbose:
@@ -30,8 +34,10 @@ def check_volume(midi2audio_generator, rms_min, window_offset=1000, window_lengt
         #print 'max :', N.max(audio)
     return rms_ > rms_min
 
-def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, verbose=False):
-    """ Juste like 'normalize_volume' but using the current set of parameters of the audiounit instead of a .aupreset. """
+def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, window_offset=0, window_length=None, verbose=False):
+    """ Juste like 'normalize_volume' but using the current set of parameters of the audiounit instead of a .aupreset. 
+        If window_length is None, we take untile the end of the signal.
+    """
 
     m2ag = midi2audio_generator
 
@@ -39,7 +45,7 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, ver
     
     # we calculate the peaks for 3 values
     values = list(volume_parameter.range)
-    values[0] += (values[1] - values[0])*.1
+    values[0] += (values[1] - values[0])*.1 # volume 0. doesn't help, so we had a little something
     values.insert(1, N.mean(values))
     
     if verbose:
@@ -50,9 +56,15 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, ver
     peaks = []
     for v in values:
         volume_parameter.value = v
-        x = m2ag.bounce()[:,1000:1000+30000] # let's take a second of audio, in the middle, assuming 44100Hz as sampling freq 
+        x = m2ag.bounce()
+        
+        if window_length is None:
+            window_length = x.shape[1] - window_offset
+        x = x[:,window_offset:window_offset + window_length] # let's take a second of audio, in the middle, assuming 44100Hz as sampling freq 
+
         rms_ = rms((x[0]+x[1])/2.) # RMS of the 'mono' version of the signal
-        print 'rms : ', rms_
+        if verbose:
+            print 'rms : ', rms_
         peaks.append(rms_**(.3)) # .3 = thumb rule
     
     if verbose:
@@ -78,15 +90,16 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, ver
         s = -root+h
     
     # verifying if everything is OK
-    import pylab as P
-    P.ion()
-    P.figure(2)
-    P.clf()
-    x_values = N.arange(0.,1.,.01)
-    P.plot(x_values, a*x_values**2+b*x_values+c)
-    P.plot(x_values, a*(x_values-h)**2+k)
-    P.plot(values, peaks, 'x')
-    P.plot(s, target_peak, '+')
+#    if verbose:
+#        import pylab as P
+#        P.ion()
+#        P.figure(2)
+#        P.clf()
+#        x_values = N.arange(0.,1.,.01)
+#        P.plot(x_values, a*x_values**2+b*x_values+c)
+#        P.plot(x_values, a*(x_values-h)**2+k)
+#        P.plot(values, peaks, 'x')
+#        P.plot(s, target_peak, '+')
     # all this to have s as our volume
     
     if s > volume_parameter.range[1]:
