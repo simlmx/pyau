@@ -14,9 +14,12 @@ if  platform.mac_ver()[0].rsplit('.',1)[0] == '10.6':
     publicutility_dir = '/Developer/Extras/CoreAudio/PublicUtility/'
 else:
     publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility/'
-    
+
+src_dir = 'src/midi2audio/'     
+
 import numpy
-ext = Extension('_audiounit',
+
+ext = Extension('_audiounit_swig',
 
        sources=['pygmy/audiounit/audiounit.i',
 
@@ -34,33 +37,30 @@ ext = Extension('_audiounit',
                 publicutility_dir + 'AUOutputBL.cpp',
                 publicutility_dir + 'CAComponent.cpp',
 
-                'src/midi2audio/AUChain.cpp',								
-                'src/midi2audio/AUChainGroup.cpp',
-                'src/midi2audio/AUGraphWrapper.cpp',
-                'src/midi2audio/AUMidiPlayer.cpp',
-                'src/midi2audio/AUUtils.cpp',
-                'src/midi2audio/AudioUnitSFWrapper.cpp',
-                'src/midi2audio/AudioUnitWrapper.cpp',
-                'src/midi2audio/FileMidi2AudioGenerator.cpp',
-                'src/midi2audio/FileSystemUtils.cpp',
-                'src/midi2audio/LiveMidi2AudioGenerator.cpp',
-                'src/midi2audio/Midi2AudioUtils.cpp',
-                'src/midi2audio/Parameter.cpp',
-                'src/midi2audio/Midi2AudioGenerator.cpp',
+                src_dir + 'AUChain.cpp',								
+                src_dir + 'AUChainGroup.cpp',
+                src_dir + 'AUGraphWrapper.cpp',
+                src_dir + 'AUMidiPlayer.cpp',
+                src_dir + 'AUUtils.cpp',
+                src_dir + 'AudioUnitSFWrapper.cpp',
+                src_dir + 'AudioUnitWrapper.cpp',
+                src_dir + 'FileMidi2AudioGenerator.cpp',
+                src_dir + 'FileSystemUtils.cpp',
+                src_dir + 'LiveMidi2AudioGenerator.cpp',
+                src_dir + 'Midi2AudioUtils.cpp',
+                src_dir + 'Parameter.cpp',
+                src_dir + 'Midi2AudioGenerator.cpp',
                 
-                'src/midi2audio/Midi2AudioGeneral.cpp',
+                src_dir + 'Midi2AudioGeneral.cpp',
                 
                  ],
-       include_dirs=[	'src/midi2audio',
-                        #'/Developer/Examples/CoreAudio/PublicUtility',
-                        '/Developer/Extras/CoreAudio/PublicUtility',#10.6?
-                         numpy.get_include(),
-
+       include_dirs=[	src_dir,
+                        publicutility_dir,
+                        numpy.get_include(),
                         ],
        swig_opts=[	'-c++',
-                    '-Isrc/midi2audio',
-                    #'-I/Developer/Examples/CoreAudio/PublicUtility',
-                    '-I/Developer/Extras/CoreAudio/PublicUtility', # 10.6?
+                    '-I' + src_dir,
+                    '-I' + publicutility_dir,
                     '-modern',
                     ],
        extra_link_args=[
@@ -72,7 +72,7 @@ ext = Extension('_audiounit',
             ],                           
        )
 
-setup(name="audiounit",
+setup(name="Audiounit",
       version="0.1",
       description="Python AudioUnit host",
       long_description="""Python AudioUnit host""",
