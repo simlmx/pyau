@@ -31,6 +31,14 @@ def invPCA(reducedMatrix, eigVectors, dataMean):
     else:
         return reducedMatrix
 
+def pcaSpace(dataMatrix,eigVectors,dataMean):
+    """
+    reduce the data using an already computed PCA
+    """
+    dataMatrix-=dataMean
+    dataMatrix=np.dot(dataMatrix,eigVectors)
+    return dataMatrix
+    
 #TODO
 #def savePCA(reducedMatrix, eigVectors, dataMean, fileName='PCA'):
 #    np.save(fileName+'_PCAdata')
