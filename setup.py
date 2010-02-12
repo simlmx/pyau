@@ -69,7 +69,8 @@ ext = Extension('_audiounit_swig',
             '-framework', 'AudioToolbox',
             '-framework', 'AudioUnit',
             '-framework', 'CoreMIDI',               
-            ],                           
+            ],
+       extra_compile_args=['-m32']
        )
 
 setup(name="Audiounit",
