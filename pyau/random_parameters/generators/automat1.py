@@ -143,10 +143,10 @@ class automat1_param_randomizer(param_randomizer):
         
                      
         # envelop
-        RF.randomize_parameter(params['AMP_Attack'], self.au, RF.normal(0., .3))
-        params['AMP_Attack'].value = params['AMP_Attack'].value
-        for suffix in 'Hold Decay Sustain Release'.split():
+        RF.randomize_parameter(params['AMP_Attack'], self.au, RF.normal(0., .25)) # if neg it becomes 0. alone
+        for suffix in 'Hold Decay Sustain'.split():
             RF.randomize_parameter(params['AMP_%s' % suffix], self.au, RF.uniform)
+        RF.randomize_parameter(params['AMP_Release'], self.au, RF.normal(.3, .5))
 
                      
         normalize_volume(m2ag, params["OUT_Master"], target_peak=self.volume, verbose=verbose)

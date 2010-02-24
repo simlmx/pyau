@@ -35,16 +35,21 @@ class tal_reverb_param_randomizer(param_randomizer):
         f = lambda x : a*x**2 + b*x + c
         hc = self.params_dict['High Cut']
         lc = self.params_dict['Low Cut']
-        hc.value = 1.; lc.value = 0.
-        while hc.value > f(lc.value):
+        hc.value = 0.; lc.value = 0.
+        while hc.value < f(lc.value):
             RF.randomize_parameter(hc, self.au, RF.uniform_custom(.2, 1.))
             RF.randomize_parameter(lc, self.au, RF.uniform_custom(0., .8))
-        
+            
+        for x in self._used_parameters():
+            print self.params_dict[x]
         
         param_vol = self.params_dict['Dry']
-        normalize_volume(self.m2ag, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)        
+        normalize_volume(self.m2ag, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=True)        
         vol = param_vol.value
         if not (vol < 1. and vol > 0.):
             print "let's do it again"
+            raw_input()
             self.randomize_parameters()
-        RF.randomize_parameter(self.params_dict['Wet'], self.au, RF.uniform_custom(vol*3./4., vol))
+        else:
+            RF.randomize_parameter(self.params_dict['Wet'], self.au, RF.uniform_custom(vol*3./4., vol))
+

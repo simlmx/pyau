@@ -38,7 +38,7 @@ class tal_use_param_randomizer(param_randomizer):
         #self.params_dict['Volume'].value = .9
         vol = self.params_dict['Volume']
         
-        print 'TAL USE volume : ', vol.value
+        #print 'TAL USE volume : ', vol.value
         if vol.value >= vol.range[1] or vol.value <= vol.range[0]:
             # let's start over
             #print 'starting over TAL USE'

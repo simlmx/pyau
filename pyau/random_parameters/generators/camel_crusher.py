@@ -53,14 +53,12 @@ class camel_crusher_param_randomizer(param_randomizer):
         # Compress
         # off half the time
         temp = RF.weighted_list([False, True], [.33, .67])(None, None)
-        print temp
         if temp:
             RF.randomize_parameter(self.params_dict['CompressAmount'], self.au, RF.uniform)
         RF.randomize_parameter(self.params_dict['CompressMode'], self.au, RF.weighted_list([0., 1.], [.5, .5]))
         
         # Master
         RF.randomize_parameter(self.params_dict['MasterMix'], self.au, RF.uniform)
-        print 'target', self.volume
         normalize_volume(self.m2ag, self.params_dict['MasterVolume'], target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
         
         #for p in self.params:

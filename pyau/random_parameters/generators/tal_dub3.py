@@ -37,9 +37,7 @@ class tal_dub3_param_randomizer(param_randomizer):
         while cp.value < f(hp.value):
             RF.randomize_parameter(hp, self.au, RF.uniform)
             RF.randomize_parameter(cp, self.au, RF.uniform)
-            print hp.value
-            print cp.value
-        
+            
         param_vol = self.params_dict['dry']
         normalize_volume(self.m2ag, param_vol, target_peak=self.volume, verbose=False)
         vol = param_vol.value
