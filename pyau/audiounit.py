@@ -365,7 +365,10 @@ class Midi2AudioGenerator(object):
             if wavfile_path is not None:
                 self._m2ag.Bounce(wavfile_path)
             else:
-                return self._m2ag.GenerateAudio()
+                #raw_input('before')
+                x = self._m2ag.GenerateAudio()
+                #raw_input('after')
+                return x # self._m2ag.GenerateAudio()
             
     def set_track_instrument(self, instrument_indexes):
         """ Tells where to send which track of the midi file.

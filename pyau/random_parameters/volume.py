@@ -18,25 +18,39 @@ import numpy as N
 
 import pygmy.audiounit as AU
 
-def check_volume(midi2audio_generator, rms_min, window_offset=0, window_length=None, verbose=False):
-    """ We bounce from the *midi2audio_generator* and see if the RMS is > rms_min is a window of the signal.
-        If window_length is None, we take until the end of the signal.
+def check_volume(midi2audio_generator, window_length=2001, verbose=False):
+    """ We bounce from the *midi2audio_generator* and return some measure of the sound loudness (max RMS**.3)
     """
-    audio = midi2audio_generator.bounce()#[:,window_offset:window_offset+window_length]
-    if window_length is None:
-        window_length = audio.shape[1] - window_offset
-    audio = audio[window_offset : window_offset + window_length]
-    audio = (audio[0]+audio[1])/2.
-    rms_ = rms(audio)
+    x = midi2audio_generator.bounce()
+    x = N.mean(x, axis=0)
+    
+    rms_ = 0.
+    for i in range(3, int(x.shape[0]/window_length)): # we skip the 3 first, sometimes weird things appears there (particularly with CamelCrush)
+        win = x[i*window_length : (i+1)*window_length]
+        rms_ = max(rms_, rms(win))
+        #if verbose:
+            #print '%.2f' % rms(win),
+        
     if verbose:
-        print 'Checking volume'
-        print ' rms :', rms_, '- OK' if rms_ > rms_min else '- not OK'
-        #print 'max :', N.max(audio)
-    return rms_ > rms_min
+        import pylab as P
+        P.ion()
+        P.figure(1)
+        P.clf()
+        P.plot(x)
+        #midi2audio_generator.play() 
+        print 'rms :', rms_   
+        print 'loudness :', rms_**.3
+        #raw_input('next')     
 
-def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, window_offset=0, window_length=None, verbose=False):
+    return rms_**.3 # .3 = thumb rule
+
+def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, window_length=2001, volumes=None, verbose=False):
     """ Juste like 'normalize_volume' but using the current set of parameters of the audiounit instead of a .aupreset. 
         If window_length is None, we take untile the end of the signal.
+        
+        volumes : Overrides the default values with which we set the volume parameter for finding the optimal volume.
+                  Has to be three values, e.g. [.3, .6 ,.8].
+                
     """
 
     m2ag = midi2audio_generator
@@ -44,9 +58,14 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
     volume_backup = volume_parameter.value
     
     # we calculate the peaks for 3 values
-    values = list(volume_parameter.range)
-    values[0] += (values[1] - values[0])*.1 # volume 0. doesn't help, so we had a little something
-    values.insert(1, N.mean(values))
+    if volumes is None:
+        min_, max_ = list(volume_parameter.range)
+        lap = max_ - min_
+        values = [ min_ + lap/4., min_ + lap/2., min_ + 3.*lap/4.] 
+    else:
+        values = volumes
+        
+    nb_points = len(values)
     
     if verbose:
         print
@@ -54,18 +73,12 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
         print values
     
     peaks = []
+    
     for v in values:
         volume_parameter.value = v
-        x = m2ag.bounce()
+        loudness = check_volume(m2ag, window_length = window_length, verbose = verbose)
         
-        if window_length is None:
-            window_length = x.shape[1] - window_offset
-        x = x[:,window_offset:window_offset + window_length] # let's take a second of audio, in the middle, assuming 44100Hz as sampling freq 
-
-        rms_ = rms((x[0]+x[1])/2.) # RMS of the 'mono' version of the signal
-        if verbose:
-            print 'rms : ', rms_
-        peaks.append(rms_**(.3)) # .3 = thumb rule
+        peaks.append(loudness)
     
     if verbose:
         print 'peaks'
@@ -73,10 +86,11 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
 
     # we find the parabola going threw these points
     
-    A = N.array( [ [ x**n for n in [2,1,0] ] for x in values ], dtype=float )
+    A = N.array( [ [ x**n for n in range(nb_points) ] for x in values ], dtype=float )
     b = N.array(peaks, dtype = float)
     
-    a,b,c = N.linalg.solve(A,b)
+    #c = N.linalg.solve(A,b) for more than 2nd degree
+    c,b,a = N.linalg.solve(A,b)
     
     # if y = "max peak" and x = "volume parameter value", then we'll say that y = a*x^2 + b*x + c
     
@@ -90,16 +104,18 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
         s = -root+h
     
     # verifying if everything is OK
-#    if verbose:
-#        import pylab as P
-#        P.ion()
-#        P.figure(2)
-#        P.clf()
-#        x_values = N.arange(0.,1.,.01)
-#        P.plot(x_values, a*x_values**2+b*x_values+c)
-#        P.plot(x_values, a*(x_values-h)**2+k)
-#        P.plot(values, peaks, 'x')
-#        P.plot(s, target_peak, '+')
+    if verbose:
+        import pylab as P
+        P.ion()
+        P.figure(2)
+        P.clf()
+        x_values = N.arange(0.,1.,.01)
+        # y_values = sum([ c[i]*x_values**i for i in range(nb_points) ]) for more than 2nd degree
+        y_values = a*x_values**2 + b*x_values + c
+        P.plot(x_values, y_values)
+        P.plot(x_values, a*(x_values-h)**2+k)
+        P.plot(values, peaks, 'x', ms=10)
+        P.plot(s, target_peak, '*', ms = 15)
     # all this to have s as our volume
     
     if s > volume_parameter.range[1]:
@@ -114,7 +130,7 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
 
 def rms(audio):
     """ Returns sqrt(mean(audio**2)). *audio* must be an 1D array. """
-    
+    #print '%.2f' % N.sqrt(N.mean(audio**2)),
     return N.sqrt(N.mean(audio**2))
     
 

@@ -204,7 +204,7 @@ const Float64 DEFAULT_SAMPLE_RATE = 44100;
 const std::string AUPRESET_EXTENSION = ".aupreset";
 const std::string SOUNDFONT_EXTENSION = ".sf2";
 
-// should just write the functions we need... it might be faster at compiling
+// we should just write the functions we need... it might be faster at compiling
 // but it was a pain when modifying the c++ code to update those...
 %include "CAComponentDescription.h"
 %include "CAComponent.h"

@@ -88,6 +88,23 @@ def uniform_list(values):
         return values[index]
     return f
     
+def weighted_list(values, weights):
+    """ Returns a function taking a param and a audiunit and returning a value[i] with probabiliy weights[i] for i in range(len(values)).
+        Note : Weights have to sum to 1.
+    """
+    if len(values) != len(weights):
+        print 'Error : values and weights must have the same length'
+        return
+    
+    def f(p,a):        
+        x = NR.uniform()
+        w = 0.
+        for i in range(len(values)):
+            w += weights[i]
+            if x < w:
+                return values[i]
+    return f    
+    
 
 
 ###
