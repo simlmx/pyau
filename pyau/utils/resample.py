@@ -1,17 +1,17 @@
 import numpy
 import time
-def resample(x,ratio,algo='scikits',quality='sinc_medium',window=None) :
+def resample(x,ratio,quality='sinc_medium',window=None,algo='scikits') :
     """Resamples signal column-wise.
     By default will try to use scikits.samplerate.resample if available.
     Otherwise will use scipy.signal.resample.
     
-       algo: The algorithm to be used, either 'scipy' or 'scikits'. Default is 'scikits'
       ratio: A float value indicating ratio for resampling
     quality: A quality string to be passed to scikits.samplerate.resample. 
              Useful quality values include sinc_medium, sinc_fastest, sinc_best.
              This value is ignored by the scipy algorithm
      window: A window to be passed to scipy.signal.resample. Default is None. 
              This value is ignored by the scikits algorithm.
+       algo: The algorithm to be used, either 'scipy' or 'scikits'. Default is 'scikits'
     """
     #decide which function we will use
     func=None
