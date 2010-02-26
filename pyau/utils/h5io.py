@@ -61,9 +61,9 @@ def writeAllNodes(dataDict,h5FileName):
     Writes a dictionary to h5FileName
     WARNING : This will remove all existing nodes in the file
     """
-    with openFile(h5FileName,'w') as h5File:
+    with openFile(h5FileName,'a') as h5File:
         for k,v in dataDict.iteritems():
-            _writeNodeInFile(v,k,h5File)
+            _writeNodeInFile(v,str(k),h5File)
 
     
 def deleteNode(nodeName,h5FileName):
