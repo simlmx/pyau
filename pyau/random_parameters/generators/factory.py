@@ -16,7 +16,7 @@ from tal_use import tal_use_param_randomizer
 from camel_crusher import camel_crusher_param_randomizer
 from tal_dub3 import tal_dub3_param_randomizer
 from tal_reverb import tal_reverb_param_randomizer
-from kontak3 import kontakt3_param_randomizer
+from kontakt3 import kontakt3_param_randomizer
 
 def get_randomizer(au, m2ag, volume):
     ''' Returns the good derived (from param_randomizer) class for an audiounit.
@@ -42,7 +42,7 @@ def get_randomizer(au, m2ag, volume):
     # this is where to add a new audiounit
     else:
         print 'Warning : using default param_randomizer for audiounit "%s"' % au.name
-        return param_randomizer(au, m2ag)
+        return param_randomizer(au, m2ag, volume)
     
     
     
