@@ -17,8 +17,8 @@ from pygmy.audiounit.random_parameters.volume import normalize_volume, check_vol
 
 
 
-def plot_sound(m2ag):
-    data = m2ag.bounce()[0]
+def plot_sound(host):
+    data = host.bounce()[0]
     P.figure(0)
     P.clf()
     P.subplot(211)
@@ -29,8 +29,8 @@ def plot_sound(m2ag):
     
 class automat1_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(automat1_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(automat1_param_randomizer, self).__init__(au, host, volume)
     
     def _used_parameters(self):
         used = 'Mix1_Level MIX2_Level MIX3_Level'.split()
@@ -55,12 +55,12 @@ class automat1_param_randomizer(param_randomizer):
     def randomize_parameters(self):
         '''
         Generate random parameters in a clever way for audiounit 'au' (which must be automat1 by alphakanal)
-        au must be in the graph of m2ag.
+        au must be in the graph of host.
         '''
         verbose = False
         
         au = self.au
-        m2ag = self.m2ag
+        host = self.host
         params = self.params_dict
         params["MIX1_Level"] = params["Mix1_Level"]
         
@@ -118,10 +118,10 @@ class automat1_param_randomizer(param_randomizer):
                     
                 if verbose:
                     print 'listening to OSC %i' % osc_no
-                    #m2ag.play()
+                    #host.play()
                     
                 params["MIX%i_Level" % osc_no].value = .2
-                if check_volume(m2ag, verbose=verbose) > .004:
+                if check_volume(host, verbose=verbose) > .004:
                     break
                 if verbose:
                     print "Something doesn't sound good : let's do it again."
@@ -149,7 +149,7 @@ class automat1_param_randomizer(param_randomizer):
         RF.randomize_parameter(params['AMP_Release'], self.au, RF.normal(.3, .5))
 
                      
-        normalize_volume(m2ag, params["OUT_Master"], target_peak=self.volume, verbose=verbose)
+        normalize_volume(host, params["OUT_Master"], target_peak=self.volume, verbose=verbose)
         vol = params['OUT_Master']
         
         if not (vol.value < vol.range[1] and vol.value > vol.range[0]):

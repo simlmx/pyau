@@ -15,13 +15,13 @@ if  platform.mac_ver()[0].rsplit('.',1)[0] == '10.6':
 else:
     publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility/'
 
-src_dir = 'src/midi2audio/'     
+src_dir = 'src/AudioUnitHost/'     
 
 import numpy
 
-ext = Extension('_audiounit_swig',
+ext = Extension('_pyau_swig',
 
-       sources=['pygmy/audiounit/audiounit.i',
+       sources=['pygmy/audiounit/pyau.i',
 
                 publicutility_dir + 'CACFDictionary.cpp',
                 publicutility_dir + 'CACFArray.cpp',
@@ -36,22 +36,16 @@ ext = Extension('_audiounit_swig',
                 publicutility_dir + 'CAStreamBasicDescription.cpp',
                 publicutility_dir + 'AUOutputBL.cpp',
                 publicutility_dir + 'CAComponent.cpp',
-
-                src_dir + 'AUChain.cpp',								
-                src_dir + 'AUChainGroup.cpp',
-                src_dir + 'AUGraphWrapper.cpp',
-                src_dir + 'AUMidiPlayer.cpp',
-                src_dir + 'AUUtils.cpp',
-                src_dir + 'AudioUnitSFWrapper.cpp',
-                src_dir + 'AudioUnitWrapper.cpp',
-                src_dir + 'FileMidi2AudioGenerator.cpp',
-                src_dir + 'FileSystemUtils.cpp',
-                src_dir + 'LiveMidi2AudioGenerator.cpp',
-                src_dir + 'Midi2AudioUtils.cpp',
-                src_dir + 'Parameter.cpp',
-                src_dir + 'Midi2AudioGenerator.cpp',
                 
-                src_dir + 'Midi2AudioGeneral.cpp',
+                src_dir + 'AHHost.cpp',
+                src_dir + 'AHGraph.cpp',
+                src_dir + 'AHMidiPlayer.cpp',
+                src_dir + 'AHAudioUnit.cpp',
+                src_dir + 'AHTrack.cpp',
+                src_dir + 'AHParameter.cpp',								
+                src_dir + 'AHUtils.cpp',
+                src_dir + 'FileSystemUtils.cpp',
+
                 
                  ],
        include_dirs=[	src_dir,
@@ -70,10 +64,10 @@ ext = Extension('_audiounit_swig',
             '-framework', 'AudioUnit',
             '-framework', 'CoreMIDI',               
             ],
-       extra_compile_args=['-m32']
+#       extra_compile_args=['-m32']
        )
 
-setup(name="Audiounit",
+setup(name="pyau",
       version="0.1",
       description="Python AudioUnit host",
       long_description="""Python AudioUnit host""",

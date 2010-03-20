@@ -12,8 +12,8 @@ import numpy.random as NR
 
 class monstachorus_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=None):
-        super(monstachorus_param_randomizer, self).__init__(au, m2ag, None)
+    def __init__(self, au, host, volume=None):
+        super(monstachorus_param_randomizer, self).__init__(au, host, None)
         
     def randomize_parameters(self):
         self.reset_parameters()
