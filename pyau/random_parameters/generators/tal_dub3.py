@@ -13,8 +13,8 @@ from pygmy.audiounit.random_parameters.volume import normalize_volume
 
 class tal_dub3_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(tal_dub3_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(tal_dub3_param_randomizer, self).__init__(au, host, volume)
 
     def reset_parameters(self):
         super(tal_dub3_param_randomizer, self).reset_parameters()
@@ -39,7 +39,7 @@ class tal_dub3_param_randomizer(param_randomizer):
             RF.randomize_parameter(cp, self.au, RF.uniform)
             
         param_vol = self.params_dict['dry']
-        normalize_volume(self.m2ag, param_vol, target_peak=self.volume, verbose=False)
+        normalize_volume(self.host, param_vol, target_peak=self.volume, verbose=False)
         vol = param_vol.value
         RF.randomize_parameter(self.params_dict['wet'], self.au, RF.uniform_custom(vol/3., vol))
 

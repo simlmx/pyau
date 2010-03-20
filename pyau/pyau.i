@@ -1,5 +1,4 @@
-%module audiounit_swig
-
+%module pyau_swig
 
 
 %{
@@ -7,17 +6,17 @@
 	
 #include "AudioUnit/AUComponent.h"
 
-#include "AUUtils.h"
-#include "Defs.h"
+#include "AHUtils.h"
+#include "AHDefs.h"
 #include "CAComponentDescription.h"
 #include "CAAudioUnit.h"
-#include "AudioUnitWrapper.h"
-#include "AUChain.h"
-#include "AUChainGroup.h"
-#include "Midi2AudioGenerator.h"	
+#include "AHAudioUnit.h"
+#include "AHTrack.h"
+//#include "AHGraph.h"
+#include "AHHost.h"	
 #include "FileSystemUtils.h"
 #include "CAAUParameter.h"
-#include "Parameter.h"
+#include "AHParameter.h"
 	
 #undef check
 	
@@ -71,25 +70,23 @@ typedef	Float32							AudioUnitParameterValue;
 
 typedef struct AUListenerBase *AUParameterListenerRef;
 
-typedef std::vector<AUChain*> AUChainVector;
-
 %pointer_functions(Float32, Float32p);
-%pointer_functions(AUChainGroup, AUChainGroupp);
+//%pointer_functions(AUChainGroup, AUChainGroupp);
 
 //
 // %TEMPLATEs
 //
 
 
-%template(AudioUnitWrapperPtrList) std::list<AudioUnitWrapper*>;
+%template(AHAudioUnitPtrList) std::list<AHAudioUnit>;
 
-%template(AUChainPtrVector) std::vector<AUChain*>;
+%template(AHTrackPtrVector) std::vector<AHTrack*>;
 
-%template(StringList) std::list<std::string>;
+//%template(StringList) std::list<std::string>;
 
-%template(ParameterList) std::list<Parameter>;
+%template(AHParameterList) std::list<AHParameter>;
 
-%template(CAComponentDescriptionList) std::list<CAComponentDescription>;
+//%template(CAComponentDescriptionList) std::list<CAComponentDescription>;
 
 %template(CAComponentList) std::list<CAComponent>;
 
@@ -188,34 +185,35 @@ typedef struct AudioUnitParameterInfo
 } AudioUnitParameterInfo;
 
 // FileSystemUtils.h
-
+/*
 class FileSystemUtils
 {
 public:
 	static void GetRelativeFilePaths( const std::string& root, const std::string& extension, std::list<std::string>& OUTPUT);
 	static std::string TrimTrailingSeparators( const std::string& inputString );
-};
+};*/
 
 // Defs.h
-
-const UInt32 DEFAULT_BUFFER_SIZE = 512;
+//%include "AHDefs.h"
+/*const UInt32 DEFAULT_BUFFER_SIZE = 512;
 const Float64 DEFAULT_SAMPLE_RATE = 44100;
 
 const std::string AUPRESET_EXTENSION = ".aupreset";
-const std::string SOUNDFONT_EXTENSION = ".sf2";
+const std::string SOUNDFONT_EXTENSION = ".sf2";*/
 
 // we should just write the functions we need... it might be faster at compiling
 // but it was a pain when modifying the c++ code to update those...
-%include "CAComponentDescription.h"
+
+//%include "CAComponentDescription.h"
 %include "CAComponent.h"
 %include "CAAudioUnit.h"
-%include "AudioUnitWrapper.h"
-%include "AUChain.h"
-%include "AUChainGroup.h"
-%include "Midi2AudioGenerator.h"
+%include "AHAudioUnit.h"
+%include "AHTrack.h"
+//%include "AHGraph.h"
+%include "AHHost.h"
 %include "CAAUParameter.h"
-%include "Parameter.h"
-%include "AUUtils.h"
+%include "AHParameter.h"
+%include "AHUtils.h"
 
-long CountAudioUnits(OSType AUType);
-std::list<CAComponent> GetMatchingCAComponents(CAComponentDescription desc);
+//long CountAudioUnits(OSType AUType);
+//std::list<CAComponent> GetMatchingCAComponents(CAComponentDescription desc);

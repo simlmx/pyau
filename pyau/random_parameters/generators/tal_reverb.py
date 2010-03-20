@@ -13,8 +13,8 @@ import numpy.random as NR
 
 class tal_reverb_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(tal_reverb_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(tal_reverb_param_randomizer, self).__init__(au, host, volume)
         self.volume = volume
     
     def reset_parameters(self):
@@ -40,15 +40,14 @@ class tal_reverb_param_randomizer(param_randomizer):
             RF.randomize_parameter(hc, self.au, RF.uniform_custom(.2, 1.))
             RF.randomize_parameter(lc, self.au, RF.uniform_custom(0., .8))
             
-        for x in self._used_parameters():
-            print self.params_dict[x]
+        #for x in self._used_parameters():
+         #   print self.params_dict[x]
         
         param_vol = self.params_dict['Dry']
-        normalize_volume(self.m2ag, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=True)        
+        normalize_volume(self.host, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)        
         vol = param_vol.value
         if not (vol < 1. and vol > 0.):
-            print "let's do it again"
-            raw_input()
+            print "volume was going to be %f" % vol
             self.randomize_parameters()
         else:
             RF.randomize_parameter(self.params_dict['Wet'], self.au, RF.uniform_custom(vol*3./4., vol))

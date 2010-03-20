@@ -2,6 +2,8 @@
 Misc useful methods.
 Feel free to add methods that you often use
 """
+import numpy as np
+
 def closestPower(n):
     """
     Finds the smallest power of 2 that is >= n

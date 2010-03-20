@@ -18,10 +18,10 @@ import numpy as N
 
 import pygmy.audiounit as AU
 
-def check_volume(midi2audio_generator, window_length=2001, verbose=False):
-    """ We bounce from the *midi2audio_generator* and return some measure of the sound loudness (max RMS**.3)
+def check_volume(host, window_length=2001, verbose=False):
+    """ We bounce from the *host* and return some measure of the sound loudness (max RMS**.3)
     """
-    x = midi2audio_generator.bounce()
+    x = host.bounce()
     x = N.mean(x, axis=0)
     
     rms_ = 0.
@@ -37,14 +37,14 @@ def check_volume(midi2audio_generator, window_length=2001, verbose=False):
         P.figure(1)
         P.clf()
         P.plot(x)
-        #midi2audio_generator.play() 
+        #host.play() 
         print 'rms :', rms_   
         print 'loudness :', rms_**.3
         #raw_input('next')     
 
     return rms_**.3 # .3 = thumb rule
 
-def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, window_length=2001, volumes=None, verbose=False):
+def normalize_volume(host, volume_parameter, target_peak=.4, window_length=2001, volumes=None, verbose=False):
     """ Juste like 'normalize_volume' but using the current set of parameters of the audiounit instead of a .aupreset. 
         If window_length is None, we take untile the end of the signal.
         
@@ -53,7 +53,7 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
                 
     """
 
-    m2ag = midi2audio_generator
+    host = host
 
     volume_backup = volume_parameter.value
     
@@ -76,7 +76,7 @@ def normalize_volume(midi2audio_generator, volume_parameter, target_peak=.4, win
     
     for v in values:
         volume_parameter.value = v
-        loudness = check_volume(m2ag, window_length = window_length, verbose = verbose)
+        loudness = check_volume(host, window_length = window_length, verbose = verbose)
         
         peaks.append(loudness)
     
@@ -135,7 +135,7 @@ def rms(audio):
     
 
 
-def normalize_volume_presets(aupreset_file_or_dir, midi2audio_generator, audiounit, volume_parameter, save_dir=None, target_peak=.1, verbose=False):
+def normalize_volume_presets(aupreset_file_or_dir, host, audiounit, volume_parameter, save_dir=None, target_peak=.1, verbose=False):
     """ Adjust the volume parameter of an audiounit so that the audiounit will output a know quantity of energy.
         Typically used to homogenize a list of .aupreset.
         Basically we calculate the peak in the audio signal for 3 values of volume_parameter ( min, max and (min+max)/2 )
@@ -144,14 +144,14 @@ def normalize_volume_presets(aupreset_file_or_dir, midi2audio_generator, audioun
         aupreset_file_or_dir
             A path pointing to a .aupreset file or a directory containing one or more .aupreset.
             
-        midi2audio_generator
+        host
             A pygmy.audiounit.Midi2AudioGenerator.
-            The midifile property of the midi2audio_generator is assumed to be set.
+            The midifile property of the host is assumed to be set.
             Typically containing a single audiounit (corresponding to the .aupreset(s)).
             
         audiounit
             The audiounit for which we are gonna adjust the volume_parameter.
-            Should be in the AUChainGroup of the midi2audio_generator.
+            Should be in the AUChainGroup of the host.
                         
         volume_parameter
             The pygmy.audiounit.Parameter of the audiounit to be adjusted.
@@ -166,7 +166,7 @@ def normalize_volume_presets(aupreset_file_or_dir, midi2audio_generator, audioun
     if save_dir is None:
         print 'Error : you have to specify a save_dir'
     
-    m2ag = midi2audio_generator
+    host = host
     au = audiounit
     
     if isdir(aupreset_file_or_dir): 
@@ -182,7 +182,7 @@ def normalize_volume_presets(aupreset_file_or_dir, midi2audio_generator, audioun
     
         au.load_aupreset(p)
         
-        normalize_volume(m2ag, volume_parameter, target_peak, verbose)
+        normalize_volume(host, volume_parameter, target_peak, verbose)
                    
         # and save
         new_preset = join(save_dir, p)
@@ -191,5 +191,5 @@ def normalize_volume_presets(aupreset_file_or_dir, midi2audio_generator, audioun
             print 'Saving preset at', new_preset
         au.save_aupreset(new_preset)
         
-# nv(save_dir, m2ag, au, au.get_parameters()[89], '/Users/simon/tmp/test2', verbose=True)
+# nv(save_dir, host, au, au.get_parameters()[89], '/Users/simon/tmp/test2', verbose=True)
         

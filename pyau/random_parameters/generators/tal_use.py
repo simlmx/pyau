@@ -5,8 +5,6 @@
 # Simon Lemieux
 #
 #
-# ( 'aufx', 'TILT', 'Togu' )
-#
 
 from numpy.random import randint
 import pygmy.audiounit.random_parameters.randfunc as RF
@@ -16,8 +14,8 @@ from pygmy.audiounit.random_parameters.volume import normalize_volume
 
 class tal_use_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(tal_use_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(tal_use_param_randomizer, self).__init__(au, host, volume)
     
     def reset_parameters(self):
         super(tal_use_param_randomizer, self).reset_parameters()
@@ -34,15 +32,17 @@ class tal_use_param_randomizer(param_randomizer):
         RF.randomize_parameter(self.params_dict['Shelf q'], self.au, RF.uniform_custom(.5, 1.))
 
             
-        normalize_volume(self.m2ag, self.params_dict['Volume'], target_peak=self.volume, verbose=False)
+        normalize_volume(self.host, self.params_dict['Volume'], target_peak=self.volume, verbose=False)
         #self.params_dict['Volume'].value = .9
-        vol = self.params_dict['Volume']
+        vol = self.params_dict['Volume'].value
         
         #print 'TAL USE volume : ', vol.value
-        if vol.value >= vol.range[1] or vol.value <= vol.range[0]:
+            
+        if not (vol < 1. and vol > 0.):
             # let's start over
             #print 'starting over TAL USE'
             self.randomize_parameters()
+
             
     def _used_parameters(self):
         return ['Shelf', 'Shelf q', 'Bass lift', 'Volume']

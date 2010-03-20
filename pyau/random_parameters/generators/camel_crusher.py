@@ -13,8 +13,8 @@ import numpy.random as NR
 
 class camel_crusher_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(camel_crusher_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(camel_crusher_param_randomizer, self).__init__(au, host, volume)
         self.volume = volume
     
     def reset_parameters(self):
@@ -59,7 +59,7 @@ class camel_crusher_param_randomizer(param_randomizer):
         
         # Master
         RF.randomize_parameter(self.params_dict['MasterMix'], self.au, RF.uniform)
-        normalize_volume(self.m2ag, self.params_dict['MasterVolume'], target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
+        normalize_volume(self.host, self.params_dict['MasterVolume'], target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
         
         #for p in self.params:
         #    if not p.name.startswith('Unused'):
@@ -67,10 +67,12 @@ class camel_crusher_param_randomizer(param_randomizer):
                 
 
         vol = self.params_dict['MasterVolume'].value
+        #raw_input('test')
         if not (vol < 1. and vol > 0.):
             #print "let's do it again"
-            raw_input('press enter to do it again')
+            #raw_input('press enter to do it again')
             self.randomize_parameters()
+
         
         
         

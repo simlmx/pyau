@@ -23,8 +23,8 @@ def kontakt3_aupreset_dir():
     
 class kontakt3_param_randomizer(param_randomizer):
     
-    def __init__(self, au, m2ag, volume=.5):
-        super(automat1_param_randomizer, self).__init__(au, m2ag, volume)
+    def __init__(self, au, host, volume=.5):
+        super(automat1_param_randomizer, self).__init__(au, host, volume)
         self.aupresets = filter(lambda f : f.endswith('.aupreset'), os.listdir(kontakt3_aupreset_dir()))
         self.current_aupreset = None
     

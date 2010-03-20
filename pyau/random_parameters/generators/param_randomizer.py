@@ -16,8 +16,8 @@ class param_randomizer(object):
         the function 'normalize_volume'. Not used by this class but should be used by class deriving this one.
     '''
     
-    def __init__(self, au, m2ag, volume):
-        self.m2ag = m2ag
+    def __init__(self, au, host, volume):
+        self.host = host
         self.au = au
         self.volume = volume
         
