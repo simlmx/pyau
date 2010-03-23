@@ -24,8 +24,8 @@ def kontakt3_aupreset_dir():
 class kontakt3_param_randomizer(param_randomizer):
     
     def __init__(self, au, host, volume=.5):
-        super(automat1_param_randomizer, self).__init__(au, host, volume)
-        self.aupresets = [f for f in os.listdir(kontakt3_aupreset_dir()) if f.endswith('.aupreset')]
+        super(kontakt3_param_randomizer, self).__init__(au, host, volume)
+        self.aupresets = filter(lambda f : f.endswith('.aupreset'), os.listdir(kontakt3_aupreset_dir()))
         self.current_aupreset = None
     
     def _used_parameters(self):

@@ -35,12 +35,9 @@ def get_randomizer(au, host, volume):
         return tal_dub3_param_randomizer(au, host, volume)
     elif name == 'TAL Reverb Plugin':
         return tal_reverb_param_randomizer(au, host, volume)
-    elif name == 'Kontakt3':
+    elif name == 'Kontakt 3':
         return kontakt3_param_randomizer(au, host, volume)
     # this is where to add a new audiounit
     else:
         print 'Warning : using default param_randomizer for audiounit "%s"' % au.name
-        return param_randomizer(au, host)
-    
-    
-    
+        return param_randomizer(au, host, volume)
