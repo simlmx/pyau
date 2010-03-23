@@ -22,9 +22,14 @@ AHTrack::AHTrack(CAComponentDescription synthDescription, AHGraph* graph, int tr
     ConnectAllNodes();
 }
 
-AHTrack::~AHTrack() {}
+AHTrack::~AHTrack()
+{
+    graph_->RemoveAHAudioUnitFromGraph(synth_);
+    for (list<AHAudioUnit*>::iterator it = effects_.begin(); it != effects_.end(); it++)
+        graph_->RemoveAHAudioUnitFromGraph(*it);
+}
 
-AHAudioUnit* AHTrack::SetSynth(CAComponentDescription desc)
+AHAudioUnit* AHTrack::SetSynth(const CAComponentDescription desc)
 {
     graph_->DisconnectMixerInputs(trackIndex_);
 	DisconnectAllNodes();
@@ -36,14 +41,16 @@ AHAudioUnit* AHTrack::SetSynth(CAComponentDescription desc)
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
 	
-	return &synth_;
+	return synth_;
 }
 
-AHAudioUnit* AHTrack::SetSynth(string name, string manu)
+AHAudioUnit* AHTrack::SetSynth(const string name, const string manu)
 {
     CAComponentDescription desc;
     if (FindAudioUnitFromName(name, manu, desc))
+    {
         return SetSynth(desc);
+    }
     else
     {
         cout << "\nThe audio unit '" << name;
@@ -54,7 +61,7 @@ AHAudioUnit* AHTrack::SetSynth(string name, string manu)
     }
 }
 
-AHAudioUnit* AHTrack::AddEffect(CAComponentDescription desc)
+AHAudioUnit* AHTrack::AddEffect(const CAComponentDescription desc)
 {
     graph_->DisconnectMixerInputs(trackIndex_);
 	DisconnectAllNodes();
@@ -64,14 +71,16 @@ AHAudioUnit* AHTrack::AddEffect(CAComponentDescription desc)
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
 	
-	return (&(effects_.back()));
+	return effects_.back();
 }
 
-AHAudioUnit* AHTrack::AddEffect(string name, string manu)
+AHAudioUnit* AHTrack::AddEffect(const string name , const string manu)
 {
     CAComponentDescription desc; 
     if (FindAudioUnitFromName(name, manu, desc))
+    {
         return AddEffect(desc);
+    }
     else
     {
         cout << "\nThe audio unit '" << name;
@@ -95,17 +104,17 @@ void AHTrack::RemoveLastEffect()
     graph_->ConnectMixerInputs(trackIndex_);
 }
 
-void AHTrack::ConnectAllNodes()
+void AHTrack::ConnectAllNodes() const
 {
     if(effects_.size())
 	{
-		list<AHAudioUnit>::iterator prev_it = effects_.begin(), it = effects_.begin();
+		list<AHAudioUnit*>::const_iterator prev_it = effects_.begin(), it = effects_.begin();
 		it++;
 		
 		PrintIfErr( AUGraphConnectNodeInput(graph_->GetAUGraph(),
-                                            synth_.GetAUNode(),
+                                            synth_->GetAUNode(),
                                             0,
-                                            (*prev_it).GetAUNode(),
+                                            (*prev_it)->GetAUNode(),
                                             0) );
 
         
@@ -113,7 +122,7 @@ void AHTrack::ConnectAllNodes()
         {
             while(it != effects_.end())
             {
-                PrintIfErr( AUGraphConnectNodeInput(graph_->GetAUGraph(), (*prev_it).GetAUNode(), 0, (*it).GetAUNode(), 0) );
+                PrintIfErr( AUGraphConnectNodeInput(graph_->GetAUGraph(), (*prev_it)->GetAUNode(), 0, (*it)->GetAUNode(), 0) );
                 it++;
                 prev_it++;
             }
@@ -122,19 +131,19 @@ void AHTrack::ConnectAllNodes()
     //PrintIfErr(AUGraphUpdate(graph_->GetAUGraph(), NULL));
 }
 
-void AHTrack::DisconnectAllNodes()
+void AHTrack::DisconnectAllNodes() const
 {
     if(!effects_.size()) return;
 
-    for ( list<AHAudioUnit>::iterator it = effects_.begin(); it != effects_.end(); it++ )
+    for ( list<AHAudioUnit*>::const_iterator it = effects_.begin(); it != effects_.end(); it++ )
     {
-        PrintIfErr( AUGraphDisconnectNodeInput( graph_->GetAUGraph(), (*it).GetAUNode(), 0 ) );
+        PrintIfErr( AUGraphDisconnectNodeInput( graph_->GetAUGraph(), (*it)->GetAUNode(), 0 ) );
     }
 }
 
 /*AHAudioUnit* AHTrack::GetEffectAt(int index)
 {
-	list<AHAudioUnit>::iterator it = effects_.begin();
+	list<AHAudioUnit*>::iterator it = effects_.begin();
 	for(int i=0; i<index; i++)
 		it++;
 	return &(*it);

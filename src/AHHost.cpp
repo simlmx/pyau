@@ -56,8 +56,8 @@ AHHost::~AHHost()
 	PrintIfErr( MIDIPortDispose(inputPort_) );
 	PrintIfErr( MIDIClientDispose(client_) );
     
-    for(int i=0; i<(int)(tracks_.size()); i++)
-        delete tracks_[i];
+    //for(int i=0; i<(int)tracks_.size(); i++)
+    //    delete tracks_.at(i);
 }
 
 void AHHost::Reset()
@@ -355,7 +355,7 @@ void AHHost::GetOutputUnitStreamFormat(CAStreamBasicDescription& outOutputUnitSt
 void AHHost::MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, void* srcConnRefCon)
 {
 	AHHost* host = (AHHost*)readProcRefCon;
-	if (host->listeningToMidi_ && host->GetTracks()->size())
+	if (host->listeningToMidi_ && host->GetTracks().size())
 	{
         int numPackets = pktlist->numPackets;
         if (!numPackets)
@@ -375,12 +375,12 @@ void AHHost::MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, v
                     cout << hex << (int)(pkt->data[j+1]) << " ";
                     cout << hex << (int)(pkt->data[j+2]) << " )";
                     retour_chariot = true;*/
-                    vector<AHTrack*>* tracks = host->GetTracks();
-                    for ( int i=0; i<(int)tracks->size(); i++)
+                    vector<AHTrack*> tracks = host->GetTracks();
+                    for ( int i=0; i<(int)tracks.size(); i++)
                     {
-                        if ((*tracks)[i]->IsArmed())
+                        if (tracks[i]->IsArmed())
                         {
-                            AudioUnit au = (*tracks)[i]->GetSynth()->AU();
+                            AudioUnit au = tracks[i]->GetSynth()->AU();
                             PrintIfErr( MusicDeviceMIDIEvent(au, (int)pkt->data[j], (int)pkt->data[j+1], (int)pkt->data[j+2], 0));
                         }
                     }
@@ -401,7 +401,7 @@ void AHHost::MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, v
 	}
 }
 
-AHTrack* AHHost::AddTrack(CAComponentDescription synthDescription)
+AHTrack* AHHost::AddTrack(const CAComponentDescription synthDescription)
 {
     graph_.DisconnectMixerInputs();
     AHTrack* track = new AHTrack(synthDescription, &graph_, tracks_.size());
@@ -411,12 +411,12 @@ AHTrack* AHHost::AddTrack(CAComponentDescription synthDescription)
     return tracks_.back();
 }
 
-AHTrack* AHHost::AddTrack(string name, string manu)
+AHTrack* AHHost::AddTrack(const string name, const string manu)
 {
     CAComponentDescription desc;
     if (FindAudioUnitFromName(name, manu, desc))
     {
-        return AddTrack(desc);        
+        return AddTrack(desc);  
     } else
     {        
         cout << "\nThe audio unit '" << name;

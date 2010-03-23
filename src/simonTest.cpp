@@ -17,6 +17,24 @@
 #include <iostream>
 using namespace std;
 
+void print_host(AHHost &host)
+{    
+    for (int i=0; i<(int)host.GetTracks().size(); i++)
+    {
+        AHTrack* t = host.GetTracks()[i];
+        cout << "track " << i << ": ";
+        PrintCFStringRef(t->GetSynth()->GetName());
+        list<AHAudioUnit*> effects = t->GetEffects();
+        for ( list<AHAudioUnit*>::iterator it=effects.begin(); it != effects.end(); it++)
+        {
+            cout << " => [";
+            PrintCFStringRef((*it)->GetName());
+            cout << "]";
+        }
+        cout << endl;            
+    }        
+}
+
 int main( int argc, const char* argv[] )
 {
 //    PrintAllAudioUnits();
@@ -37,29 +55,22 @@ int main( int argc, const char* argv[] )
         }
         cout << endl;
     }*/
-    
+
     
     AHHost host;
     AHTrack* track1 = host.AddTrack("Automat1");
-    AHTrack* track2 = host.AddTrack("Crystal");
-    AHTrack* track3 = host.AddTrack("Automat1");
-    AHTrack* track4 = host.AddTrack("Crystal");
-
-    track3->AddEffect("Chorus-60-AU-Effect");
-    track3->AddEffect("CamelCrusher");
+    AHTrack* track2 = host.AddTrack("crystal");
+        
+    print_host(host);
     
-    track2->AddEffect("CamelCrusher");
-    track2->AddEffect("CamelCrusher");
+    AHAudioUnit* effect = track1->AddEffect("CamelCrusher");
+    track2->AddEffect("AUBandPass");
+    track2->AddEffect("camelcrusher");         track2->AddEffect("camelcrusher");         track2->AddEffect("camelcrusher");
     
-    track3->RemoveLastEffect();
-
-    track1->Arm();
     
-    track3->SetSynth("Crystal");
+    print_host(host);
     
-    host.LoadMidiFile("/Users/simon/tmp/midis/69.mid");
-    host.Bounce();
-    
-    while(1)
-        sleep(1);
+    track2->SetSynth("automat1");
+    print_host(host);
+        
 }

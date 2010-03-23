@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 #include "CAComponentDescription.h"
-#include "CustomAUTypes.h"
+//#include "CustomAUTypes.h"
 
 
 const UInt32 DEFAULT_BUFFER_SIZE = 512;

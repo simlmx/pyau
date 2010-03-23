@@ -19,6 +19,8 @@
 
 #include <map>
 #include <vector>
+
+using namespace std;
 class AHTrack;
 
 class AHGraph
@@ -26,41 +28,42 @@ class AHGraph
 protected:
     AUGraph augraph_;
 
-    std::vector<AHTrack*>* tracks_;    
-    AHAudioUnit mixer_;
-    AHAudioUnit output_;
+    vector<AHTrack*>* tracks_;    
+    AHAudioUnit* mixer_;
+    AHAudioUnit* output_;
       
 public:
-    AHGraph(std::vector<AHTrack*>* tracks);// CAComponentDescription outputDesc = DEFAULT_OUTPUT_DESCRIPTION,// todo : checker les defaults values
+    AHGraph(vector<AHTrack*>* tracks);// CAComponentDescription outputDesc = DEFAULT_OUTPUT_DESCRIPTION,// todo : checker les defaults values
               //    UInt32 bufferSize = DEFAULT_BUFFER_SIZE, Float64 sampleRate = DEFAULT_SAMPLE_RATE );
     ~AHGraph();
     
 public:
     void SetOutput(CAComponentDescription desc);
-	AHAudioUnit* GetOutput() { return &output_; }
+	AHAudioUnit* GetOutput() { return output_; }
       
     
     //UInt32 GetBufferSize() { return graphWrapper_->GetBufferSize(); }
     //Float64 GetSampleRate() { return graphWrapper_->GetSampleRate(); }
-    AUGraph GetAUGraph() { return augraph_; }
+    AUGraph GetAUGraph() const { return augraph_; }
 	
 	//UInt32 GetAUChainCount() { return auChains_.size(); }
 	
 public:
     
-    void ConnectMixerInputs();
-    void DisconnectMixerInputs();
-    void DisconnectMixerInputs(int trackIndex);
-    void ConnectMixerInputs(int trackIndex);
+    void ConnectMixerInputs() const;
+    void ConnectMixerInputs(int trackIndex) const;
+    void DisconnectMixerInputs() const;
+    void DisconnectMixerInputs(int trackIndex) const;
+
     
-    AUNode GetLastNode(int track_index);
+    AUNode GetLastNode(int track_index) const;
     
 public:
     void Start() { PrintIfErr( AUGraphStart(augraph_) ); }
     void Stop() { PrintIfErr( AUGraphStop(augraph_) ); }
     
-    AHAudioUnit AddAHAudioUnitToGraph(CAComponentDescription desc);
-    void RemoveAHAudioUnitFromGraph(AHAudioUnit au);
+    AHAudioUnit* AddAHAudioUnitToGraph(CAComponentDescription desc) const;
+    void RemoveAHAudioUnitFromGraph(AHAudioUnit* au) const;
     
 };
 

@@ -13,7 +13,7 @@ from numpy.random import rand
 import pyau_swig as au
 
 class Host(object):
-    """ Uses a AUChainGraph to transform a midi file to an audio file.
+    """ Host object which contains tracks. Can bounce, play etc.
     """
 
     def __init__(self):
@@ -112,9 +112,9 @@ class Track(object):
                             doc='Get/Set the synth.\nSet takes the name of the Audio Unit, and optionally his manufacturer.')
 
     def _get_effects(self):
-        if self._effects is None:
-            self._effects = self._ah_track.GetEffects()
-            self._effects = [AudioUnit(e) for e in self._effects]
+        #todo cache this??? what doesn't it work?
+        self._effects = self._ah_track.GetEffects()
+        self._effects = map(AudioUnit, self._effects)
         return self._effects
 
     effects = property( _get_effects, doc='Get the list of effects.')

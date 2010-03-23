@@ -31,33 +31,34 @@ protected:
     AHGraph* graph_;
 
 	
-    AHAudioUnit synth_;
-	list<AHAudioUnit> effects_;
+    AHAudioUnit* synth_;
+	list<AHAudioUnit*> effects_;
     
     Boolean armed_; // if it listen to incoming midi
 	
 public:
-        int trackIndex_;
+    int trackIndex_;
 	AHTrack(CAComponentDescription synthDescription, AHGraph* graph, int trackIndex);
 	virtual ~AHTrack();
     
-    AHAudioUnit* SetSynth(string name, string manu="");
-	AHAudioUnit* SetSynth(CAComponentDescription desc);
-	AHAudioUnit* GetSynth() { return &synth_; }
+    AHAudioUnit* SetSynth(const string name, const string manu="");
+	AHAudioUnit* SetSynth(const CAComponentDescription desc);
+	AHAudioUnit* GetSynth() { return synth_; }
+    
 	
-    AHAudioUnit* AddEffect(string name, string manu="");
-	AHAudioUnit* AddEffect(CAComponentDescription desc);
+    AHAudioUnit* AddEffect(const string name, const string manu="");
+	AHAudioUnit* AddEffect(const CAComponentDescription desc);
 	void RemoveLastEffect();
 //	AHAudioUnit* GetEffectAt(int index=0);
-	list<AHAudioUnit> GetEffects() { return effects_; }
+	list<AHAudioUnit*>& GetEffects() { return effects_; }
     
     void Arm() { armed_ = true; }
     void Unarm() { armed_ = false; }
     bool IsArmed() { return armed_; }
 	
 protected:
-	void ConnectAllNodes();
-    void DisconnectAllNodes();
+	void ConnectAllNodes() const;
+    void DisconnectAllNodes() const;
 };
 
 

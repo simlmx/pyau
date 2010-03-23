@@ -71,31 +71,23 @@ typedef	Float32							AudioUnitParameterValue;
 typedef struct AUListenerBase *AUParameterListenerRef;
 
 %pointer_functions(Float32, Float32p);
-//%pointer_functions(AUChainGroup, AUChainGroupp);
 
 //
 // %TEMPLATEs
 //
 
 
-%template(AHAudioUnitPtrList) std::list<AHAudioUnit>;
+%template(AHAudioUnitPtrList) std::list<AHAudioUnit*>;
 
 %template(AHTrackPtrVector) std::vector<AHTrack*>;
 
-//%template(StringList) std::list<std::string>;
-
 %template(AHParameterList) std::list<AHParameter>;
 
-//%template(CAComponentDescriptionList) std::list<CAComponentDescription>;
-
 %template(CAComponentList) std::list<CAComponent>;
-
-//%template(FloatVectorListVector) std::vector< std::list< std::vector<float> > >;
 
 %template(FloatVector) std::vector<float>;
 %template(FloatVectorList) std::list< std::vector< float > >;
 %template(FloatVectorListVector) std::vector< std::list< std::vector< float > > >;
-//%template(FloatVectorListVector) std::vector<std::list<std::vector<float> > >;
 
 //
 // %TYPEMAPs
@@ -154,6 +146,7 @@ typedef struct AUListenerBase *AUParameterListenerRef;
 		$result = PyArray_SimpleNew(0, NULL, 0);//this case has not been tested yet	
 	
 }
+
 
 
 //

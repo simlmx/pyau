@@ -31,12 +31,11 @@ class AHHost
 {
 protected:
     Boolean listeningToMidi_;
-    
+
+    std::vector<AHTrack*> tracks_;    
     AHGraph graph_;
     AHMidiPlayer midiPlayer_;
-    std::vector<AHTrack*> tracks_;    
-    //CAStreamBasicDescription outputFormat_;
-    
+
     int bufferSize_;
     int sampleRate_;
     
@@ -57,13 +56,13 @@ public:
 	void Play();
 	void Stop();
 	
-    AHTrack* AddTrack(string name, string manu="");
-    AHTrack* AddTrack(CAComponentDescription instrumentDescription);
+    AHTrack* AddTrack(const string name, const string manu="");
+    AHTrack* AddTrack(const CAComponentDescription instrumentDescription);
     void RemoveLastTrack();
-    std::vector<AHTrack*>* GetTracks() { return &tracks_; }
+    std::vector<AHTrack*>& GetTracks() { return tracks_; }
     
 	//AUMidiPlayer& GetAUMidiPlayer() { return midiPlayer_; }
-    void BounceToFile( const std::string& wavPath );
+    void BounceToFile(const std::string& wavPath );
 	
 	//void ListenToMidi();
 	//void StopListeningToMidi();
