@@ -58,22 +58,20 @@ int main( int argc, const char* argv[] )
 
     
     AHHost host;
-    AHTrack* track1 = host.AddTrack("automat1");
+    AHTrack* track1 = host.AddTrack("kontakt 3");
     track1->Arm();
     print_host(host);
     
-    string midifile = "/Users/simon/tmp/midis/69.mid";
-    string midifile_james = "/Users/simon/Libs/pygmy/pygmy/projects/timbre/audiounit_tests/james.mid";
-    host.LoadMidiFile(midifile);
-    host.Play();
-    //sleep(10);
-    host.LoadMidiFile(midifile_james);
-    host.LoadMidiFile(midifile);     host.LoadMidiFile(midifile);     host.LoadMidiFile(midifile);
-    host.LoadMidiFile(midifile_james);
-    host.LoadMidiFile(midifile_james);
-    host.BounceToFile("/Users/simon/tmp/james.wav");
+    track1->GetSynth()->LoadAUPresetFromFile("/Library/kontakt3_db/aupresets_usable/Violin ens 14 (fortepiano).aupreset");
     
-    //while( true)
-      //  sleep(10);
+    //string midifile = "/Users/simon/tmp/midis/69.mid";
+    //string midifile_james = "/Users/simon/Libs/pygmy/pygmy/projects/timbre/audiounit_tests/james.mid";
+    //host.LoadMidiFile(midifile);
+    //host.Play();
+    //sleep(10);
+    //host.BounceToFile("/Users/simon/tmp/james.wav");
+    
+    while( true)
+        sleep(10);
             
 }

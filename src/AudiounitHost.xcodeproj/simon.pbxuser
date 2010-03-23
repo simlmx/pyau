@@ -398,6 +398,32 @@
 			F4E463B011594216007EC2DE /* PBXTextBookmark */ = F4E463B011594216007EC2DE /* PBXTextBookmark */;
 			F4E463B111594216007EC2DE /* PBXTextBookmark */ = F4E463B111594216007EC2DE /* PBXTextBookmark */;
 			F4E463B211594216007EC2DE /* PBXTextBookmark */ = F4E463B211594216007EC2DE /* PBXTextBookmark */;
+			F4E463B61159429B007EC2DE /* PBXTextBookmark */ = F4E463B61159429B007EC2DE /* PBXTextBookmark */;
+			F4E463B71159429B007EC2DE /* PBXTextBookmark */ = F4E463B71159429B007EC2DE /* PBXTextBookmark */;
+			F4E463B81159429B007EC2DE /* PBXTextBookmark */ = F4E463B81159429B007EC2DE /* PBXTextBookmark */;
+			F4E463B91159429B007EC2DE /* PBXTextBookmark */ = F4E463B91159429B007EC2DE /* PBXTextBookmark */;
+			F4E463BA1159429B007EC2DE /* PBXTextBookmark */ = F4E463BA1159429B007EC2DE /* PBXTextBookmark */;
+			F4E463BB1159429B007EC2DE /* PBXTextBookmark */ = F4E463BB1159429B007EC2DE /* PBXTextBookmark */;
+			F4E463BC1159429B007EC2DE /* PBXTextBookmark */ = F4E463BC1159429B007EC2DE /* PBXTextBookmark */;
+			F4E463BD1159429B007EC2DE /* PBXTextBookmark */ = F4E463BD1159429B007EC2DE /* PBXTextBookmark */;
+			F4E463BE1159430E007EC2DE /* PBXTextBookmark */ = F4E463BE1159430E007EC2DE /* PBXTextBookmark */;
+			F4E463BF1159430E007EC2DE /* PBXTextBookmark */ = F4E463BF1159430E007EC2DE /* PBXTextBookmark */;
+			F4E463C01159430E007EC2DE /* PBXTextBookmark */ = F4E463C01159430E007EC2DE /* PBXTextBookmark */;
+			F4E463C11159430E007EC2DE /* PBXTextBookmark */ = F4E463C11159430E007EC2DE /* PBXTextBookmark */;
+			F4E463C21159430E007EC2DE /* PBXTextBookmark */ = F4E463C21159430E007EC2DE /* PBXTextBookmark */;
+			F4E463C31159430E007EC2DE /* PBXTextBookmark */ = F4E463C31159430E007EC2DE /* PBXTextBookmark */;
+			F4E463C611594331007EC2DE /* PBXTextBookmark */ = F4E463C611594331007EC2DE /* PBXTextBookmark */;
+			F4E463C711594331007EC2DE /* PBXTextBookmark */ = F4E463C711594331007EC2DE /* PBXTextBookmark */;
+			F4E463C811594331007EC2DE /* PBXTextBookmark */ = F4E463C811594331007EC2DE /* PBXTextBookmark */;
+			F4E463C911594331007EC2DE /* PBXTextBookmark */ = F4E463C911594331007EC2DE /* PBXTextBookmark */;
+			F4E463CA11594331007EC2DE /* PBXTextBookmark */ = F4E463CA11594331007EC2DE /* PBXTextBookmark */;
+			F4E463CB11594331007EC2DE /* PBXTextBookmark */ = F4E463CB11594331007EC2DE /* PBXTextBookmark */;
+			F4E463CD11594340007EC2DE /* PBXTextBookmark */ = F4E463CD11594340007EC2DE /* PBXTextBookmark */;
+			F4E463CE11594340007EC2DE /* PBXTextBookmark */ = F4E463CE11594340007EC2DE /* PBXTextBookmark */;
+			F4E463CF11594340007EC2DE /* PBXTextBookmark */ = F4E463CF11594340007EC2DE /* PBXTextBookmark */;
+			F4E463D011594340007EC2DE /* PBXTextBookmark */ = F4E463D011594340007EC2DE /* PBXTextBookmark */;
+			F4E463D111594340007EC2DE /* PBXTextBookmark */ = F4E463D111594340007EC2DE /* PBXTextBookmark */;
+			F4E463D211594340007EC2DE /* PBXTextBookmark */ = F4E463D211594340007EC2DE /* PBXTextBookmark */;
 			F4E4A3010FD03879007C7D6D = F4E4A3010FD03879007C7D6D /* PBXTextBookmark */;
 			F4F577D80F743DB0002A265C = F4F577D80F743DB0002A265C /* PBXTextBookmark */;
 		};
@@ -441,9 +467,9 @@
 	};
 	F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1298, 1501}}";
-			sepNavSelRange = "{2233, 0}";
-			sepNavVisRange = "{1647, 771}";
+			sepNavIntBoundsRect = "{{0, 0}, {1298, 1368}}";
+			sepNavSelRange = "{1977, 0}";
+			sepNavVisRange = "{1647, 691}";
 			sepNavWindowFrame = "{{353, 91}, {810, 810}}";
 		};
 	};
@@ -884,7 +910,7 @@
 		ignoreCount = 0;
 		lineNumber = 103;
 		location = libMidi2Audio.dylib;
-		modificationTime = 291061482.968904;
+		modificationTime = 291062598.144358;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -945,9 +971,9 @@
 		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/AudioUnit.framework/Versions/A/Headers/AUComponent.h;
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1268, 26714}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1268, 26733}}";
 			sepNavSelRange = "{11, 8}";
-			sepNavVisRange = "{29578, 1124}";
+			sepNavVisRange = "{29716, 1045}";
 		};
 	};
 	F4144D111153EF1C001A1223 /* PBXTextBookmark */ = {
@@ -1077,9 +1103,9 @@
 	};
 	F48F2653114F052000CB4686 /* AHHost.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1379, 7885}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1444, 7657}}";
 			sepNavSelRange = "{4079, 25}";
-			sepNavVisRange = "{3085, 1189}";
+			sepNavVisRange = "{2787, 1644}";
 			sepNavWindowFrame = "{{193, 115}, {838, 785}}";
 		};
 	};
@@ -1095,7 +1121,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1220, 2926}}";
 			sepNavSelRange = "{1506, 0}";
-			sepNavVisRange = "{892, 1101}";
+			sepNavVisRange = "{892, 942}";
 			sepNavWindowFrame = "{{464, 66}, {905, 809}}";
 		};
 	};
@@ -1199,7 +1225,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1070, 2793}}";
 			sepNavSelRange = "{2415, 0}";
-			sepNavVisRange = "{1944, 1456}";
+			sepNavVisRange = "{1944, 1436}";
 			sepNavWindowFrame = "{{196, 194}, {1129, 947}}";
 		};
 	};
@@ -1517,7 +1543,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = libSystem.B.dylib;
-		modificationTime = 291061483.013052;
+		modificationTime = 291062598.186351;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 		symbolName = malloc_error_break;
@@ -1527,7 +1553,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 75";
 		rLen = 0;
-		rLoc = 2409;
+		rLoc = 2328;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 1748;
@@ -1537,7 +1563,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 61";
 		rLen = 0;
-		rLoc = 1816;
+		rLoc = 1817;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 930;
@@ -1637,7 +1663,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 0;
-		rLoc = 2311;
+		rLoc = 2234;
 		rType = 0;
 		vrLen = 752;
 		vrLoc = 1184;
@@ -1647,7 +1673,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 0;
-		rLoc = 2357;
+		rLoc = 2280;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1294;
@@ -1697,7 +1723,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 0;
-		rLoc = 2357;
+		rLoc = 2280;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1294;
@@ -1717,7 +1743,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 0;
-		rLoc = 2357;
+		rLoc = 2280;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1294;
@@ -1775,7 +1801,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1436, 5643}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{401, 1567}";
+			sepNavVisRange = "{466, 1542}";
 			sepNavWindowFrame = "{{61, 184}, {1129, 947}}";
 		};
 	};
@@ -1784,7 +1810,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 0;
-		rLoc = 2357;
+		rLoc = 2280;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 1294;
@@ -1854,7 +1880,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2067;
+		rLoc = 2204;
 		rType = 0;
 		vrLen = 853;
 		vrLoc = 1348;
@@ -1864,7 +1890,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 66";
 		rLen = 0;
-		rLoc = 2021;
+		rLoc = 2154;
 		rType = 0;
 		vrLen = 770;
 		vrLoc = 1455;
@@ -1894,7 +1920,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 66";
 		rLen = 0;
-		rLoc = 2021;
+		rLoc = 2154;
 		rType = 0;
 		vrLen = 770;
 		vrLoc = 1455;
@@ -1934,7 +1960,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 70";
 		rLen = 0;
-		rLoc = 2082;
+		rLoc = 2219;
 		rType = 0;
 		vrLen = 774;
 		vrLoc = 1455;
@@ -1944,7 +1970,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 69";
 		rLen = 0;
-		rLoc = 2090;
+		rLoc = 2227;
 		rType = 0;
 		vrLen = 718;
 		vrLoc = 1521;
@@ -2040,7 +2066,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 67";
 		rLen = 12;
-		rLoc = 2033;
+		rLoc = 2168;
 		rType = 0;
 		vrLen = 718;
 		vrLoc = 1521;
@@ -2050,7 +2076,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 69";
 		rLen = 0;
-		rLoc = 2080;
+		rLoc = 2217;
 		rType = 0;
 		vrLen = 721;
 		vrLoc = 1521;
@@ -2140,7 +2166,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 721;
 		vrLoc = 1521;
@@ -2324,7 +2350,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2404,7 +2430,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2464,7 +2490,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2524,7 +2550,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2584,7 +2610,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 786;
 		vrLoc = 1455;
@@ -2594,7 +2620,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 65";
 		rLen = 0;
-		rLoc = 1870;
+		rLoc = 2001;
 		rType = 0;
 		vrLen = 786;
 		vrLoc = 1455;
@@ -2651,7 +2677,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2691,7 +2717,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 65";
 		rLen = 0;
-		rLoc = 1870;
+		rLoc = 2001;
 		rType = 0;
 		vrLen = 787;
 		vrLoc = 1455;
@@ -2818,7 +2844,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2908,7 +2934,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 930;
@@ -2958,7 +2984,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 72";
 		rLen = 0;
-		rLoc = 2306;
+		rLoc = 2234;
 		rType = 0;
 		vrLen = 766;
 		vrLoc = 1581;
@@ -3097,7 +3123,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 68";
 		rLen = 0;
-		rLoc = 2073;
+		rLoc = 2210;
 		rType = 0;
 		vrLen = 1383;
 		vrLoc = 930;
@@ -3246,7 +3272,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 72";
 		rLen = 0;
-		rLoc = 2233;
+		rLoc = 2234;
 		rType = 0;
 		vrLen = 711;
 		vrLoc = 1708;
@@ -3381,7 +3407,7 @@
 		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
 		name = "simonTest.cpp: 72";
 		rLen = 0;
-		rLoc = 2233;
+		rLoc = 2234;
 		rType = 0;
 		vrLen = 771;
 		vrLoc = 1647;
@@ -3619,6 +3645,266 @@
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 29578;
+	};
+	F4E463B61159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F414460511501CD6001A1223 /* FileSystemUtils.cpp */;
+		name = "FileSystemUtils.cpp: 101";
+		rLen = 0;
+		rLoc = 2737;
+		rType = 0;
+		vrLen = 878;
+		vrLoc = 2146;
+	};
+	F4E463B71159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
+		name = "simonTest.cpp: 72";
+		rLen = 0;
+		rLoc = 2234;
+		rType = 0;
+		vrLen = 771;
+		vrLoc = 1647;
+	};
+	F4E463B81159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
+		name = "simonTest.cpp: 65";
+		rLen = 0;
+		rLoc = 1987;
+		rType = 0;
+		vrLen = 788;
+		vrLoc = 1455;
+	};
+	F4E463B91159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46215115914A6007EC2DE /* generate_auchain_example.py */;
+		name = "generate_auchain_example.py: 61";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1286;
+		vrLoc = 1169;
+	};
+	F4E463BA1159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46220115915CB007EC2DE /* pyau.py */;
+		name = "pyau.py: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1579;
+		vrLoc = 429;
+	};
+	F4E463BB1159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F2655114F052000CB4686 /* AHGraph.cpp */;
+		name = "AHGraph.cpp: 51";
+		rLen = 0;
+		rLoc = 1506;
+		rType = 0;
+		vrLen = 1101;
+		vrLoc = 892;
+	};
+	F4E463BC1159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F26BD114FDF0500CB4686 /* AHUtils.cpp */;
+		name = "AHUtils.cpp: 103";
+		rLen = 0;
+		rLoc = 2415;
+		rType = 0;
+		vrLen = 1456;
+		vrLoc = 1944;
+	};
+	F4E463BD1159429B007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4144CFB115331BD001A1223 /* AUComponent.h */;
+		name = "AUComponent.h: 2";
+		rLen = 8;
+		rLoc = 11;
+		rType = 0;
+		vrLen = 1095;
+		vrLoc = 29666;
+	};
+	F4E463BE1159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
+		name = "simonTest.cpp: 72";
+		rLen = 0;
+		rLoc = 2234;
+		rType = 0;
+		vrLen = 736;
+		vrLoc = 1581;
+	};
+	F4E463BF1159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46215115914A6007EC2DE /* generate_auchain_example.py */;
+		name = "generate_auchain_example.py: 61";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1286;
+		vrLoc = 1169;
+	};
+	F4E463C01159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46220115915CB007EC2DE /* pyau.py */;
+		name = "pyau.py: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1579;
+		vrLoc = 429;
+	};
+	F4E463C11159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F2655114F052000CB4686 /* AHGraph.cpp */;
+		name = "AHGraph.cpp: 51";
+		rLen = 0;
+		rLoc = 1506;
+		rType = 0;
+		vrLen = 1101;
+		vrLoc = 892;
+	};
+	F4E463C21159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F26BD114FDF0500CB4686 /* AHUtils.cpp */;
+		name = "AHUtils.cpp: 103";
+		rLen = 0;
+		rLoc = 2415;
+		rType = 0;
+		vrLen = 1456;
+		vrLoc = 1944;
+	};
+	F4E463C31159430E007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4144CFB115331BD001A1223 /* AUComponent.h */;
+		name = "AUComponent.h: 2";
+		rLen = 8;
+		rLoc = 11;
+		rType = 0;
+		vrLen = 1095;
+		vrLoc = 29666;
+	};
+	F4E463C611594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
+		name = "simonTest.cpp: 72";
+		rLen = 0;
+		rLoc = 2234;
+		rType = 0;
+		vrLen = 670;
+		vrLoc = 1647;
+	};
+	F4E463C711594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46215115914A6007EC2DE /* generate_auchain_example.py */;
+		name = "generate_auchain_example.py: 61";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1286;
+		vrLoc = 1169;
+	};
+	F4E463C811594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46220115915CB007EC2DE /* pyau.py */;
+		name = "pyau.py: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1542;
+		vrLoc = 466;
+	};
+	F4E463C911594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F2655114F052000CB4686 /* AHGraph.cpp */;
+		name = "AHGraph.cpp: 51";
+		rLen = 0;
+		rLoc = 1506;
+		rType = 0;
+		vrLen = 942;
+		vrLoc = 892;
+	};
+	F4E463CA11594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F26BD114FDF0500CB4686 /* AHUtils.cpp */;
+		name = "AHUtils.cpp: 103";
+		rLen = 0;
+		rLoc = 2415;
+		rType = 0;
+		vrLen = 1436;
+		vrLoc = 1944;
+	};
+	F4E463CB11594331007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4144CFB115331BD001A1223 /* AUComponent.h */;
+		name = "AUComponent.h: 2";
+		rLen = 8;
+		rLoc = 11;
+		rType = 0;
+		vrLen = 1045;
+		vrLoc = 29716;
+	};
+	F4E463CD11594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */;
+		name = "simonTest.cpp: 65";
+		rLen = 0;
+		rLoc = 1977;
+		rType = 0;
+		vrLen = 691;
+		vrLoc = 1647;
+	};
+	F4E463CE11594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46215115914A6007EC2DE /* generate_auchain_example.py */;
+		name = "generate_auchain_example.py: 61";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1286;
+		vrLoc = 1169;
+	};
+	F4E463CF11594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4E46220115915CB007EC2DE /* pyau.py */;
+		name = "pyau.py: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1542;
+		vrLoc = 466;
+	};
+	F4E463D011594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F2655114F052000CB4686 /* AHGraph.cpp */;
+		name = "AHGraph.cpp: 51";
+		rLen = 0;
+		rLoc = 1506;
+		rType = 0;
+		vrLen = 942;
+		vrLoc = 892;
+	};
+	F4E463D111594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F48F26BD114FDF0500CB4686 /* AHUtils.cpp */;
+		name = "AHUtils.cpp: 103";
+		rLen = 0;
+		rLoc = 2415;
+		rType = 0;
+		vrLen = 1436;
+		vrLoc = 1944;
+	};
+	F4E463D211594340007EC2DE /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F4144CFB115331BD001A1223 /* AUComponent.h */;
+		name = "AUComponent.h: 2";
+		rLen = 8;
+		rLoc = 11;
+		rType = 0;
+		vrLen = 1045;
+		vrLoc = 29716;
 	};
 	F4E4A2CB0FCF2204007C7D6D /* AUGraph.h */ = {
 		isa = PBXFileReference;

@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>F4E463AE11594216007EC2DE</string>
+						<string>F4E463CE11594340007EC2DE</string>
 						<key>history</key>
 						<array>
 							<string>F4E463AD11594216007EC2DE</string>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>F4E463AF11594216007EC2DE</string>
+						<string>F4E463CF11594340007EC2DE</string>
 						<key>history</key>
 						<array>
 							<string>F4E4639F115940C8007EC2DE</string>
@@ -296,7 +296,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>F4E463B011594216007EC2DE</string>
+						<string>F4E463D011594340007EC2DE</string>
 						<key>history</key>
 						<array>
 							<string>F4E4638211593EF7007EC2DE</string>
@@ -336,7 +336,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>F4E463B111594216007EC2DE</string>
+						<string>F4E463D111594340007EC2DE</string>
 						<key>history</key>
 						<array>
 							<string>F4E4638611593EF7007EC2DE</string>
@@ -376,7 +376,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>F4E463B211594216007EC2DE</string>
+						<string>F4E463D211594340007EC2DE</string>
 						<key>history</key>
 						<array>
 							<string>F4E4638A11593EF7007EC2DE</string>
@@ -479,8 +479,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>46</integer>
-									<integer>30</integer>
+									<integer>61</integer>
+									<integer>60</integer>
 									<integer>29</integer>
 									<integer>0</integer>
 								</array>
@@ -605,7 +605,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>FileSystemUtils.cpp</string>
+								<string>simonTest.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -613,11 +613,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>FileSystemUtils.cpp</string>
+										<string>simonTest.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>F4E463AC11594216007EC2DE</string>
+										<string>F4E463CD11594340007EC2DE</string>
 										<key>history</key>
 										<array>
 											<string>F4005D1D0F6C22E500CA47AE</string>
@@ -676,10 +676,10 @@
 											<string>F4E4637A11593EF7007EC2DE</string>
 											<string>F4E4637B11593EF7007EC2DE</string>
 											<string>F4E4637C11593EF7007EC2DE</string>
-											<string>F4E46398115940C8007EC2DE</string>
 											<string>F4E46399115940C8007EC2DE</string>
 											<string>F4E4639A115940C8007EC2DE</string>
-											<string>F4E4639B115940C8007EC2DE</string>
+											<string>F4E463B61159429B007EC2DE</string>
+											<string>F4E463B71159429B007EC2DE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -877,6 +877,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>F4E463CC11594331007EC2DE</string>
 		<string>F4E461FD11590DA7007EC2DE</string>
 		<string>F4E461FE11590DA7007EC2DE</string>
 		<string>F4E4638811593EF7007EC2DE</string>
@@ -884,11 +885,11 @@
 		<string>F4005D000F6C1F1500CA47AE</string>
 		<string>F4E4638011593EF7007EC2DE</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>F4E4639D115940C8007EC2DE</string>
-		<string>/Users/simon/Libs/pygmy/src/AudiounitHost/AudiounitHost.xcodeproj</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>F4E4638F11593F76007EC2DE</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/simon/Libs/pygmy/src/AudiounitHost/AudiounitHost.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>33 117 1651 973 0 0 1920 1178 </string>
