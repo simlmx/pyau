@@ -56,8 +56,8 @@ AHHost::~AHHost()
 	PrintIfErr( MIDIPortDispose(inputPort_) );
 	PrintIfErr( MIDIClientDispose(client_) );
     
-    //for(int i=0; i<(int)tracks_.size(); i++)
-    //    delete tracks_.at(i);
+    for(int i=0; i<(int)tracks_.size(); i++)
+        delete tracks_.at(i);
 }
 
 void AHHost::Reset()
@@ -68,7 +68,6 @@ void AHHost::Reset()
 void AHHost::LoadMidiFile(const std::string midiFile)
 {
 	midiPlayer_.LoadMidiFile(midiFile);	
-	Reset();
 }
 
 // Most was copy-pasted from PlaySequence example
@@ -109,17 +108,10 @@ void AHHost::BounceToFile( const string& outputFilePath )
 	UInt32 value =1;
 	for (UInt32 i=0; i<tracks_.size(); i++)
     {
-        if( AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
+        AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
                                          kAudioUnitProperty_OfflineRender,
                                          kAudioUnitScope_Global,
-                                         0, &value, sizeof( value ) ) )
-            cout << "OfflineRender set to 1";
-        
-        else
-            cout << "OfflineRender not set to 1";
-        cout << "\tau = ";
-        PrintCFStringRef(tracks_[i]->GetSynth()->GetName());
-        cout << endl;
+                             0, &value, sizeof( value ) );
     }
 
 	UInt32 size;
@@ -140,7 +132,7 @@ void AHHost::BounceToFile( const string& outputFilePath )
 	//outputFormat.Print();
 	
 	//FileSystemUtils::DeleteFile(outputFilePath); in a flag in ExtAudioFileCreateWithURUL since 10.6
-	FileSystemUtils::CreateDirectory(FileSystemUtils::GetParentDirectoryPath(outputFilePath));
+	//FileSystemUtils::CreateDirectory(FileSystemUtils::GetParentDirectoryPath(outputFilePath)); some bug with that... we'll have to create the dir by hand... or in python wrapper
 
 //	FSRef parentDir;
 //	CFStringRef destFileName;
@@ -202,18 +194,13 @@ void AHHost::BounceToFile( const string& outputFilePath )
 	value =0;
 	for (UInt32 i=0; i<tracks_.size(); i++)
     {
-        if( AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
+        AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
                                      kAudioUnitProperty_OfflineRender,
                                      kAudioUnitScope_Global,
                                      0,
                                      &value,
-                                     sizeof( value ) ) )
-            cout << "OfflineRender set to 0\n";
-        else
-            cout << "OfflineRender not set to 0\n";
-        cout << "\tau = ";
-        PrintCFStringRef(tracks_[i]->GetSynth()->GetName());
-        cout << endl;
+                                 sizeof( value ) );
+
     }
 	
 	// we set back the output unit
@@ -240,16 +227,10 @@ vector< list< vector<float> > > AHHost::RenderToBuffer()//CAStreamBasicDescripti
 	UInt32 value =1;
 	for (UInt32 i=0; i<tracks_.size(); i++)
     {
-        if(! AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
+        AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
                                          kAudioUnitProperty_OfflineRender,
                                          kAudioUnitScope_Global,
-                                         0, &value, sizeof( value ) ) )
-            cout << "OfflineRender set to 1\n";
-        else
-            cout << "OfflineRender not set to 1\n";
-        cout << "\tau = ";
-        PrintCFStringRef(tracks_[i]->GetSynth()->GetName());
-        cout << endl;
+                             0, &value, sizeof( value ) );
     }
 //	UInt32 bufferSize = auChainGroup_->GetBufferSize();
 	CAStreamBasicDescription outputUnitFormat;
@@ -316,18 +297,13 @@ vector< list< vector<float> > > AHHost::RenderToBuffer()//CAStreamBasicDescripti
 	value =0;
 	for (UInt32 i=0; i<tracks_.size(); i++)
     {
-		if( AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
+		AudioUnitSetProperty( tracks_[i]->GetSynth()->AU(),
                                          kAudioUnitProperty_OfflineRender,
                                          kAudioUnitScope_Global,
                                          0,
                                          &value,
-                                         sizeof( value ) ) )
-            cout << "OfflineRender set to 0\n";
-        else
-            cout << "OfflineRender not sett to 0\n";
-        cout << "\tau = ";
-        PrintCFStringRef(tracks_[i]->GetSynth()->GetName());
-        cout << endl;
+                                 sizeof( value ) );
+
     }
 	graph_.SetOutput(tempDesc);
 	

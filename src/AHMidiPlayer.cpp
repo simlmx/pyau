@@ -25,6 +25,14 @@ AHMidiPlayer::AHMidiPlayer(AHGraph* graph, std::vector<AHTrack*>* tracks) :
 
 AHMidiPlayer::~AHMidiPlayer()
 {
+    UInt32 ntracks = GetTrackCount();
+    MusicTrack track;
+    //CAShow(musicSequence_);
+    for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
+    {
+        PrintIfErr( MusicSequenceGetIndTrack( musicSequence_, 0, &track ) );// 0 because we always delete the first one
+        PrintIfErr( MusicSequenceDisposeTrack(musicSequence_, track) );
+    }
     PrintIfErr( DisposeMusicPlayer( musicPlayer_ ) );
 	PrintIfErr( DisposeMusicSequence( musicSequence_ ) );
 }
@@ -47,22 +55,33 @@ void AHMidiPlayer::Stop()
 
 void AHMidiPlayer::LoadMidiFile( const string& midiFilePath )
 {
-    // were these three lines useful?? they're alredy in the constructor and they were creating a bug...
-	//verify_noerr( NewMusicSequence(&musicSequence_) );
-    //verify_noerr( MusicPlayerSetSequence(musicPlayer_, musicSequence_) );
-    //verify_noerr( MusicSequenceSetAUGraph(musicSequence_, auChainGroup_->GetAUGraph()) );
+    // I think we need to delete the old tracks before
+    MusicTrack track;
+    UInt32 ntracks = GetTrackCount();
+    //CAShow(musicSequence_);
+    for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
+    {
+        PrintIfErr( MusicSequenceGetIndTrack( musicSequence_, 0, &track ) );// 0 because we always delete the first one
+        PrintIfErr( MusicSequenceDisposeTrack(musicSequence_, track) );
+    }
+    
+    PrintIfErr( DisposeMusicPlayer(musicPlayer_) );
+    PrintIfErr( DisposeMusicSequence(musicSequence_) );
+    
+    PrintIfErr( NewMusicPlayer(&musicPlayer_));
+	PrintIfErr( NewMusicSequence(&musicSequence_) );
+    PrintIfErr( MusicPlayerSetSequence(musicPlayer_, musicSequence_) );
+    PrintIfErr( MusicSequenceSetAUGraph(musicSequence_, graph_->GetAUGraph()) );
     
     CFURLRef url = CFURLCreateFromFileSystemRepresentation( kCFAllocatorDefault, (const UInt8*) midiFilePath.c_str(), midiFilePath.size(), false );
     PrintIfErr( MusicSequenceFileLoad( musicSequence_, url, 0, kMusicSequenceLoadSMF_ChannelsToTracks ) );
 
     // // figure out sequence length, and add 8 beats to the end of the file to take decay etc. into account
-    MusicTrack track;
     MusicTimeStamp trackLength;
     UInt32 propsize = sizeof( MusicTimeStamp );
     
-    UInt32 ntracks;
-    PrintIfErr( MusicSequenceGetTrackCount( musicSequence_, &ntracks ) );
-	    
+    ntracks = GetTrackCount();
+    //CAShow(musicSequence_);
     musicSequenceLength_ = 0;
     for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
     {        

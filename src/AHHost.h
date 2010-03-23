@@ -36,6 +36,7 @@ protected:
     AHGraph graph_;
     AHMidiPlayer midiPlayer_;
 
+
     int bufferSize_;
     int sampleRate_;
     

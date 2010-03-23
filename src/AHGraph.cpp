@@ -44,6 +44,10 @@ AHGraph::~AHGraph()
     RemoveAHAudioUnitFromGraph(mixer_);
     RemoveAHAudioUnitFromGraph(output_);
     
+    Boolean updated;
+    PrintIfErr( AUGraphUpdate(augraph_, &updated) );
+    
+    //CAShow(augraph_);
     PrintIfErr( DisposeAUGraph(augraph_) );
 }
 

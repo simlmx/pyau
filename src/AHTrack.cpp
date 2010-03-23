@@ -27,6 +27,7 @@ AHTrack::~AHTrack()
     graph_->RemoveAHAudioUnitFromGraph(synth_);
     for (list<AHAudioUnit*>::iterator it = effects_.begin(); it != effects_.end(); it++)
         graph_->RemoveAHAudioUnitFromGraph(*it);
+    //CAShow(graph_->GetAUGraph());
 }
 
 AHAudioUnit* AHTrack::SetSynth(const CAComponentDescription desc)

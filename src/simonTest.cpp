@@ -58,19 +58,22 @@ int main( int argc, const char* argv[] )
 
     
     AHHost host;
-    AHTrack* track1 = host.AddTrack("Automat1");
-    AHTrack* track2 = host.AddTrack("crystal");
-        
+    AHTrack* track1 = host.AddTrack("automat1");
+    track1->Arm();
     print_host(host);
     
-    AHAudioUnit* effect = track1->AddEffect("CamelCrusher");
-    track2->AddEffect("AUBandPass");
-    track2->AddEffect("camelcrusher");         track2->AddEffect("camelcrusher");         track2->AddEffect("camelcrusher");
+    string midifile = "/Users/simon/tmp/midis/69.mid";
+    string midifile_james = "/Users/simon/Libs/pygmy/pygmy/projects/timbre/audiounit_tests/james.mid";
+    host.LoadMidiFile(midifile);
+    host.Play();
+    //sleep(10);
+    host.LoadMidiFile(midifile_james);
+    host.LoadMidiFile(midifile);     host.LoadMidiFile(midifile);     host.LoadMidiFile(midifile);
+    host.LoadMidiFile(midifile_james);
+    host.LoadMidiFile(midifile_james);
+    host.BounceToFile("/Users/simon/tmp/james.wav");
     
-    
-    print_host(host);
-    
-    track2->SetSynth("automat1");
-    print_host(host);
-        
+    //while( true)
+      //  sleep(10);
+            
 }
