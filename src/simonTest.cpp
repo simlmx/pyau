@@ -41,25 +41,19 @@ int main( int argc, const char* argv[] )
     
     AHHost host;
     AHTrack* track1 = host.AddTrack("Automat1");
-    AHTrack* track2 = host.AddTrack("Crystal");
-    AHTrack* track3 = host.AddTrack("Automat1");
-    AHTrack* track4 = host.AddTrack("Crystal");
+    //AHTrack* track2 = host.AddTrack("kontakt 3");
+    
+    track1->AddEffect("CamelCrusher");
+    
+    track1->GetSynth()->LoadAUPresetFromFile("/Library/kontakt3_db/aupresets_usable/Harpsichord.aupreset");
+    
+//    track1->Arm();
+    
 
-    track3->AddEffect("Chorus-60-AU-Effect");
-    track3->AddEffect("CamelCrusher");
-    
-    track2->AddEffect("CamelCrusher");
-    track2->AddEffect("CamelCrusher");
-    
-    track3->RemoveLastEffect();
-
-    track1->Arm();
-    
-    track3->SetSynth("Crystal");
     
     host.LoadMidiFile("/Users/simon/tmp/midis/69.mid");
-    host.Bounce();
+    host.BounceToFile("/Users/simon/tmp/69.wav");
     
-    while(1)
-        sleep(1);
+   // while(1)
+     //   sleep(1);
 }
