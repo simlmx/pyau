@@ -20,13 +20,16 @@ AHTrack::AHTrack(CAComponentDescription synthDescription, AHGraph* graph, int tr
     trackIndex_ = trackIndex;
     armed_ = false;
     ConnectAllNodes();
+    graph_->UpdateGraph();
 }
 
 AHTrack::~AHTrack()
 {
+    DisconnectAllNodes();
     graph_->RemoveAHAudioUnitFromGraph(synth_);
     for (list<AHAudioUnit*>::iterator it = effects_.begin(); it != effects_.end(); it++)
         graph_->RemoveAHAudioUnitFromGraph(*it);
+    graph_->UpdateGraph();
     //CAShow(graph_->GetAUGraph());
 }
 
@@ -41,6 +44,8 @@ AHAudioUnit* AHTrack::SetSynth(const CAComponentDescription desc)
 	
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
+    
+    graph_->UpdateGraph();
 	
 	return synth_;
 }
@@ -72,6 +77,7 @@ AHAudioUnit* AHTrack::AddEffect(const CAComponentDescription desc)
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
 	
+    graph_->UpdateGraph();
 	return effects_.back();
 }
 
@@ -103,6 +109,8 @@ void AHTrack::RemoveLastEffect()
     
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
+    
+    graph_->UpdateGraph();
 }
 
 void AHTrack::ConnectAllNodes() const
@@ -129,7 +137,6 @@ void AHTrack::ConnectAllNodes() const
             }
         }
     }
-    //PrintIfErr(AUGraphUpdate(graph_->GetAUGraph(), NULL));
 }
 
 void AHTrack::DisconnectAllNodes() const

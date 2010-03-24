@@ -32,10 +32,10 @@ class AHHost
 protected:
     Boolean listeningToMidi_;
 
-    std::vector<AHTrack*> tracks_;    
+
     AHGraph graph_;
     AHMidiPlayer midiPlayer_;
-
+    std::vector<AHTrack*> tracks_;
 
     int bufferSize_;
     int sampleRate_;

@@ -54,6 +54,7 @@ public:
     void ConnectMixerInputs(int trackIndex) const;
     void DisconnectMixerInputs() const;
     void DisconnectMixerInputs(int trackIndex) const;
+    void UpdateGraph() const;
 
     
     AUNode GetLastNode(int track_index) const;

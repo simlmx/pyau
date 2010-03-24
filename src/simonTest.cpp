@@ -56,22 +56,39 @@ int main( int argc, const char* argv[] )
         cout << endl;
     }*/
 
+string midifile = "/Users/simon/tmp/midis/69.mid";
+
+list<string> paths;
+FileSystemUtils::GetFilePaths("/Library/kontakt3_db/aupresets_usable_shortnames", ".aupreset", paths);
+
+AHHost host;
+AHTrack* track1 = host.AddTrack("kontakt 3"); 
+host.LoadMidiFile(midifile);    
+for (list<string>::iterator it=paths.begin(); it!=paths.end(); it++)
+{
+
+    cout << *it << endl;
+
+
+        //AHTrack* track1 = host.AddTrack("automat1"); 
+
+    track1->GetSynth()->LoadAUPresetFromFile(*it);
+    host.BounceToFile("/Users/simon/tmp/fuck_kontakt.wav");
+        //track1->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/automat1.aupreset");
+        //    sleep(4);
+        //    track1->SetSynth("kontakt 3");
+        //print_host(host);
+//    break;
+}
     
-    AHHost host;
-    AHTrack* track1 = host.AddTrack("kontakt 3");
-    track1->Arm();
-    print_host(host);
-    
-    track1->GetSynth()->LoadAUPresetFromFile("/Library/kontakt3_db/aupresets_usable/Violin ens 14 (fortepiano).aupreset");
-    
-    //string midifile = "/Users/simon/tmp/midis/69.mid";
+
     //string midifile_james = "/Users/simon/Libs/pygmy/pygmy/projects/timbre/audiounit_tests/james.mid";
-    //host.LoadMidiFile(midifile);
+
     //host.Play();
     //sleep(10);
     //host.BounceToFile("/Users/simon/tmp/james.wav");
     
-    while( true)
-        sleep(10);
+    //while( true)
+      //  sleep(10);
             
 }

@@ -56,6 +56,9 @@ AHHost::~AHHost()
 	PrintIfErr( MIDIPortDispose(inputPort_) );
 	PrintIfErr( MIDIClientDispose(client_) );
     
+    graph_.DisconnectMixerInputs();
+    graph_.UpdateGraph();
+    
     for(int i=0; i<(int)tracks_.size(); i++)
         delete tracks_.at(i);
 }
@@ -383,6 +386,7 @@ AHTrack* AHHost::AddTrack(const CAComponentDescription synthDescription)
     AHTrack* track = new AHTrack(synthDescription, &graph_, tracks_.size());
     tracks_.push_back(track);
     graph_.ConnectMixerInputs();
+    graph_.UpdateGraph();
 
     return tracks_.back();
 }
@@ -406,6 +410,8 @@ AHTrack* AHHost::AddTrack(const string name, const string manu)
 void AHHost::RemoveLastTrack()
 {
     graph_.DisconnectMixerInputs();
+    delete tracks_.back();
     tracks_.pop_back();
     graph_.ConnectMixerInputs();
+    graph_.UpdateGraph();
 }

@@ -13,7 +13,6 @@
 		14E5A64D0EA9388700430DF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68A0282348701CA27A0 /* AudioToolbox.framework */; };
 		14E5A64E0EA9388700430DF8 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68B0282348701CA27A0 /* AudioUnit.framework */; };
 		14E5A64F0EA9388700430DF8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */; };
-		14E5A6500EA9388700430DF8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A94727BA0415DB9B00000102 /* CoreAudio.framework */; };
 		F4005EEE0F6EADA000CA47AE /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D74C5F0243EFAA01370FF7 /* CoreFoundation.framework */; };
 		F4009BC210E6F0D100A73744 /* AUDebugDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BBA10E6F0D100A73744 /* AUDebugDispatcher.cpp */; };
 		F4009BE710E7062C00A73744 /* CACFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BE510E7062C00A73744 /* CACFDictionary.cpp */; };
@@ -55,7 +54,6 @@
 		F4009C2610E7070800A73744 /* CACFDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BE610E7062C00A73744 /* CACFDictionary.h */; };
 		F414460711501CD6001A1223 /* FileSystemUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F414460511501CD6001A1223 /* FileSystemUtils.cpp */; };
 		F414460811501CD6001A1223 /* FileSystemUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F414460611501CD6001A1223 /* FileSystemUtils.h */; };
-		F41BD42B10E7DE910060FF11 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41BD42A10E7DE910060FF11 /* CoreAudioKit.framework */; };
 		F48F265B114F052000CB4686 /* AHAudioUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F48F2651114F052000CB4686 /* AHAudioUnit.cpp */; };
 		F48F265C114F052000CB4686 /* AHAudioUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2652114F052000CB4686 /* AHAudioUnit.h */; };
 		F48F265D114F052000CB4686 /* AHHost.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F48F2653114F052000CB4686 /* AHHost.cpp */; };
@@ -79,7 +77,6 @@
 		F4F56D9E0F70655C002A265C /* simonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */; };
 		F4F56DA30F70659F002A265C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68A0282348701CA27A0 /* AudioToolbox.framework */; };
 		F4F56F4D0F707D6F002A265C /* libMidi2Audio.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */; };
-		F4F570AA0F7184CC002A265C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A94727BA0415DB9B00000102 /* CoreAudio.framework */; };
 		F4F570B40F718558002A265C /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68B0282348701CA27A0 /* AudioUnit.framework */; };
 /* End PBXBuildFile section */
 
@@ -108,7 +105,6 @@
 
 /* Begin PBXFileReference section */
 		14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMidi2Audio.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		A94727BA0415DB9B00000102 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<absolute>"; };
 		F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simonTest.cpp; sourceTree = "<group>"; };
 		F4005EE80F6EAD8A00CA47AE /* simonTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = simonTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,7 +144,6 @@
 		F4009C0810E706C600A73744 /* AUOutputBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUOutputBL.h; path = Extras/CoreAudio/PublicUtility/AUOutputBL.h; sourceTree = DEVELOPER_DIR; };
 		F414460511501CD6001A1223 /* FileSystemUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemUtils.cpp; sourceTree = "<group>"; };
 		F414460611501CD6001A1223 /* FileSystemUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemUtils.h; sourceTree = "<group>"; };
-		F41BD42A10E7DE910060FF11 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = /System/Library/Frameworks/CoreAudioKit.framework; sourceTree = "<absolute>"; };
 		F48F2651114F052000CB4686 /* AHAudioUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AHAudioUnit.cpp; sourceTree = "<group>"; };
 		F48F2652114F052000CB4686 /* AHAudioUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHAudioUnit.h; sourceTree = "<group>"; };
 		F48F2653114F052000CB4686 /* AHHost.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AHHost.cpp; sourceTree = "<group>"; };
@@ -183,7 +178,6 @@
 				14E5A64D0EA9388700430DF8 /* AudioToolbox.framework in Frameworks */,
 				14E5A64E0EA9388700430DF8 /* AudioUnit.framework in Frameworks */,
 				14E5A64F0EA9388700430DF8 /* CoreMIDI.framework in Frameworks */,
-				14E5A6500EA9388700430DF8 /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,11 +188,9 @@
 				F4005EEE0F6EADA000CA47AE /* CoreFoundation.framework in Frameworks */,
 				F4F56DA30F70659F002A265C /* AudioToolbox.framework in Frameworks */,
 				F4F56F4D0F707D6F002A265C /* libMidi2Audio.dylib in Frameworks */,
-				F4F570AA0F7184CC002A265C /* CoreAudio.framework in Frameworks */,
 				F4F570B40F718558002A265C /* AudioUnit.framework in Frameworks */,
 				F49A569C0FCD962F001D0F80 /* CoreMIDI.framework in Frameworks */,
 				F49A57020FCDAAED001D0F80 /* CoreServices.framework in Frameworks */,
-				F41BD42B10E7DE910060FF11 /* CoreAudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,13 +200,11 @@
 		0249A662FF388D9811CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				F41BD42A10E7DE910060FF11 /* CoreAudioKit.framework */,
 				F530D68A0282348701CA27A0 /* AudioToolbox.framework */,
 				F530D68B0282348701CA27A0 /* AudioUnit.framework */,
 				F5D74C5F0243EFAA01370FF7 /* CoreFoundation.framework */,
 				F5D74C600243EFAA01370FF7 /* CoreServices.framework */,
 				EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */,
-				A94727BA0415DB9B00000102 /* CoreAudio.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -514,8 +504,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = Midi2Audio;
+				SDKROOT = macosx10.6;
 			};
 			name = Development;
 		};
@@ -600,6 +592,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = simonTest;
 				SDKROOT = macosx10.6;

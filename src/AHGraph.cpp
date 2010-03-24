@@ -10,6 +10,7 @@
 #include "AHGraph.h"
 
 #include <AudioToolbox/AudioToolbox.h>
+#include <iostream>
 
 using namespace std;
 namespace
@@ -38,7 +39,8 @@ AHGraph::~AHGraph()
 {
     
     PrintIfErr( AUGraphStop(augraph_) );
-	PrintIfErr( AUGraphUninitialize(augraph_) );		
+	PrintIfErr( AUGraphUninitialize(augraph_) );
+    //CAShow(augraph_);
 	PrintIfErr( AUGraphClose(augraph_) );
 
     RemoveAHAudioUnitFromGraph(mixer_);
@@ -79,7 +81,7 @@ void AHGraph::DisconnectMixerInputs() const
 {    
     for ( int i = 0; i < int(tracks_->size()); i++ )
     {
-        PrintIfErr( AUGraphDisconnectNodeInput( augraph_, mixer_->GetAUNode(), i ) );
+        DisconnectMixerInputs(i);
     }
 }
 
@@ -102,7 +104,7 @@ void AHGraph::ConnectMixerInputs() const
         PrintIfErr( AudioUnitSetParameter( mixerAU, kMultiChannelMixerParam_Volume, kAudioUnitScope_Input, i, DEFAULT_MIXER_INPUT_VOLUME, 0 ) );
 	}
 
-    PrintIfErr( AUGraphUpdate(augraph_, NULL));
+    //PrintIfErr( AUGraphUpdate(augraph_, NULL));
 }
 
 void AHGraph::ConnectMixerInputs(int indexTrack) const
@@ -113,7 +115,7 @@ void AHGraph::ConnectMixerInputs(int indexTrack) const
     PrintIfErr( AUGraphConnectNodeInput( augraph_, GetLastNode(indexTrack), 0, mixerAUNode, indexTrack ) );
     
     //CAShow(augraph_);
-    PrintIfErr( AUGraphUpdate(augraph_, NULL));
+    //PrintIfErr( AUGraphUpdate(augraph_, NULL));
 }
 
 AUNode AHGraph::GetLastNode(int track_index) const
@@ -148,6 +150,14 @@ AHAudioUnit* AHGraph::AddAHAudioUnitToGraph(CAComponentDescription desc) const
 
 void AHGraph::RemoveAHAudioUnitFromGraph(AHAudioUnit* au) const
 {
+    //CAShow(augraph_);
+    //CAShowComponentDescription(&au->Comp().Desc());
+    //cout << au->GetAUNode();
     PrintIfErr( AUGraphRemoveNode(augraph_, au->GetAUNode()) );
     delete au;
+}
+
+void AHGraph::UpdateGraph() const
+{
+    PrintIfErr( AUGraphUpdate(augraph_, NULL));
 }
