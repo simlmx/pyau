@@ -19,13 +19,13 @@ def kontakt3_aupreset_dir():
     ''' Returns the directory where to find kontakt3 aupresets.
         TODO : Do something more clean : we have to edit this sometimes...
     '''
-    return '/Library/kontakt3_db/aupresets_usable'
+    return '/Library/kontakt3_db/aupresets_usable_shortnames'
     
 class kontakt3_param_randomizer(param_randomizer):
     
     def __init__(self, au, host, volume=.5):
         super(kontakt3_param_randomizer, self).__init__(au, host, volume)
-        self.aupresets = filter(lambda f : f.endswith('.aupreset'), os.listdir(kontakt3_aupreset_dir()))
+        self.aupresets = [os.path.join(kontakt3_aupreset_dir(), f) for f in os.listdir(kontakt3_aupreset_dir()) if f.endswith('.aupreset')]
         self.current_aupreset = None
     
     def _used_parameters(self):
@@ -38,7 +38,10 @@ class kontakt3_param_randomizer(param_randomizer):
     def randomize_parameters(self):
         ''' Takes a random .aupreset '''
         self.current_aupreset = N.random.randint(len(self.aupresets))
+        print self.aupresets[self.current_aupreset]
         self.au.load_aupreset(self.aupresets[self.current_aupreset])
+        vol = check_volume(self.host, verbose=False)
+        print vol
         
     def get_parameters(self):
         ''' One hot for the .aupresets. '''

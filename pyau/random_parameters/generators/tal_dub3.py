@@ -42,8 +42,7 @@ class tal_dub3_param_randomizer(param_randomizer):
         normalize_volume(self.host, param_vol, target_peak=self.volume, verbose=False)
         vol = param_vol.value
         RF.randomize_parameter(self.params_dict['wet'], self.au, RF.uniform_custom(vol/3., vol))
-
-        if not ( vol <= param_vol.range[1] and vol >= param_vol.range[0] ):
+        if not ( vol < param_vol.range[1] and vol > param_vol.range[0] ):
             # let's start over
             print 'starting over TAL DUB 3'
             self.randomize_parameters()

@@ -98,10 +98,13 @@ def normalize_volume(host, volume_parameter, target_peak=.4, window_length=2001,
     k = c - b*b/a/4.
     y = target_peak
     
-    root = N.sqrt( (y-k)/a )
-    s = root + h
-    if s < 0 or s > 1:
-        s = -root+h
+    if (y-k)/a >= 0:
+        root = N.sqrt( (y-k)/a )
+        s = root + h
+        if s < 0 or s > 1:
+            s = -root+h
+    else:
+        s = volume_parameter.range[0]
     
     # verifying if everything is OK
     if verbose:

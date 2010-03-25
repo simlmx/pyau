@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 ''' 
     Simon Lemieux
     27 dec 2009
