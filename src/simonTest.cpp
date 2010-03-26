@@ -56,18 +56,20 @@ int main( int argc, const char* argv[] )
         cout << endl;
     }*/
 
-string midifile = "/Users/simon/tmp/midis/69.mid";
+//string midifile = "/Users/simon/tmp/midis/69.mid";
+    
 
 list<string> paths;
 FileSystemUtils::GetFilePaths("/Library/kontakt3_db/aupresets_usable_shortnames", ".aupreset", paths);
 
 AHHost host;
 AHTrack* track1 = host.AddTrack("kontakt 3"); 
-host.LoadMidiFile(midifile);    
+//host.LoadMidiFile(midifile);    
+host.LoadMidiFile("patate.mid"); 
 for (list<string>::iterator it=paths.begin(); it!=paths.end(); it++)
 {
 
-    cout << *it << endl;
+    cout << endl << *it;
 
 
         //AHTrack* track1 = host.AddTrack("automat1"); 
@@ -78,7 +80,7 @@ for (list<string>::iterator it=paths.begin(); it!=paths.end(); it++)
         //    sleep(4);
         //    track1->SetSynth("kontakt 3");
         //print_host(host);
-//    break;
+    //break;
 }
     
 

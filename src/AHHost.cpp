@@ -56,6 +56,7 @@ AHHost::~AHHost()
 	PrintIfErr( MIDIPortDispose(inputPort_) );
 	PrintIfErr( MIDIClientDispose(client_) );
     
+    graph_.Stop();
     graph_.DisconnectMixerInputs();
     graph_.UpdateGraph();
     

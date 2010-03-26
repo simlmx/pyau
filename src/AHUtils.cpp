@@ -100,7 +100,7 @@ void PrintIfErr(OSStatus err)
 {
     if (err)
     {
-        cerr << "There has been an error in the AU Host : " << err << endl;
+        cerr << "\nThere has been an error in the AU Host : " << err;
         //throw;
     }
 }

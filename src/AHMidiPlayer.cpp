@@ -45,7 +45,8 @@ void AHMidiPlayer::Reset()
 
 void AHMidiPlayer::Start()
 {
-    PrintIfErr( MusicPlayerStart( musicPlayer_ ) );
+    if( MusicPlayerStart( musicPlayer_ ) )
+        printf("\nUnable to Play/Bounce. Have you set a midi file?");
 }
 
 void AHMidiPlayer::Stop()
@@ -55,26 +56,40 @@ void AHMidiPlayer::Stop()
 
 void AHMidiPlayer::LoadMidiFile( const string& midiFilePath )
 {
-    // I think we need to delete the old tracks before
+    // new music stuff
+    MusicPlayer temp_musicPlayer;
+    MusicSequence temp_musicSequence;
+    PrintIfErr( NewMusicPlayer(&temp_musicPlayer));
+	PrintIfErr( NewMusicSequence(&temp_musicSequence) );
+    PrintIfErr( MusicPlayerSetSequence(temp_musicPlayer, temp_musicSequence) );
+
+    CFURLRef url = CFURLCreateFromFileSystemRepresentation( kCFAllocatorDefault, (const UInt8*) midiFilePath.c_str(), midiFilePath.size(), false );
+    if ( MusicSequenceFileLoad( temp_musicSequence, url, 0, kMusicSequenceLoadSMF_ChannelsToTracks ) )
+    {
+        printf("\nUnable to load midi file.");
+        
+        PrintIfErr( DisposeMusicPlayer(temp_musicPlayer) );
+        PrintIfErr( DisposeMusicSequence(temp_musicSequence) );
+        
+        return;
+    }
+    
+    // Disposing old music stuff
     MusicTrack track;
     UInt32 ntracks = GetTrackCount();
-    //CAShow(musicSequence_);
     for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
     {
         PrintIfErr( MusicSequenceGetIndTrack( musicSequence_, 0, &track ) );// 0 because we always delete the first one
         PrintIfErr( MusicSequenceDisposeTrack(musicSequence_, track) );
     }
-    
     PrintIfErr( DisposeMusicPlayer(musicPlayer_) );
     PrintIfErr( DisposeMusicSequence(musicSequence_) );
     
-    PrintIfErr( NewMusicPlayer(&musicPlayer_));
-	PrintIfErr( NewMusicSequence(&musicSequence_) );
-    PrintIfErr( MusicPlayerSetSequence(musicPlayer_, musicSequence_) );
-    PrintIfErr( MusicSequenceSetAUGraph(musicSequence_, graph_->GetAUGraph()) );
+    musicPlayer_ = temp_musicPlayer;
+    musicSequence_ = temp_musicSequence;
     
-    CFURLRef url = CFURLCreateFromFileSystemRepresentation( kCFAllocatorDefault, (const UInt8*) midiFilePath.c_str(), midiFilePath.size(), false );
-    PrintIfErr( MusicSequenceFileLoad( musicSequence_, url, 0, kMusicSequenceLoadSMF_ChannelsToTracks ) );
+    PrintIfErr( MusicSequenceSetAUGraph(musicSequence_, graph_->GetAUGraph()) );
+               
 
     // // figure out sequence length, and add 8 beats to the end of the file to take decay etc. into account
     MusicTimeStamp trackLength;

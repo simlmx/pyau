@@ -32,10 +32,7 @@ class Host(object):
                             
     def play(self):
         """ Plays the midi file using the AUChainGraph. """
-        if self.midifile is None:
-            print "\nYou can't play without having set a midi file first"
-        else:
-            self._ah_host.Play()
+        self._ah_host.Play()
 
     def stop(self):
         """ Stops the playing started with 'play'. """
@@ -47,13 +44,10 @@ class Host(object):
             if 'wavfile_path' is specified, renders to that file
             if not (None) returns the audio in a numpy array
         """
-        if self.midifile is None:
-            print '\nYou have to set a midi file first'
+        if wavfile_path is not None:
+            self._ah_host.BounceToFile(wavfile_path)
         else:
-            if wavfile_path is not None:
-                self._ah_host.BounceToFile(wavfile_path)
-            else:
-                return self._ah_host.Bounce()
+            return self._ah_host.Bounce()
          
     def _get_tracks(self):
         """ Gets the tracks. """
