@@ -24,6 +24,9 @@ class tal_dub3_param_randomizer(param_randomizer):
         self.params_dict['resonance'].value = 0.
         
     def randomize_parameters(self):
+        '''
+        Returns the nb of times it was re-called.
+        '''
         self.reset_parameters()        
         
         RF.randomize_parameter(self.params_dict['inputdrive'], self.au, RF.uniform_custom(.45, 1.))
@@ -44,8 +47,9 @@ class tal_dub3_param_randomizer(param_randomizer):
         RF.randomize_parameter(self.params_dict['wet'], self.au, RF.uniform_custom(vol/3., vol))
         if not ( vol < param_vol.range[1] and vol > param_vol.range[0] ):
             # let's start over
-            print 'starting over TAL DUB 3'
-            self.randomize_parameters()
+            #print 'starting over TAL DUB 3'
+            return self.randomize_parameters() + 1
+        return 0
             
     def _used_parameters(self):
         return 'inputdrive delaytime feedback highcut cutoff dry wet'.split()

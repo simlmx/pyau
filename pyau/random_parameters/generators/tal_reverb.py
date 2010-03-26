@@ -24,6 +24,9 @@ class tal_reverb_param_randomizer(param_randomizer):
         return ['Pre Delay', 'Room Size', 'Damp', 'High Cut', 'Low Cut', 'Dry', 'Wet']
     
     def randomize_parameters(self):
+        '''
+        Returns the nb of times it was re-called.
+        '''
         self.reset_parameters()
         RF.randomize_parameter(self.params_dict['Pre Delay'], self.au, RF.uniform_custom(0., .35))
         RF.randomize_parameter(self.params_dict['Room Size'], self.au, RF.uniform)
@@ -44,11 +47,13 @@ class tal_reverb_param_randomizer(param_randomizer):
          #   print self.params_dict[x]
         
         param_vol = self.params_dict['Dry']
-        normalize_volume(self.host, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)        
+        normalize_volume(self.host, param_vol, target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
+                
         vol = param_vol.value
         if not (vol < 1. and vol > 0.):
-            print "volume was going to be %f" % vol
-            self.randomize_parameters()
+            #print "volume was going to be %f" % vol
+            return self.randomize_parameters() + 1
         else:
             RF.randomize_parameter(self.params_dict['Wet'], self.au, RF.uniform_custom(vol*3./4., vol))
+            return 0
 

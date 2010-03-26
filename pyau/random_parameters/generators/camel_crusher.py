@@ -36,7 +36,8 @@ class camel_crusher_param_randomizer(param_randomizer):
         return used
     
     def randomize_parameters(self):
-        
+        ''' Returns the nb of times it was re-called.
+        '''
         # dist
         # 0. 2/3 of the time, uniform between 0. 1. for the rest of the time
         RF.randomize_parameter(self.params_dict['DistTube'], self.au, RF.uniform_custom(-2., 1.))
@@ -71,7 +72,8 @@ class camel_crusher_param_randomizer(param_randomizer):
         if not (vol < 1. and vol > 0.):
             #print "let's do it again"
             #raw_input('press enter to do it again')
-            self.randomize_parameters()
+            return self.randomize_parameters() + 1
+        return 0
 
         
         

@@ -23,6 +23,9 @@ class tal_use_param_randomizer(param_randomizer):
         self.params_dict['Shelf frquency'].value = .5
         
     def randomize_parameters(self):
+        '''
+        Returns the nb of times it was called.
+        '''
         self.reset_parameters()        
 
         # we do so Shelf is in [0, .4]u[.6, 1.], so there is at least some effect
@@ -41,7 +44,9 @@ class tal_use_param_randomizer(param_randomizer):
         if not (vol < 1. and vol > 0.):
             # let's start over
             #print 'starting over TAL USE'
-            self.randomize_parameters()
+            return self.randomize_parameters()+1
+        return 0
+            
 
             
     def _used_parameters(self):

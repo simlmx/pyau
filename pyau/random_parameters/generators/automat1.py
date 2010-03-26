@@ -56,6 +56,9 @@ class automat1_param_randomizer(param_randomizer):
         '''
         Generate random parameters in a clever way for audiounit 'au' (which must be automat1 by alphakanal)
         au must be in the graph of host.
+        
+        Returns the nb of times it was re-called.
+
         '''
         verbose = False
         
@@ -154,10 +157,12 @@ class automat1_param_randomizer(param_randomizer):
         
         if not (vol.value < vol.range[1] and vol.value > vol.range[0]):
             # let's start over
-            #raw_input('doing again random')
-            print "It did't work with these settings, volume would have to be %f" % vol.value
-            self.randomize_parameters()            
+            vol.value = 1.
+            #raw_input('doing again random')            
+            #print "It did't work with these settings, volume would have to be %f" % vol.value
+            return self.randomize_parameters() + 1
             #if verbose:
+        return 0
             
                        
 #        for p in self._used_parameters():

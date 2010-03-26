@@ -37,14 +37,17 @@ class kontakt3_param_randomizer(param_randomizer):
         #super(automat1_param_randomizer, self).reset_parameters()
                 
     def randomize_parameters(self):
-        ''' Takes a random .aupreset '''
+        ''' Takes a random .aupreset 
+            Returns the nb of times it was re-called.
+        '''
         self.current_aupreset = N.random.randint(len(self.aupresets))
         #print self.aupresets[self.current_aupreset]
         self.au.load_aupreset(self.aupresets[self.current_aupreset])
         vol = check_volume(self.host, verbose=False)
         if vol <= 0.:
             print "kontakt aupreset %s doesn't like midi file %s" % ( self.aupresets[self.current_aupreset], self.host.midifile )
-            self.randomize_parameters()
+            return self.randomize_parameters() + 1
+        return 0
         
     def get_parameters(self):
         ''' One hot for the .aupresets. '''
