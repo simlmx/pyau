@@ -29,9 +29,9 @@ class camel_crusher_param_randomizer(param_randomizer):
             used.append('Dist%s' % s)
         for s in 'On Cutoff Res'.split():
             used.append('MmFilter%s' % s)
-        for s in 'Amount Mode':
+        for s in 'Amount Mode'.split():
             used.append('Compress%s' % s)
-        for s in 'Mix Volume':
+        for s in 'Mix Volume'.split():
             used.append('Master%s' % s)
         return used
     

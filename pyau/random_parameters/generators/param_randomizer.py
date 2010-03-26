@@ -7,7 +7,7 @@
 
 import pygmy.audiounit.random_parameters.randfunc as RF
 from pygmy.audiounit.random_parameters.volume import normalize_volume
-from numpy import array, hstack
+from numpy import array, hstack, argmax, zeros
 
 class param_randomizer(object):
     ''' Utilities for generating random parameters for audio units.
@@ -47,8 +47,8 @@ class param_randomizer(object):
         
     def _used_parameters(self):
         ''' The names of the params that are used.
-            Must be overrided in most cases, if not will use all parameters.
-            Has to be overriden when randomize_parameters is overriden, most of the time.
+            Must be overrided in most cases ; if not, it will use all parameters.
+            Has to be overriden when randomize_parameters is overriden, almost all of the time.
         '''
         return self.params_dict.keys()
     
@@ -56,24 +56,37 @@ class param_randomizer(object):
         ''' Returns the used parameters in the form of a numpy array.
             Typically for 'learning' purposes.
         '''
-        x = array([0. if au.bypass else 1.])
+        x = array([0. if self.au.bypass else 1.])
         
         for name in self._used_parameters():
-            num_indexed_params = self.params_dict[name].num_indexed_params
-            if self.params_dict[name].num_indexed_params == 0:
-                x = hstack((x, array([self.params_dict[name].value])))
-                
+            param = self.params_dict[name]
+            num_indexed_params = param.num_indexed_params
+            if param.num_indexed_params == 0:
+                x = hstack((x, array([param.value])))
             else:
                 temp = zeros(num_indexed_params)
-                temp[int(self.params_dict[name].value + .5)] = 1.
+                temp[int(param.value + .5)] = 1. # TODO : checker si ca cest OK
                 x = hstack((x, temp))
                 
         return x
         
-    def set_parameters(self, x):
+    def set_parameters(self, data):
         ''' Opposite of get_parameters.
             Might need to be overriden in some cases
         '''
-        print 'Error : "param_randomizer.set_parameters" not implemented yet'
+        self.au.bypass = True if data[0] == 0 else False
+        data = data[1:]
+        
+        for p_name in self._used_parameters():
+            p = self.params_dict[p_name]
+            if p.num_indexed_params == 0:
+                p.value = data[0]
+                data = data[1:]
+            else:
+                n = p.num_indexed_params       
+                p.value = float(argmax(data[:n]))
+                data = data[n:]
+        print 'data should be empty : ', data
+            
         # TODO : be careful with the continuous params in [0., 1.] that are really discrete values, with e.g. 0. means A and >0. means B
         # we should use them as <.5 means A and >=.5 means B
