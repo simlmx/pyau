@@ -13,8 +13,8 @@ import numpy.random as NR
 
 class tal_reverb_param_randomizer(param_randomizer):
     
-    def __init__(self, au, host, volume=.5):
-        super(tal_reverb_param_randomizer, self).__init__(au, host, volume)
+    def __init__(self, au, host, volume=.5, prob_on=1.):
+        super(tal_reverb_param_randomizer, self).__init__(au, host, volume, prob_on)
         self.volume = volume
     
     def reset_parameters(self):
@@ -30,6 +30,11 @@ class tal_reverb_param_randomizer(param_randomizer):
         
         nb_trials : nb of time it will try before it stops and returns -1
         """
+        self.au.bypass = False if NR.uniform() < self.prob_on else True
+        if self.au.bypass == True:
+            self.reset_parameters()        
+            return 0
+            
         for no_trial in range(nb_trials):
             self.reset_parameters()
             RF.randomize_parameter(self.params_dict['Pre Delay'], self.au, RF.uniform_custom(0., .35))

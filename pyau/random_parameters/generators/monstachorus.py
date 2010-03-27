@@ -12,11 +12,16 @@ import numpy.random as NR
 
 class monstachorus_param_randomizer(param_randomizer):
     
-    def __init__(self, au, host, volume=None):
-        super(monstachorus_param_randomizer, self).__init__(au, host, None)
+    def __init__(self, au, host, volume=None, prob_on=1.):
+        super(monstachorus_param_randomizer, self).__init__(au, host, None, prob_on)
         
     def randomize_parameters(self):
         self.reset_parameters()
+        
+        self.au.bypass = False if NR.uniform() < self.prob_on else True
+        if self.au.bypass == True:
+            return 0
+            
         p = self.params
         p[0].value = 1.
         p[1].value = 1.

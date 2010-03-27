@@ -29,7 +29,7 @@ def plot_sound(host):
     
 class automat1_param_randomizer(param_randomizer):
     
-    def __init__(self, au, host, volume=.5):
+    def __init__(self, au, host, volume=.4):
         super(automat1_param_randomizer, self).__init__(au, host, volume)
     
     def _used_parameters(self):

@@ -6,7 +6,7 @@
 #
 #
 
-from numpy.random import randint
+from numpy.random import randint, uniform
 import pygmy.audiounit.random_parameters.randfunc as RF
 from param_randomizer import param_randomizer
 
@@ -14,8 +14,8 @@ from pygmy.audiounit.random_parameters.volume import normalize_volume
 
 class tal_use_param_randomizer(param_randomizer):
     
-    def __init__(self, au, host, volume=.5):
-        super(tal_use_param_randomizer, self).__init__(au, host, volume)
+    def __init__(self, au, host, volume=.5, prob_on=1.):
+        super(tal_use_param_randomizer, self).__init__(au, host, volume, prob_on)
     
     def reset_parameters(self):
         super(tal_use_param_randomizer, self).reset_parameters()
@@ -29,6 +29,10 @@ class tal_use_param_randomizer(param_randomizer):
         
         nb_trials : nb of time it will try before it stops and returns -1
         """
+        self.au.bypass = False if uniform() < self.prob_on else True
+        if self.au.bypass == True:
+            self.reset_parameters()        
+            return 0
         for no_trial in range(nb_trials):
             self.reset_parameters()        
 

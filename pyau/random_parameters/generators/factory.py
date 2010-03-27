@@ -17,8 +17,8 @@ from tal_dub3 import tal_dub3_param_randomizer
 from tal_reverb import tal_reverb_param_randomizer
 from kontakt3 import kontakt3_param_randomizer
 
-def get_randomizer(au, host, volume):
-    ''' Returns the good derived (from param_randomizer) class for an audiounit.
+def get_randomizer(au, host, volume, prob_on=1.):
+    ''' Returns the good derived (from param_randomizer) class for a given audiounit.
     '''
 
     name = au.name
@@ -26,18 +26,18 @@ def get_randomizer(au, host, volume):
     if name == 'Automat1':
         return automat1_param_randomizer(au, host, volume)
     elif name == 'MonstaChorus':
-        return monstachorus_param_randomizer(au, host, volume)
+        return monstachorus_param_randomizer(au, host, volume, prob_on)
     elif name == 'Tal-USE-AU-Effect':
-        return tal_use_param_randomizer(au, host, volume)
+        return tal_use_param_randomizer(au, host, volume, prob_on)
     elif name == 'CamelCrusher':
-        return camel_crusher_param_randomizer(au, host, volume)
+        return camel_crusher_param_randomizer(au, host, volume, prob_on)
     elif name == 'TAL Dub III Plugin':
-        return tal_dub3_param_randomizer(au, host, volume)
+        return tal_dub3_param_randomizer(au, host, volume, prob_on)
     elif name == 'TAL Reverb Plugin':
-        return tal_reverb_param_randomizer(au, host, volume)
+        return tal_reverb_param_randomizer(au, host, volume, prob_on)
     elif name == 'Kontakt 3':
         return kontakt3_param_randomizer(au, host, volume)
     # this is where to add a new audiounit
     else:
         print 'Warning : using default param_randomizer for audiounit "%s"' % au.name
-        return param_randomizer(au, host, volume)
+        return param_randomizer(au, host, volume, prob_on)
