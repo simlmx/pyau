@@ -26,3 +26,5 @@ class monstachorus_param_randomizer(param_randomizer):
                 RF.randomize_parameter(p[i], self.au, RF.uniform_custom(.2, 1.))
         # greater than .2 again to ensure some chorus 
         RF.randomize_parameter(p[2], self.au, RF.uniform_custom(.2, 1.))
+        
+        return 0

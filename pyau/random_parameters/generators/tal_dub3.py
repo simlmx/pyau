@@ -23,33 +23,35 @@ class tal_dub3_param_randomizer(param_randomizer):
         self.params_dict['delaytwice_r'].value = 0.
         self.params_dict['resonance'].value = 0.
         
-    def randomize_parameters(self):
-        '''
-        Returns the nb of times it was re-called.
-        '''
-        self.reset_parameters()        
+    def randomize_parameters(self, nb_trials=10):
+        """
+        Returns the number of trials if it succeded, -1 if not.
+        But -1 should very unusual.
         
-        RF.randomize_parameter(self.params_dict['inputdrive'], self.au, RF.uniform_custom(.45, 1.))
-        RF.randomize_parameter(self.params_dict['delaytime'], self.au, RF.uniform_custom(0.017, .04))
-        RF.randomize_parameter(self.params_dict['feedback'], self.au, RF.uniform_custom(0., .3))
-        
-        f = lambda x : -.15*x**2 + .42*x + .18
-        hp = self.params_dict['highcut']
-        cp = self.params_dict['cutoff']
-        hp.value = 0.; cp.value = 0.
-        while cp.value < f(hp.value):
-            RF.randomize_parameter(hp, self.au, RF.uniform)
-            RF.randomize_parameter(cp, self.au, RF.uniform)
+        nb_trials : nb of time it will try before it stops and returns -1
+        """
+        for no_trial in range(nb_trials):
+            self.reset_parameters()        
             
-        param_vol = self.params_dict['dry']
-        normalize_volume(self.host, param_vol, target_peak=self.volume, verbose=False)
-        vol = param_vol.value
-        RF.randomize_parameter(self.params_dict['wet'], self.au, RF.uniform_custom(vol/3., vol))
-        if not ( vol < param_vol.range[1] and vol > param_vol.range[0] ):
-            # let's start over
-            #print 'starting over TAL DUB 3'
-            return self.randomize_parameters() + 1
-        return 0
+            RF.randomize_parameter(self.params_dict['inputdrive'], self.au, RF.uniform_custom(.45, 1.))
+            RF.randomize_parameter(self.params_dict['delaytime'], self.au, RF.uniform_custom(0.017, .04))
+            RF.randomize_parameter(self.params_dict['feedback'], self.au, RF.uniform_custom(0., .3))
+            
+            f = lambda x : -.15*x**2 + .42*x + .18
+            hp = self.params_dict['highcut']
+            cp = self.params_dict['cutoff']
+            hp.value = 0.; cp.value = 0.
+            while cp.value < f(hp.value):
+                RF.randomize_parameter(hp, self.au, RF.uniform)
+                RF.randomize_parameter(cp, self.au, RF.uniform)
+                
+            param_vol = self.params_dict['dry']
+            normalize_volume(self.host, param_vol, target_peak=self.volume, verbose=False)
+            vol = param_vol.value
+            RF.randomize_parameter(self.params_dict['wet'], self.au, RF.uniform_custom(vol/3., vol))
+            if vol < param_vol.range[1] and vol > param_vol.range[0]:
+                return no_trial
+        return -1
             
     def _used_parameters(self):
         return 'inputdrive delaytime feedback highcut cutoff dry wet'.split()

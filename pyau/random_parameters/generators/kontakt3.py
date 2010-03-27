@@ -36,18 +36,23 @@ class kontakt3_param_randomizer(param_randomizer):
         print 'Error : reset_parameters() has no sense for Kontakt3'
         #super(automat1_param_randomizer, self).reset_parameters()
                 
-    def randomize_parameters(self):
-        ''' Takes a random .aupreset 
-            Returns the nb of times it was re-called.
-        '''
-        self.current_aupreset = N.random.randint(len(self.aupresets))
-        #print self.aupresets[self.current_aupreset]
-        self.au.load_aupreset(self.aupresets[self.current_aupreset])
-        vol = check_volume(self.host, verbose=False)
-        if vol <= 0.:
-            print "kontakt aupreset %s doesn't like midi file %s" % ( self.aupresets[self.current_aupreset], self.host.midifile )
-            return self.randomize_parameters() + 1
-        return 0
+    def randomize_parameters(self, nb_trials=10):
+        """ Takes a random .aupreset 
+            Returns True if it succeded, False if not.
+            But false should very unusual.
+            
+            nb_trials : nb of time it will try before it stops and returns False
+        """
+        for no_trial in range(nb_trials):
+            self.current_aupreset = N.random.randint(len(self.aupresets))
+            #print self.aupresets[self.current_aupreset]
+            self.au.load_aupreset(self.aupresets[self.current_aupreset])
+            vol = check_volume(self.host, verbose=False)
+            if vol <= 0.:
+                print "kontakt aupreset %s doesn't like midi file %s" % ( self.aupresets[self.current_aupreset], self.host.midifile )
+            else:
+                return no_trial
+        return -1
         
     def get_parameters(self):
         ''' One hot for the .aupresets. '''

@@ -35,45 +35,49 @@ class camel_crusher_param_randomizer(param_randomizer):
             used.append('Master%s' % s)
         return used
     
-    def randomize_parameters(self):
-        ''' Returns the nb of times it was re-called.
-        '''
-        # dist
-        # 0. 2/3 of the time, uniform between 0. 1. for the rest of the time
-        RF.randomize_parameter(self.params_dict['DistTube'], self.au, RF.uniform_custom(-2., 1.))
-        self.params_dict['DistMech'].value = max(self.params_dict['DistMech'].value, 0.)
-        RF.randomize_parameter(self.params_dict['DistTube'], self.au, RF.uniform_custom(-2., 1.))
-        self.params_dict['DistTube'].value = max(self.params_dict['DistTube'].value, 0.)
+    def randomize_parameters(self, nb_trials=10):
+        """
+        Returns the number of trials if it succeded, -1 if not.
+        But -1 should very unusual.
         
-        # cut off
-        RF.randomize_parameter(self.params_dict['MmFilterOn'], self.au, RF.weighted_list([0., 1.], [.33, .67]))
-        if self.params_dict['MmFilterOn'].value == 1.:
-            RF.randomize_parameter(self.params_dict['MmFilterCutoff'], self.au, RF.uniform)
-            RF.randomize_parameter(self.params_dict['MmFilterRes'], self.au, RF.uniform)
+        nb_trials : nb of time it will try before it stops and returns -1
+        """
+        for no_trial in range(nb_trials):        
+            self.reset_parameters()
+            # dist
+            # 0. 2/3 of the time, uniform between 0. 1. for the rest of the time
+            RF.randomize_parameter(self.params_dict['DistTube'], self.au, RF.uniform_custom(-2., 1.))
+            self.params_dict['DistMech'].value = max(self.params_dict['DistMech'].value, 0.)
+            RF.randomize_parameter(self.params_dict['DistTube'], self.au, RF.uniform_custom(-2., 1.))
+            self.params_dict['DistTube'].value = max(self.params_dict['DistTube'].value, 0.)
             
-        # Compress
-        # off half the time
-        temp = RF.weighted_list([False, True], [.33, .67])(None, None)
-        if temp:
-            RF.randomize_parameter(self.params_dict['CompressAmount'], self.au, RF.uniform)
-        RF.randomize_parameter(self.params_dict['CompressMode'], self.au, RF.weighted_list([0., 1.], [.5, .5]))
-        
-        # Master
-        RF.randomize_parameter(self.params_dict['MasterMix'], self.au, RF.uniform)
-        normalize_volume(self.host, self.params_dict['MasterVolume'], target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
-        
-        #for p in self.params:
-        #    if not p.name.startswith('Unused'):
-        #        print p
+            # cut off
+            RF.randomize_parameter(self.params_dict['MmFilterOn'], self.au, RF.weighted_list([0., 1.], [.33, .67]))
+            if self.params_dict['MmFilterOn'].value == 1.:
+                RF.randomize_parameter(self.params_dict['MmFilterCutoff'], self.au, RF.uniform)
+                RF.randomize_parameter(self.params_dict['MmFilterRes'], self.au, RF.uniform)
                 
+            # Compress
+            # off half the time
+            temp = RF.weighted_list([False, True], [.33, .67])(None, None)
+            if temp:
+                RF.randomize_parameter(self.params_dict['CompressAmount'], self.au, RF.uniform)
+            RF.randomize_parameter(self.params_dict['CompressMode'], self.au, RF.weighted_list([0., 1.], [.5, .5]))
+            
+            # Master
+            RF.randomize_parameter(self.params_dict['MasterMix'], self.au, RF.uniform)
+            normalize_volume(self.host, self.params_dict['MasterVolume'], target_peak=self.volume, volumes = [.5, .7, .9], verbose=False)
+            
+            #for p in self.params:
+            #    if not p.name.startswith('Unused'):
+            #        print p
+                    
 
-        vol = self.params_dict['MasterVolume'].value
-        #raw_input('test')
-        if not (vol < 1. and vol > 0.):
-            #print "let's do it again"
-            #raw_input('press enter to do it again')
-            return self.randomize_parameters() + 1
-        return 0
+            vol = self.params_dict['MasterVolume'].value
+            #raw_input('test')
+            if vol < 1. and vol > 0.:
+                return no_trial
+        return -1
 
         
         

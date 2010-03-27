@@ -37,9 +37,13 @@ class param_randomizer(object):
     def randomize_parameters(self):
         ''' This method should be overrided to get some more interesting random generation of the parameters.
             Note : When overriding this one, you should also override _used_parameters.
+            
+            In general, returns the number of times it had to try again new parameters before giving something that makes sense.
+            This is for audio units where generating can give a bad sound and we need to start again.
         '''
         for p in self.params:
             RF.randomize_parameter(p, self.au, RF.uniform)
+        return 0
     
 #    def _normalize_volume(self):
 #        ''' This method should be overrided as well'''
@@ -74,6 +78,7 @@ class param_randomizer(object):
         ''' Opposite of get_parameters.
             Might need to be overriden in some cases
         '''
+        self.reset_parameters()
         self.au.bypass = True if data[0] == 0 else False
         data = data[1:]
         
