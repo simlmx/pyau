@@ -10,7 +10,7 @@ from os.path import join, isdir, islink
 from random import shuffle
 
 def random_walk(top, topdown=True, onerror=None):
-    """ Like os.walk but randomly.
+    """ Like os.walk but (semi) randomly.
         Inspired from os.walk.
     """
         

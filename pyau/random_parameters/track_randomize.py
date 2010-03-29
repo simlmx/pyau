@@ -4,6 +4,8 @@
 # Simon Lemieux 
 # march 27th 2010
 #
+ 
+from pygmy.audiounit import Host
 import os.path
 from generators.factory import get_randomizer
 import numpy as N
@@ -47,10 +49,15 @@ def randomize_track(host, randomizers=None, verbose=False):
         print
     return everything_went_fine
     
-def save_aupresets(host, aupresets_dir):
+def save_aupresets(aupresets_dir, host):
     """ Saves the aupresets of each unit of the first track of the 'host' in 'aupresets_dir'.
         The name of thes files are the_name_of_the_audio_unit.aupreset    
+        
+        Also creates a audiounits.txt file with the list of the names of the audiounits.
     """
+    
+    info_file = open(os.path.join(aupresets_dir, 'audiounit.txt'), 'w')
+    
     dir = aupresets_dir   
     aus = [host.tracks[0].synth] + host.tracks[0].effects
     for au in aus:
@@ -58,10 +65,25 @@ def save_aupresets(host, aupresets_dir):
             file_path = os.path.join(dir, au.name + '.aupreset')
             au.save_aupreset(file_path)
                 
-def load_aupresets(host, aupresets_dir):
+def load_aupresets(aupresets_dir, host=None):
     """ Loads the .aupresets in 'aupresets_dir' back into the (single) track of the 'host'.
-        The names of the .aupresets in the 'aupresets_dir' must match an audio unit of 'host'
+        The names of the .aupresets in the 'aupresets_dir' must match an audio unit of 'host'.
+        
+        If the ``host`` is None, we will create it and use what is in audiounits.txt to create the audio units.
+        In that case we will return the host. If it was supplied we won't.
     """
+    # building the track if it was not already there
+    host_was_none = False
+    if host is None:
+        host_was_none = True
+        host = Host()
+        info_file = open(os.path.join(aupresets_dir, 'audiounit.txt'))
+        names = [l.strip('\n') for l in info_file.readlines()]
+        t = host.add_track(names[0])
+        for e in names[1:]:
+            t.add_effect(e)
+            
+    # loading the .aupresets
     dir = aupresets_dir   
     aus = [host.tracks[0].synth] + host.tracks[0].effects
     for au in aus:
@@ -70,7 +92,12 @@ def load_aupresets(host, aupresets_dir):
             au.load_aupreset(file_path)
             au.bypass = False
         else:
-            au.bypass = True                
+            au.bypass = True  
+            
+    if host_was_none:
+        return host
+            
+    
         
 def generate_data(host, randomizers=None):
     """ Returns an array of data for the "synth+effects" instrument in the (single) track of 'host'
