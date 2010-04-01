@@ -38,7 +38,9 @@ def randomize_track(host, randomizers=None, verbose=False):
     everything_went_fine = True
     for au,r in zip(aus, randomizers):
         au.bypass = False
-        if not r.randomize_parameters():
+        if r.randomize_parameters() == -1: # if something went wrong
+            if verbose:
+                print '%s had some problem!' % au.name
             everything_went_fine = False
     
     if verbose:

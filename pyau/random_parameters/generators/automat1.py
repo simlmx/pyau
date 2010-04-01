@@ -166,7 +166,7 @@ class automat1_param_randomizer(param_randomizer):
             if vol.value < vol.range[1] and vol.value > vol.range[0]:
                 return trial_no
             trial_no+=1
-        #return -1
+        return -1
             
                        
 #        for p in self._used_parameters():

@@ -33,6 +33,7 @@ class tal_use_param_randomizer(param_randomizer):
         if self.au.bypass == True:
             self.reset_parameters()        
             return 0
+            
         for no_trial in range(nb_trials):
             self.reset_parameters()        
 
