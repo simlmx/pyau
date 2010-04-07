@@ -65,6 +65,7 @@ def save_aupresets(aupresets_dir, host):
     for au in aus:
         if au.bypass == False:
             file_path = os.path.join(dir, au.name + '.aupreset')
+            info_file.write('%s\n' % au.name)
             au.save_aupreset(file_path)
                 
 def load_aupresets(aupresets_dir, host=None):
