@@ -148,3 +148,38 @@ Boolean FindAudioUnitFromName(string name, string manu, CAComponentDescription &
     }
     return found ? true : false;        
 }
+
+
+void getSystemVersion(SInt32* major, SInt32* minor, SInt32* bugFix)
+{
+    OSErr err;
+    SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
+	
+	bool error = false;
+	
+    if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) error = true;
+    if (systemVersion < 0x1040)
+    {
+		*major = ((systemVersion & 0xF000) >> 12) * 10 + ((systemVersion & 0x0F00) >> 8);
+		*minor = (systemVersion & 0x00F0) >> 4;
+		*bugFix = (systemVersion & 0x000F);
+	}
+    else
+    {
+        if ((err = Gestalt(gestaltSystemVersionMajor, &versionMajor)) != noErr) error = true;
+        if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr) error = true;
+        
+		if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) error = true;
+        *major = versionMajor;
+		*minor = versionMinor;
+		*bugFix = versionBugFix;
+	}
+    
+	if (error)
+	{
+		*major = 10;
+		*minor = 0;
+		*bugFix = 0;
+	}
+    return;
+}

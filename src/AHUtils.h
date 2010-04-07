@@ -28,4 +28,6 @@ void PrintIfErr(OSStatus);
 // manu is facultative, pass "" if you don't want to use it
 Boolean FindAudioUnitFromName(std::string name, std::string manu, CAComponentDescription &desc_out);
 
+void getSystemVersion(SInt32* major, SInt32* minor, SInt32* bugFix);
+
 #endif

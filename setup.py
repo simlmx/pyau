@@ -64,7 +64,6 @@ ext = Extension('_pyau_swig',
             '-framework', 'AudioUnit',
             '-framework', 'CoreMIDI',               
             ],
-#       extra_compile_args=['-m32']
        )
 
 setup(name="pyau",
