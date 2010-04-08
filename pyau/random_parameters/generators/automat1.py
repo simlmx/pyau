@@ -5,8 +5,6 @@
 # Simon Lemieux
 #
 
-
-import pylab as P
 import numpy as N
 
 #import pygmy.audiounit as AU
@@ -19,6 +17,7 @@ from pygmy.audiounit.random_parameters.volume import normalize_volume, check_vol
 
 def plot_sound(host):
     data = host.bounce()[0]
+    import pylab as P
     P.figure(0)
     P.clf()
     P.subplot(211)

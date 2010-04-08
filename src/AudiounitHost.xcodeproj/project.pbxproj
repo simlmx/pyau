@@ -14,20 +14,6 @@
 		14E5A64E0EA9388700430DF8 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68B0282348701CA27A0 /* AudioUnit.framework */; };
 		14E5A64F0EA9388700430DF8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */; };
 		F4005EEE0F6EADA000CA47AE /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D74C5F0243EFAA01370FF7 /* CoreFoundation.framework */; };
-		F4009BC210E6F0D100A73744 /* AUDebugDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BBA10E6F0D100A73744 /* AUDebugDispatcher.cpp */; };
-		F4009BE710E7062C00A73744 /* CACFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BE510E7062C00A73744 /* CACFDictionary.cpp */; };
-		F4009BEA10E7063A00A73744 /* CACFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BE810E7063A00A73744 /* CACFArray.cpp */; };
-		F4009BEC10E7064D00A73744 /* CAPersistence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BEB10E7064D00A73744 /* CAPersistence.cpp */; };
-		F4009BEF10E7065A00A73744 /* CAAUParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BED10E7065A00A73744 /* CAAUParameter.cpp */; };
-		F4009BF310E7066A00A73744 /* CAAudioChannelLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BF010E7066A00A73744 /* CAAudioChannelLayout.cpp */; };
-		F4009BF410E7066A00A73744 /* CAAudioChannelLayoutObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BF210E7066A00A73744 /* CAAudioChannelLayoutObject.cpp */; };
-		F4009BF710E7067900A73744 /* CAAudioUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BF510E7067900A73744 /* CAAudioUnit.cpp */; };
-		F4009BFA10E7068400A73744 /* CAAudioFileFormats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BF810E7068400A73744 /* CAAudioFileFormats.cpp */; };
-		F4009BFF10E7069400A73744 /* CAComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BFB10E7069400A73744 /* CAComponent.cpp */; };
-		F4009C0010E7069400A73744 /* CAComponentDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009BFD10E7069400A73744 /* CAComponentDescription.cpp */; };
-		F4009C0310E706A300A73744 /* CAFilePathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009C0110E706A300A73744 /* CAFilePathUtils.cpp */; };
-		F4009C0610E706B600A73744 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009C0410E706B600A73744 /* CAStreamBasicDescription.cpp */; };
-		F4009C0910E706C600A73744 /* AUOutputBL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009C0710E706C600A73744 /* AUOutputBL.cpp */; };
 		F4009C0F10E7070800A73744 /* AUOutputBL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009C0710E706C600A73744 /* AUOutputBL.cpp */; };
 		F4009C1010E7070800A73744 /* AUOutputBL.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009C0810E706C600A73744 /* AUOutputBL.h */; };
 		F4009C1110E7070800A73744 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4009C0410E706B600A73744 /* CAStreamBasicDescription.cpp */; };
@@ -140,12 +126,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F4F572020F72C80B002A265C /* PBXContainerItemProxy */ = {
+		F438542F116E420A00580287 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 14E5A5280EA9385B00430DF8;
-			remoteInfo = Midi2Audio;
+			remoteGlobalIDString = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
+			remoteInfo = "AudioUnitHost 10.5";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -600,7 +586,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F4F572030F72C80B002A265C /* PBXTargetDependency */,
+				F4385430116E420A00580287 /* PBXTargetDependency */,
 			);
 			name = simonTest;
 			productName = simonTest;
@@ -679,20 +665,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4F56D9E0F70655C002A265C /* simonTest.cpp in Sources */,
-				F4009BC210E6F0D100A73744 /* AUDebugDispatcher.cpp in Sources */,
-				F4009BE710E7062C00A73744 /* CACFDictionary.cpp in Sources */,
-				F4009BEA10E7063A00A73744 /* CACFArray.cpp in Sources */,
-				F4009BEC10E7064D00A73744 /* CAPersistence.cpp in Sources */,
-				F4009BEF10E7065A00A73744 /* CAAUParameter.cpp in Sources */,
-				F4009BF310E7066A00A73744 /* CAAudioChannelLayout.cpp in Sources */,
-				F4009BF410E7066A00A73744 /* CAAudioChannelLayoutObject.cpp in Sources */,
-				F4009BF710E7067900A73744 /* CAAudioUnit.cpp in Sources */,
-				F4009BFA10E7068400A73744 /* CAAudioFileFormats.cpp in Sources */,
-				F4009BFF10E7069400A73744 /* CAComponent.cpp in Sources */,
-				F4009C0010E7069400A73744 /* CAComponentDescription.cpp in Sources */,
-				F4009C0310E706A300A73744 /* CAFilePathUtils.cpp in Sources */,
-				F4009C0610E706B600A73744 /* CAStreamBasicDescription.cpp in Sources */,
-				F4009C0910E706C600A73744 /* AUOutputBL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,10 +703,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F4F572030F72C80B002A265C /* PBXTargetDependency */ = {
+		F4385430116E420A00580287 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
-			targetProxy = F4F572020F72C80B002A265C /* PBXContainerItemProxy */;
+			target = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
+			targetProxy = F438542F116E420A00580287 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -852,7 +824,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = simonTest;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.5;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
 			name = Development;

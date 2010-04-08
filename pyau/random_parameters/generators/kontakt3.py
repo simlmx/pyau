@@ -7,7 +7,6 @@
 
 import os
 
-import pylab as P
 import numpy as N
 
 #import pygmy.audiounit as AU

@@ -60,7 +60,7 @@ int main( int argc, const char* argv[] )
     
 
 list<string> paths;
-FileSystemUtils::GetFilePaths("/Library/kontakt3_db/aupresets_usable_shortnames", ".aupreset", paths);
+FileSystemUtils::GetFilePaths("/Library/Kontakt/aupresets_usable_shortnames", ".aupreset", paths);
 
 AHHost host;
 AHTrack* track1 = host.AddTrack("kontakt 3"); 
@@ -75,7 +75,7 @@ for (list<string>::iterator it=paths.begin(); it!=paths.end(); it++)
         //AHTrack* track1 = host.AddTrack("automat1"); 
 
     track1->GetSynth()->LoadAUPresetFromFile(*it);
-    host.BounceToFile("/Users/simon/tmp/fuck_kontakt.wav");
+    //host.BounceToFile("/Users/simon/tmp/fuck_kontakt.wav");
         //track1->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/automat1.aupreset");
         //    sleep(4);
         //    track1->SetSynth("kontakt 3");
