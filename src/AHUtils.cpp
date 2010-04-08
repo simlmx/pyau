@@ -17,7 +17,7 @@
 #include <iostream>
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
-	#include "CarbonCore/Components.h"
+	#include "CoreServices/CoreServices.h"
 	#define AudioComponentDescription ComponentDescription
 	#define AudioComponent Component
 	#define AudioComponentFindNext FindNextComponent

@@ -62,7 +62,7 @@ ext = Extension('_pyau_swig',
             '-framework', 'CoreServices',
             '-framework', 'AudioToolbox',
             '-framework', 'AudioUnit',
-            '-framework', 'CoreMIDI',               
+            '-framework', 'CoreMIDI',              
             ],
        )
 
