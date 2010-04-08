@@ -15,7 +15,7 @@ if  platform.mac_ver()[0].rsplit('.',1)[0] == '10.6':
 else:
     publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility/'
 
-src_dir = 'src/AudioUnitHost/'     
+src_dir = 'src/AudiounitHost/'     
 
 import numpy
 
