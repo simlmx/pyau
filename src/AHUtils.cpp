@@ -18,6 +18,24 @@
 #include <list>
 #include <iostream>
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
+	#include "CarbonCore/Components.h"
+	#define AudioComponentDescription ComponentDescription
+	#define AudioComponent Component
+	#define AudioComponentFindNext FindNextComponent
+	#define AudioComponentCount CountComponents
+
+inline void* CA_malloc(size_t size)
+{
+	void* p = malloc(size);
+	if (!p && size) throw std::bad_alloc();
+	return p;
+}
+
+#endif
+
+
+
 using namespace std;
 
 long CountAudioUnits(OSType AUType)
@@ -151,7 +169,7 @@ Boolean FindAudioUnitFromName(string name, string manu, CAComponentDescription &
     return found ? true : false;        
 }
 
-
+/*
 void getSystemVersion(SInt32* major, SInt32* minor, SInt32* bugFix)
 {
     OSErr err;
@@ -185,3 +203,15 @@ void getSystemVersion(SInt32* major, SInt32* minor, SInt32* bugFix)
 	}
     return;
 }
+
+bool snowOrHigher()
+{
+	SInt32 major, minor, bugFix;
+	getSystemVersion(major, minor, bugFix);
+	if (major >= 10 && minor >=6)
+		return true;
+	else if (major >= 11)
+		return true;
+	else		
+		return false;
+}*/
