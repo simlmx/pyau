@@ -13,8 +13,6 @@
 #include "CAComponent.h"
 #include "CAAutoDisposer.h"
 
-#include "CarbonCore/Gestalt.h"
-
 #include <list>
 #include <iostream>
 
