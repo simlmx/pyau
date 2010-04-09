@@ -72,5 +72,6 @@ setup(name="pyau",
       long_description="""Python AudioUnit host""",
       author="Simon Lemieux and Sean Wood",
       author_email="lemieux.simon@gmail.com",
-      ext_modules = [ext]
+      ext_modules = [ext],
+      #scripts=['pygmy/utils/random_walk.py']
 )
