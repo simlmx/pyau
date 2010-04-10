@@ -10,13 +10,16 @@ import os.path
 from generators.factory import get_randomizer
 import numpy as N
 
-def get_track_randomizers(host, volumes, prob_on_effects=None):
+def get_track_randomizers(host, volumes=None, prob_on_effects=None):
     """ Returns a list of randomizers, one for each synth/effect in 'host', for the first track.
-        volumes : Output volume for each synth/effect.
+        volumes : Output volume for each synth/effect (a list).
+                    If you're planning on actually randomize something, I'll *need* to pass the volumes
         prob_on_effects : Probability for the effects of being On.
     """
     if prob_on_effects is None:
         prob_on_effects = [1.]*len(host.tracks[0].effects)
+    if volumes is None:
+        volumes = [.4]*(len(host.tracks[0].effects) + 1)
         
     randomizers = [ get_randomizer(host.tracks[0].synth, host, volumes[0]) ]
     randomizers += [ get_randomizer(e, host, v, p) for e,v,p in zip(host.tracks[0].effects, volumes[1:], prob_on_effects) ]
@@ -110,8 +113,7 @@ def generate_data(host, randomizers=None):
     """
     
     if randomizers is None:
-        n = 1 + len(host.tracks[0].effects)
-        randomizers = get_track_randomizers(host, [.4]*n)
+        randomizers = get_track_randomizers(host)
 
     data = N.hstack( ([r.get_parameters() for r in randomizers]) )
 
@@ -125,8 +127,7 @@ def load_data(data, host, randomizers=None):
     """
     
     if randomizers is None:
-        n = 1 + len(host.tracks[0].effects)
-        randomizers = get_track_randomizers(host, [.4]*n)
+        randomizers = get_track_randomizers(host)
 
     for r in randomizers:
         n = r.get_parameters().shape[0]
