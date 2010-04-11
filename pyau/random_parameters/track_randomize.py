@@ -10,6 +10,8 @@ import os.path
 from generators.factory import get_randomizer
 import numpy as N
 
+import logging ; log = logging.getLogger('track_randomize')
+
 def get_track_randomizers(host, volumes=None, prob_on_effects=None):
     """ Returns a list of randomizers, one for each synth/effect in 'host', for the first track.
         volumes : Output volume for each synth/effect (a list).
@@ -133,6 +135,8 @@ def load_data(data, host, randomizers=None):
         n = r.get_parameters().shape[0]
         r.set_parameters(data[:n])
         data = data[n:]
+    if len(data) != 0:
+        log.warning('Something must certainly have gone wrong in load_data(...)')
     
 
     

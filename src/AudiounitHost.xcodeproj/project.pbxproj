@@ -60,6 +60,14 @@
 		F48F276C1150037A00CB4686 /* CADebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F276A1150037A00CB4686 /* CADebugMacros.h */; };
 		F49A569C0FCD962F001D0F80 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */; };
 		F49A57020FCDAAED001D0F80 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D74C600243EFAA01370FF7 /* CoreServices.framework */; };
+		F49DBF081172254F0019F359 /* AHHost.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2654114F052000CB4686 /* AHHost.h */; };
+		F49DBF11117225CD0019F359 /* CAComponentDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BFE10E7069400A73744 /* CAComponentDescription.h */; };
+		F49DBF17117226930019F359 /* AUOutputBL.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009C0810E706C600A73744 /* AUOutputBL.h */; };
+		F49DBF18117226930019F359 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009C0510E706B600A73744 /* CAStreamBasicDescription.h */; };
+		F49DBF1D117226C00019F359 /* CAAUParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BEE10E7065A00A73744 /* CAAUParameter.h */; };
+		F49DBF20117226D80019F359 /* CAAudioUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BF610E7067900A73744 /* CAAudioUnit.h */; };
+		F49DBF21117226D80019F359 /* AHAudioUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2652114F052000CB4686 /* AHAudioUnit.h */; };
+		F49DBF24117226E10019F359 /* CAComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BFC10E7069400A73744 /* CAComponent.h */; };
 		F4C388BF116D3A7300DCFEA0 /* AHAudioUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2652114F052000CB4686 /* AHAudioUnit.h */; };
 		F4C388C0116D3A7300DCFEA0 /* AHHost.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2654114F052000CB4686 /* AHHost.h */; };
 		F4C388C1116D3A7300DCFEA0 /* AHGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2656114F052000CB4686 /* AHGraph.h */; };
@@ -113,12 +121,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F438542F116E420A00580287 /* PBXContainerItemProxy */ = {
+		F49DBEF01172244B0019F359 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F4C388B2116D3A7300DCFEA0;
-			remoteInfo = "AudioUnitHost 10.5";
+			remoteGlobalIDString = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
+			remoteInfo = AudioUnitHost;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -204,6 +212,8 @@
 		F48F27651150035200CB4686 /* CAAutoDisposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAAutoDisposer.h; path = Extras/CoreAudio/PublicUtility/CAAutoDisposer.h; sourceTree = DEVELOPER_DIR; };
 		F48F27691150037A00CB4686 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CADebugMacros.cpp; path = Extras/CoreAudio/PublicUtility/CADebugMacros.cpp; sourceTree = DEVELOPER_DIR; };
 		F48F276A1150037A00CB4686 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = Extras/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = DEVELOPER_DIR; };
+		F49DBF091172256F0019F359 /* AHUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHUtils.h; path = ../../../../Lib/pygmy/src/AudiounitHost/AHUtils.h; sourceTree = SOURCE_ROOT; };
+		F49DBF0E117225A00019F359 /* AHGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHGraph.h; path = ../../../../Lib/pygmy/src/AudiounitHost/AHGraph.h; sourceTree = SOURCE_ROOT; };
 		F4C38912116D3A7300DCFEA0 /* libAudioUnitHost.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAudioUnitHost.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D90F2F116E61AF00EF4EAD /* AUBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUBuffer.cpp; path = Examples/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.cpp; sourceTree = DEVELOPER_DIR; };
 		F4D90F30116E61AF00EF4EAD /* AUBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUBuffer.h; path = Examples/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.h; sourceTree = DEVELOPER_DIR; };
@@ -290,6 +300,8 @@
 		08FB7794FE84155DC02AAC07 /* PrintSequence */ = {
 			isa = PBXGroup;
 			children = (
+				F49DBF0E117225A00019F359 /* AHGraph.h */,
+				F49DBF091172256F0019F359 /* AHUtils.h */,
 				F4D90F60116E621400EF4EAD /* PublicUtilities10.5 */,
 				F4009BE210E6F49800A73744 /* PublicUtilities */,
 				08FB7795FE84155DC02AAC07 /* Source */,
@@ -481,6 +493,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F49DBF1C117226B10019F359 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F49DBF24117226E10019F359 /* CAComponent.h in Headers */,
+				F49DBF20117226D80019F359 /* CAAudioUnit.h in Headers */,
+				F49DBF21117226D80019F359 /* AHAudioUnit.h in Headers */,
+				F49DBF1D117226C00019F359 /* CAAUParameter.h in Headers */,
+				F49DBF17117226930019F359 /* AUOutputBL.h in Headers */,
+				F49DBF18117226930019F359 /* CAStreamBasicDescription.h in Headers */,
+				F49DBF11117225CD0019F359 /* CAComponentDescription.h in Headers */,
+				F49DBF081172254F0019F359 /* AHHost.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F4C388B3116D3A7300DCFEA0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -534,13 +561,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4005EF40F6EADCF00CA47AE /* Build configuration list for PBXNativeTarget "simonTest" */;
 			buildPhases = (
+				F49DBF1C117226B10019F359 /* Headers */,
 				F4005EE50F6EAD8A00CA47AE /* Sources */,
 				F4005EE60F6EAD8A00CA47AE /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F4385430116E420A00580287 /* PBXTargetDependency */,
+				F49DBEF11172244B0019F359 /* PBXTargetDependency */,
 			);
 			name = simonTest;
 			productName = simonTest;
@@ -651,10 +679,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F4385430116E420A00580287 /* PBXTargetDependency */ = {
+		F49DBEF11172244B0019F359 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
-			targetProxy = F438542F116E420A00580287 /* PBXContainerItemProxy */;
+			target = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
+			targetProxy = F49DBEF01172244B0019F359 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -772,7 +800,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = simonTest;
-				SDKROOT = macosx10.5;
+				SDKROOT = "";
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
 			name = Development;

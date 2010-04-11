@@ -40,6 +40,7 @@ class automat1_param_randomizer(param_randomizer):
                 used.append('SHP%i_%s' % (i, suffix))
         for suffix in 'Attack Hold Decay Sustain Release'.split():
             used.append('AMP_%s' % suffix)
+        used.append('OUT_Master')
             
         return used
         

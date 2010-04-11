@@ -37,7 +37,8 @@ void print_host(AHHost &host)
 
 int main( int argc, const char* argv[] )
 {
-//    PrintAllAudioUnits();
+    PrintAllAudioUnits();
+    return 0; 
     /*list<CAComponent> liste = GetMatchingCAComponents(CAComponentDescription('aufx'));
     list<CAComponent> liste2 = GetMatchingCAComponents(CAComponentDescription('aumf'));
     list<CAComponent> listes[] = {liste, liste2};

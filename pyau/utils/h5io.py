@@ -7,7 +7,7 @@
 #Philippe Hamel
 #November 7 2008
 
-from __future__ import with_statement
+#from __future__ import with_statement
 
 from tables import openFile
 
