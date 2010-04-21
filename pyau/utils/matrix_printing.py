@@ -10,10 +10,11 @@ from numpy import max, min
 
 def print_matrix(matrix, pixels=' .o0'):
     """ Prints a matrix... """
+    matrix = matrix.copy().astype('float')
     max_ = max(matrix)
     max_ = 1.0001*max_ # so we don't hit the max
     min_ = min(matrix)
-    
+
     matrix -= min_
     matrix /= max_ - min_
         
