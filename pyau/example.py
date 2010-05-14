@@ -1,8 +1,8 @@
 """ example of usage of pygmy.audiounit """
-import pygmy.audiounit as AU
+import pyau
 
 #creating a host
-h = AU.Host()
+h = pyau.Host()
 
 # adding some tracks 
 # we have to specify the synth (by his name) of the track
