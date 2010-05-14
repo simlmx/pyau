@@ -6,45 +6,46 @@
 # 19 jan 2010
 #
 
+from os.path import join
 from setuptools import setup, Extension
 import platform
 
 
 if  platform.mac_ver()[0].rsplit('.',1)[0] == '10.6':
-    publicutility_dir = '/Developer/Extras/CoreAudio/PublicUtility/'
+    publicutility_dir = '/Developer/Extras/CoreAudio/PublicUtility'
 else:
-    publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility/'
+    publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility'
 
-src_dir = 'src/AudiounitHost/'     
+src_dir = 'src'     
 
 import numpy
 
 ext = Extension('_pyau_swig',
 
-       sources=['pygmy/audiounit/pyau.i',
+       sources=['pyau/pyau.i',
 
-                publicutility_dir + 'CACFDictionary.cpp',
-                publicutility_dir + 'CACFArray.cpp',
-                publicutility_dir + 'CAPersistence.cpp',
-                publicutility_dir + 'CAAUParameter.cpp',
-                publicutility_dir + 'CAAudioChannelLayoutObject.cpp',
-                publicutility_dir + 'CAAudioChannelLayout.cpp',
-                publicutility_dir + 'CAAudioUnit.cpp',
-                publicutility_dir + 'CAAudioFileFormats.cpp',
-                publicutility_dir + 'CAComponentDescription.cpp',
-                publicutility_dir + 'CAFilePathUtils.cpp',
-                publicutility_dir + 'CAStreamBasicDescription.cpp',
-                publicutility_dir + 'AUOutputBL.cpp',
-                publicutility_dir + 'CAComponent.cpp',
+                join( publicutility_dir, 'CACFDictionary.cpp' ),
+                join( publicutility_dir, 'CACFArray.cpp' ),
+                join( publicutility_dir, 'CAPersistence.cpp' ),
+                join( publicutility_dir, 'CAAUParameter.cpp' ),
+                join( publicutility_dir, 'CAAudioChannelLayoutObject.cpp' ),
+                join( publicutility_dir, 'CAAudioChannelLayout.cpp' ),
+                join( publicutility_dir, 'CAAudioUnit.cpp' ),
+                join( publicutility_dir, 'CAAudioFileFormats.cpp' ),
+                join( publicutility_dir, 'CAComponentDescription.cpp' ),
+                join( publicutility_dir, 'CAFilePathUtils.cpp' ),
+                join( publicutility_dir, 'CAStreamBasicDescription.cpp' ),
+                join( publicutility_dir, 'AUOutputBL.cpp' ),
+                join( publicutility_dir, 'CAComponent.cpp' ),
                 
-                src_dir + 'AHHost.cpp',
-                src_dir + 'AHGraph.cpp',
-                src_dir + 'AHMidiPlayer.cpp',
-                src_dir + 'AHAudioUnit.cpp',
-                src_dir + 'AHTrack.cpp',
-                src_dir + 'AHParameter.cpp',								
-                src_dir + 'AHUtils.cpp',
-                src_dir + 'FileSystemUtils.cpp',
+                join( src_dir, 'AHHost.cpp' ),
+                join( src_dir, 'AHGraph.cpp' ),
+                join( src_dir, 'AHMidiPlayer.cpp' ),
+                join( src_dir, 'AHAudioUnit.cpp' ),
+                join( src_dir, 'AHTrack.cpp' ),
+                join( src_dir, 'AHParameter.cpp' ),								
+                join( src_dir, 'AHUtils.cpp' ),
+                join( src_dir, 'FileSystemUtils.cpp' ),
 
                 
                  ],
@@ -73,5 +74,4 @@ setup(name="pyau",
       author="Simon Lemieux and Sean Wood",
       author_email="lemieux.simon@gmail.com",
       ext_modules = [ext],
-      #scripts=['pygmy/utils/random_walk.py']
 )
