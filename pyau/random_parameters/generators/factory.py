@@ -5,8 +5,6 @@
 # Simon Lemieux
 #
 
-import pygmy
-
 from param_randomizer import param_randomizer
 
 from automat1 import automat1_param_randomizer

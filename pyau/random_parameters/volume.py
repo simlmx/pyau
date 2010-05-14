@@ -16,8 +16,6 @@ from os.path import isdir, join
 
 import numpy as N
 
-import pygmy.audiounit as AU
-
 def check_volume(host, window_length=2001, verbose=False):
     """ We bounce from the *host* and return some measure of the sound loudness (max RMS**.3)
     """

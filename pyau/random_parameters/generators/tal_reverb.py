@@ -5,9 +5,9 @@
 # Simon Lemieux
 #
 
-import pygmy.audiounit.random_parameters.randfunc as RF
+import pyau.random_parameters.randfunc as RF
 from param_randomizer import param_randomizer
-from pygmy.audiounit.random_parameters.volume import normalize_volume
+from pyau.random_parameters.volume import normalize_volume
 
 import numpy.random as NR
 
