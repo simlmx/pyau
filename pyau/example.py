@@ -14,7 +14,7 @@ t3 = h.add_track('DLSMusicDevice', 'apple')
 h.add_track('tests', 'sdfs')
 # if you want to know the names and manufacturer of the audio units
 # installed on your computer, you can use the next line
-#AU.print_audiounits()
+#pyau.print_audiounits()
 
 # adding effects
 eff = t.add_effect('AUPitch')
