@@ -8,11 +8,8 @@
 import numpy as N
 
 import pyau.random_parameters.randfunc as RF
-from pyau.random_parameters.generators.param_randomizer import param_randomizer
+from param_randomizer import param_randomizer
 from pyau.random_parameters.volume import normalize_volume, check_volume
-
-
-
 
 def plot_sound(host):
     data = host.bounce()[0]
