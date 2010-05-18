@@ -6,6 +6,8 @@
 #  Copyright (c) 2009. All rights reserved.
 #
 
+__all__ = ['Host']
+
 from copy import deepcopy
 
 from numpy.random import rand

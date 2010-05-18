@@ -5,8 +5,9 @@
 # march 27th 2010
 #
  
-from pygmy.audiounit import Host
+from pyau import Host
 import os.path
+#from pyau.generators.factory import get_randomizer
 from generators.factory import get_randomizer
 import numpy as N
 

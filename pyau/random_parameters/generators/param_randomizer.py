@@ -5,10 +5,13 @@
 # Simon Lemieux
 #
 
+import pyau.utils
 import pyau.random_parameters.randfunc as RF
 from pyau.random_parameters.volume import normalize_volume
+
 from numpy import array, hstack, argmax, zeros
 import numpy.random as NR
+
 class param_randomizer(object):
     ''' Utilities for generating random parameters for audio units.
         Typically this class should be subclassed for a specific audio unit.
