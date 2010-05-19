@@ -7,8 +7,7 @@
 # Maybe there's some cleaner command line way to do this...
 
 import sys
-from os import remove#, walk
-from random_walk import random_walk
+from os import remove, walk
 from os.path import join
 
 
@@ -32,7 +31,7 @@ if __name__ == '__main__':
     suffix = sys.argv[1]
     dir = sys.argv[2]
 
-    for root, dirs, files in random_walk(dir):
+    for root, dirs, files in walk(dir):
         for f in files:
             if f.endswith(suffix):
                 path = join(root, f)
