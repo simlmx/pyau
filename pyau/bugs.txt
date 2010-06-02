@@ -1,5 +1,2 @@
-BUGS IN PYGMY.AUDIOUNIT
-
-- load a midi file in a Midi2AudioGeneartor which has a AUChainGroup with no audiosource
-
+BUGS IN PYAU
 - if coreaudio audio settings are at something else thant 44100 (I tried with 96000), it does'nt work. probably a property of the audiounits, or connections between them in the augraph

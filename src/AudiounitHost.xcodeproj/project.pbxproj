@@ -125,7 +125,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
+			remoteGlobalIDString = 14E5A5280EA9385B00430DF8;
 			remoteInfo = AudioUnitHost;
 		};
 /* End PBXContainerItemProxy section */

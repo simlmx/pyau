@@ -79,23 +79,35 @@ void AHHost::Play()
 {	
     listeningToMidi_ = false;
 	midiPlayer_.Start();
-	MusicTimeStamp time;
-	do
-	{
-		PrintIfErr( MusicPlayerGetTime(midiPlayer_.GetMusicPlayer(), &time) );	
-		//printf("%2.2f sur %2.2f\n", time , midiPlayer_.GetSequenceLength());
-		usleep (3 * 1000);//let's wait 3 ms...
-	}
-	while ( time < midiPlayer_.GetSequenceLength() );
-		
-	Stop();
-    listeningToMidi_ = true;
+    AUGraphAddRenderNotify(graph_.GetAUGraph(), PlayCallBack, this);
 }
+
+OSStatus AHHost::PlayCallBack(	void *							inRefCon,
+                              AudioUnitRenderActionFlags *	ioActionFlags,
+                              const AudioTimeStamp *			inTimeStamp,
+                              UInt32							inBusNumber,
+                              UInt32							inNumberFrames,
+                              AudioBufferList *				ioData)
+{
+    AHHost* host = (AHHost*)inRefCon;
+    AHMidiPlayer* midiplayer = host->GetAHMidiPlayer();
+    MusicTimeStamp time;
+    PrintIfErr( MusicPlayerGetTime(midiplayer->GetMusicPlayer(), &time) );	
+    //printf("%2.2f sur %2.2f\n", time , midiplayer->GetSequenceLength());
+
+	if ( time >= midiplayer->GetSequenceLength() )
+        host->Stop();
+    
+    return noErr;
+}
+
 
 void AHHost::Stop()
 {
 	midiPlayer_.Stop();
 	//verify_noerr( AUGraphRemoveRenderNotify(auChainGroup_->GetAUGraph(), RenderCallback, this) );
+    AUGraphRemoveRenderNotify(this->GetAHGraph()->GetAUGraph(), PlayCallBack, this);
+    this->listeningToMidi_ = true;
 	Reset();
 }
 

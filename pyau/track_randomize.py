@@ -77,7 +77,9 @@ def save_aupresets(aupresets_dir, host):
                 
 def load_aupresets(aupresets_dir, host=None):
     """ Loads the .aupresets in 'aupresets_dir' back into the (single) track of the 'host'.
-        The names of the .aupresets in the 'aupresets_dir' must match an audio unit of 'host'.
+        The names of the .aupresets in the 'aupresets_dir' must match an audio unit of 'host'
+        If there are effects in `host` that doesn't have a corresponding .aupreset, their bypass setting
+        will be set to True.
         
         If the ``host`` is None, we will create it and use what is in audiounits.txt to create the audio units.
         In that case we will return the host. If it was supplied we won't.

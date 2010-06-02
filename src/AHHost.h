@@ -62,7 +62,8 @@ public:
     void RemoveLastTrack();
     std::vector<AHTrack*>& GetTracks() { return tracks_; }
     
-	//AUMidiPlayer& GetAUMidiPlayer() { return midiPlayer_; }
+	AHMidiPlayer* GetAHMidiPlayer() { return &midiPlayer_; }
+    AHGraph* GetAHGraph() { return &graph_; }
     void BounceToFile(const std::string& wavPath );
 	
 	//void ListenToMidi();
@@ -70,15 +71,12 @@ public:
 	
 	static void MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, void* srcConnRefCon);
 	
-/*	static OSStatus RenderCallback(	void *							inRefCon,
-							   AudioUnitRenderActionFlags *	ioActionFlags,
-							   const AudioTimeStamp *			inTimeStamp,
-							   UInt32							inBusNumber,
-							   UInt32							inNumberFrames,
-							   AudioBufferList *				ioData);*/
-    
-
-	
+    static OSStatus PlayCallBack(	void *							inRefCon,
+                                 AudioUnitRenderActionFlags *	ioActionFlags,
+                                 const AudioTimeStamp *			inTimeStamp,
+                                 UInt32							inBusNumber,
+                                 UInt32							inNumberFrames,
+                                 AudioBufferList *				ioData);
     
 protected:
 
