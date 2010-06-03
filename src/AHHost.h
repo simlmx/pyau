@@ -25,17 +25,19 @@
 #include "AHUtils.h"
 #include "FileSystemUtils.h"
 
-
+using namespace std;
 
 class AHHost
 {
 protected:
     Boolean listeningToMidi_;
+    //Boolean playing_;
+    
 
 
     AHGraph graph_;
     AHMidiPlayer midiPlayer_;
-    std::vector<AHTrack*> tracks_;
+    vector<AHTrack*> tracks_;
 
     int bufferSize_;
     int sampleRate_;
@@ -50,24 +52,27 @@ public:
 	virtual ~AHHost();
     
     
-    void LoadMidiFile(const std::string midiFile);
-//	void LoadInstrument( const std::string& instrument, UInt32 busIndex = 0 );
+    void LoadMidiFile(const string midiFile);
+//	void LoadInstrument( const string& instrument, UInt32 busIndex = 0 );
 	
-	std::vector< std::list< std::vector<float> > > Bounce();
+	vector< list< vector<float> > > Bounce();
 	void Play();
 	void Stop();
 	
     AHTrack* AddTrack(const string name, const string manu="");
     AHTrack* AddTrack(const CAComponentDescription instrumentDescription);
     void RemoveLastTrack();
-    std::vector<AHTrack*>& GetTracks() { return tracks_; }
+    vector<AHTrack*>& GetTracks() { return tracks_; }
     
 	AHMidiPlayer* GetAHMidiPlayer() { return &midiPlayer_; }
     AHGraph* GetAHGraph() { return &graph_; }
-    void BounceToFile(const std::string& wavPath );
+    void BounceToFile(const string& wavPath );
 	
-	//void ListenToMidi();
-	//void StopListeningToMidi();
+	void ListenToMidi();
+	void StopListeningToMidi();
+    Boolean IsListeningToMidi() { return listeningToMidi_; }
+    
+    void ResetAudioUnits();
 	
 	static void MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, void* srcConnRefCon);
 	
@@ -80,10 +85,10 @@ public:
     
 protected:
 
-    ExtAudioFileRef CreateOutputFile( const std::string& outputFilePath);//, CAStreamBasicDescription& outputStreamDescription );
+    ExtAudioFileRef CreateOutputFile( const string& outputFilePath);//, CAStreamBasicDescription& outputStreamDescription );
     //void RenderToFile(CAStreamBasicDescription& outputStreamDescription, ExtAudioFileRef wavFile);
 	void RenderToFile(ExtAudioFileRef wavFile);
-	std::vector< std::list< std::vector<float> > > RenderToBuffer();
+	vector< list< vector<float> > > RenderToBuffer();
 	
     // TODO : mettre ca ailleurs?
 	void GetOutputUnitStreamFormat(CAStreamBasicDescription &csbd);

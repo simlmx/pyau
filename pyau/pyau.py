@@ -6,13 +6,24 @@
 #  Copyright (c) 2009. All rights reserved.
 #
 
-__all__ = ['Host']
+__all__ = ['Host', 'print_audiounits']
 
 from copy import deepcopy
 
 from numpy.random import rand
 
 import pyau_swig as au
+from au_gui import launch_gui
+
+try:
+    import IPython
+    IPython.Shell.hijack_tk()
+except:
+    pass
+
+import Tkinter
+Tkinter.Tk().withdraw() # hack
+    
 
 class Host(object):
     """ Host object which contains tracks. Can bounce, play etc.
@@ -157,16 +168,28 @@ class AudioUnit(object):
         """
         self._ah_au = ah_audiounit
         self._desc = None
-        self._ah_parametereters = {}
+        self._ah_parameters = {}
+        self._ah_parameters_dicts = {}
         
 
     def get_parameters(self, scope = au.kAudioUnitScope_Global, element = 0):
         """ Returns the list of parameters of the audio unit for a scope and an element.
         """
         # we keep somewhere the parameters so we don't do the next line each time
-        if (scope, element) not in self._ah_parametereters:
-            self._ah_parametereters[(scope, element)] = [Parameter(x) for x in self._ah_au.GetParameterList(scope, element)]
-        return self._ah_parametereters[(scope, element)]
+        if (scope, element) not in self._ah_parameters:
+            self._ah_parameters[(scope, element)] = [Parameter(x) for x in self._ah_au.GetParameterList(scope, element)]
+        return self._ah_parameters[(scope, element)]
+        
+    def get_parameters_dict(self, scope = au.kAudioUnitScope_Global, element = 0):
+        """ Returns the list of parameters of the audio unit for a scope and an element,
+            but in a dictionary with keys = "name of the parameter" and values = "the parameter itself".
+        """
+        if (scope, element) not in self._ah_parameters_dicts:            
+            params = self.get_parameters()
+            names = [p.name for p in params]
+            d = dict(zip(names, params))
+            self._ah_parameters_dicts[(scope, element)] = d
+        return self._ah_parameters_dicts[(scope, element)]
 
         
     def load_aupreset(self, aupreset_file):
@@ -192,6 +215,11 @@ class AudioUnit(object):
     bypass = property(lambda self : self._ah_au.GetBypass(),
                       lambda self, x : self._ah_au.SetBypass(x),
                       doc = 'If True the audio unit passed its input unchanged through its output.')
+
+
+    def gui(self):
+        """ launches a basic gui for controlling the audiounit. """
+        launch_gui(self)
 
     def __str__(self):
         s = '%s by %s' % (self.name, self.manu)

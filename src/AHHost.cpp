@@ -45,7 +45,9 @@ AHHost::AHHost():
 	
 	for(int i=0; i<int(MIDIGetNumberOfSources()); i++)
 		PrintIfErr( MIDIPortConnectSource(inputPort_, MIDIGetSource(i), NULL) );
-	graph_.Start();
+	ListenToMidi();
+    //listeningToMidi_ = true;
+    graph_.Start();
 }	
 
 
@@ -56,6 +58,7 @@ AHHost::~AHHost()
 	PrintIfErr( MIDIPortDispose(inputPort_) );
 	PrintIfErr( MIDIClientDispose(client_) );
     
+    //StopListeningToMidi();
     graph_.Stop();
     graph_.DisconnectMixerInputs();
     graph_.UpdateGraph();
@@ -77,9 +80,12 @@ void AHHost::LoadMidiFile(const std::string midiFile)
 // Most was copy-pasted from PlaySequence example
 void AHHost::Play()
 {	
-    listeningToMidi_ = false;
+    // in case we were already playing
+    Stop();
+    ResetAudioUnits();
+    //StopListeningToMidi();
 	midiPlayer_.Start();
-    AUGraphAddRenderNotify(graph_.GetAUGraph(), PlayCallBack, this);
+    PrintIfErr( AUGraphAddRenderNotify(graph_.GetAUGraph(), PlayCallBack, this) );
 }
 
 OSStatus AHHost::PlayCallBack(	void *							inRefCon,
@@ -97,6 +103,7 @@ OSStatus AHHost::PlayCallBack(	void *							inRefCon,
 
 	if ( time >= midiplayer->GetSequenceLength() )
         host->Stop();
+
     
     return noErr;
 }
@@ -104,17 +111,38 @@ OSStatus AHHost::PlayCallBack(	void *							inRefCon,
 
 void AHHost::Stop()
 {
-	midiPlayer_.Stop();
-	//verify_noerr( AUGraphRemoveRenderNotify(auChainGroup_->GetAUGraph(), RenderCallback, this) );
-    AUGraphRemoveRenderNotify(this->GetAHGraph()->GetAUGraph(), PlayCallBack, this);
-    this->listeningToMidi_ = true;
-	Reset();
+    Boolean isPlaying;
+    MusicPlayerIsPlaying(this->midiPlayer_.GetMusicPlayer(), &isPlaying);
+    
+    /*if (isRunning)
+        printf("\ngraph is running");
+    else 
+        printf("\ngraph is NOT running");*/
+    
+    PrintIfErr( AUGraphRemoveRenderNotify(this->GetAHGraph()->GetAUGraph(), PlayCallBack, this) );
+    if (isPlaying)
+    {
+        midiPlayer_.Stop();
+    	Reset();
+    }    
+    
+    /*MusicPlayerIsPlaying(this->midiPlayer_.GetMusicPlayer(), &isPlaying);
+    if (isPlaying)
+        printf("\n music player still playing???");
+    
+    Boolean isRunning;
+    AUGraphIsRunning(graph_.GetAUGraph(), &isRunning);
+    if (isRunning)
+        printf("\nit is still runnin!");*/
+    
+    //if (!IsListeningToMidi())
+    //    ListenToMidi();
 }
 
 // Most was copy-pasted from PlaySequence example
 void AHHost::BounceToFile( const string& outputFilePath )
 {
-	listeningToMidi_ = false;
+	StopListeningToMidi();    
 
 	// we change the outputunit temporarily
 	CAComponentDescription tempDesc = graph_.GetOutput()->Comp().Desc();
@@ -222,7 +250,7 @@ void AHHost::BounceToFile( const string& outputFilePath )
 	// we set back the output unit
     
     graph_.SetOutput(tempDesc);
-	listeningToMidi_ = true;
+	ListenToMidi();
 }
 
 vector< list< vector<float> > > AHHost::Bounce()
@@ -237,7 +265,7 @@ vector< list< vector<float> > > AHHost::Bounce()
 
 vector< list< vector<float> > > AHHost::RenderToBuffer()//CAStreamBasicDescription& outputStreamDescription)
 {
-	listeningToMidi_ = false;
+	StopListeningToMidi();
 	CAComponentDescription tempDesc = graph_.GetOutput()->Comp().Desc();
 	graph_.SetOutput(GENERIC_OUTPUT_DESCRIPTION);
 	UInt32 value =1;
@@ -333,7 +361,7 @@ vector< list< vector<float> > > AHHost::RenderToBuffer()//CAStreamBasicDescripti
 //	}
 	
 //	cout << (*(data[0].begin()))[0] << "  " << (*(data[0].begin()++))[1] << endl;
-	listeningToMidi_ = true;
+	ListenToMidi();
 	return data;
 }
 
@@ -347,7 +375,7 @@ void AHHost::GetOutputUnitStreamFormat(CAStreamBasicDescription& outOutputUnitSt
 void AHHost::MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, void* srcConnRefCon)
 {
 	AHHost* host = (AHHost*)readProcRefCon;
-	if (host->listeningToMidi_ && host->GetTracks().size())
+	if (host->IsListeningToMidi() && host->GetTracks().size())
 	{
         int numPackets = pktlist->numPackets;
         if (!numPackets)
@@ -400,6 +428,9 @@ AHTrack* AHHost::AddTrack(const CAComponentDescription synthDescription)
     tracks_.push_back(track);
     graph_.ConnectMixerInputs();
     graph_.UpdateGraph();
+    
+    //TODO : if it's the first track, we should arm it!
+    //       or something like this... I need to think about this
 
     return tracks_.back();
 }
@@ -427,4 +458,46 @@ void AHHost::RemoveLastTrack()
     tracks_.pop_back();
     graph_.ConnectMixerInputs();
     graph_.UpdateGraph();
+}
+
+void AHHost::ListenToMidi()
+{
+    listeningToMidi_ = true;
+//    graph_.Start();
+}
+
+void AHHost::StopListeningToMidi()
+{
+    listeningToMidi_ = false;
+//    graph_.Stop();
+}
+
+void AHHost::ResetAudioUnits()
+{
+    UInt32 nbAU;
+    AUGraphGetNodeCount(graph_.GetAUGraph(), &nbAU);
+    
+    for (UInt32 i = 0; i<nbAU; i++)
+    {
+        AUNode node;
+        AudioUnit au;
+        PrintIfErr( AUGraphGetIndNode ( graph_.GetAUGraph(), i, &node) );
+        PrintIfErr( AUGraphNodeInfo ( graph_.GetAUGraph(), node, NULL, &au) );
+        PrintIfErr( AudioUnitReset(au, kAudioUnitScope_Global, 0) );
+    }    
+    
+    for (vector<AHTrack*>::iterator it = tracks_.begin(); it!= tracks_.end(); it++)
+    {
+        AudioUnit synth = (*it)->GetSynth()->AU();
+        PrintIfErr( MusicDeviceMIDIEvent(synth, 0xb0, 123, 0, 0) );
+        PrintIfErr( MusicDeviceMIDIEvent(synth, 0xb0, 120, 0, 0) );
+        list<AHAudioUnit*> effects = (*it)->GetEffects();
+        for (list<AHAudioUnit*>::iterator it = effects.begin(); it != effects.end(); it++)
+        {
+            AudioUnit e = (*it)->AU();
+            PrintIfErr( MusicDeviceMIDIEvent(e, 0xb0, 123, 0, 0) );
+            PrintIfErr( MusicDeviceMIDIEvent(e, 0xb0, 120, 0, 0) );
+
+        }
+    }
 }
