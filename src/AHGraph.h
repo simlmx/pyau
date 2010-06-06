@@ -40,6 +40,7 @@ public:
 public:
     void SetOutput(CAComponentDescription desc);
 	AHAudioUnit* GetOutput() { return output_; }
+    AHAudioUnit* GetMixer() { return mixer_; }
       
     
     //UInt32 GetBufferSize() { return graphWrapper_->GetBufferSize(); }

@@ -472,32 +472,56 @@ void AHHost::StopListeningToMidi()
 //    graph_.Stop();
 }
 
-void AHHost::ResetAudioUnits()
+
+void ResetAudioUnit(AHAudioUnit* audiounit)
 {
-    UInt32 nbAU;
-    AUGraphGetNodeCount(graph_.GetAUGraph(), &nbAU);
+//    printf("\nCleaning ");
+//    PrintCFStringRef(audiounit->GetName());
+
+    //AudioUnit au = audiounit->AU();
     
-    for (UInt32 i = 0; i<nbAU; i++)
-    {
-        AUNode node;
-        AudioUnit au;
-        PrintIfErr( AUGraphGetIndNode ( graph_.GetAUGraph(), i, &node) );
-        PrintIfErr( AUGraphNodeInfo ( graph_.GetAUGraph(), node, NULL, &au) );
-        PrintIfErr( AudioUnitReset(au, kAudioUnitScope_Global, 0) );
-    }    
+    //PrintIfErr( MusicDeviceMIDIEvent(au, 0xb0, 123, 0, 0) );
+    //PrintIfErr( MusicDeviceMIDIEvent(au, 0xb0, 120, 0, 0) );
     
+    PrintIfErr( audiounit->GlobalReset() );
+    
+    PrintIfErr( audiounit->Reset(kAudioUnitScope_Input, 0) );
+    if( audiounit->Reset(kAudioUnitScope_Output, 0) )
+        printf("\n no output");    
+    
+    //PrintIfErr( audiounit->Uninitialize() );
+    //PrintIfErr( audiounit->Initialize() );
+}
+
+void AHHost::ResetAudioUnits()
+{    
     for (vector<AHTrack*>::iterator it = tracks_.begin(); it!= tracks_.end(); it++)
     {
-        AudioUnit synth = (*it)->GetSynth()->AU();
-        PrintIfErr( MusicDeviceMIDIEvent(synth, 0xb0, 123, 0, 0) );
-        PrintIfErr( MusicDeviceMIDIEvent(synth, 0xb0, 120, 0, 0) );
+        ResetAudioUnit((*it)->GetSynth());
+        
         list<AHAudioUnit*> effects = (*it)->GetEffects();
-        for (list<AHAudioUnit*>::iterator it = effects.begin(); it != effects.end(); it++)
-        {
-            AudioUnit e = (*it)->AU();
-            PrintIfErr( MusicDeviceMIDIEvent(e, 0xb0, 123, 0, 0) );
-            PrintIfErr( MusicDeviceMIDIEvent(e, 0xb0, 120, 0, 0) );
+        int i=0;
+        for (list<AHAudioUnit*>::iterator jt = effects.begin(); jt != effects.end(); jt++)
+        {            
+            // HACK
+            // HACK for some plugins that doesn't reset
+            // HACK
+            CAComponentDescription desc = (*jt)->Comp().Desc();
+            if ( (desc.Type() == 'aumf' && desc.SubType() == '676v' && desc.Manu() == 'TOGU') || // TAL reverb 1
+                 (desc.Type() == 'aumf' && desc.SubType() == 'xg70' && desc.Manu() == 'TOGU')  ) // TAL dub 3
+            {
+                CFPropertyListRef preset;
+                PrintIfErr( (*jt)->GetAUPreset(preset) );
+                (*it)->RemoveEffectAt(i);
+                AHAudioUnit* new_au = (*it)->AddEffect(desc, i);
+                (new_au)->SetAUPreset(preset);
+            }
+            else
+                ResetAudioUnit(*jt);
 
+            i++;
         }
     }
+    //ResetAudioUnit(graph_.GetMixer());
+    //ResetAudioUnit(graph_.GetOutput());   
 }

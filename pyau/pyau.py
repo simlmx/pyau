@@ -15,14 +15,14 @@ from numpy.random import rand
 import pyau_swig as au
 from au_gui import launch_gui
 
-try:
-    import IPython
-    IPython.Shell.hijack_tk()
-except:
-    pass
+#try:
+#    import IPython
+#    IPython.Shell.hijack_tk()
+#except:
+#    pass
 
-import Tkinter
-Tkinter.Tk().withdraw() # hack
+#import Tkinter
+#Tkinter.Tk().withdraw() # hack
     
 
 class Host(object):
@@ -50,6 +50,13 @@ class Host(object):
     def stop(self):
         """ Stops the playing started with 'play'. """
         self._ah_host.Stop()
+
+    def reset_audiounits(self):
+        """ "Resets" audiounits... I'm not sure what it does exactly.
+            It is supposed to clean internal buffers, e.g. for reverbs and delays.
+            This function should be used unless you know what you're doing!
+        """
+        self._ah_host.ResetAudioUnits()
 
     def bounce(self, wavfile_path=None):
         """ Renders the midi file.

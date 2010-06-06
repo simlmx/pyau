@@ -6,6 +6,8 @@
  *
  */
 
+#include <typeinfo>
+
 #include "AHUtils.h"
 #include "AHDefs.h"
 
@@ -112,6 +114,19 @@ void PrintCFStringRef(CFStringRef str)
 		CFShow (str);
     
 	free (chars);
+}
+
+void printKeys (const void* key, const void* value, void* context) {
+    CFShow(key);
+    printf(" : ");
+    CFShow(value);
+}
+
+void CFDictionaryShow(CFDictionaryRef dict)
+{
+    printf("{ ");
+    CFDictionaryApplyFunction(dict, printKeys, NULL);
+    printf(" }");
 }
                                
 void PrintIfErr(OSStatus err)

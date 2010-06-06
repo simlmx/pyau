@@ -46,9 +46,10 @@ public:
 	AHAudioUnit* GetSynth() { return synth_; }
     
 	
-    AHAudioUnit* AddEffect(const string name, const string manu="");
-	AHAudioUnit* AddEffect(const CAComponentDescription desc);
+    AHAudioUnit* AddEffect(const string name, const string manu="", int index=-1); // -1 means "at the end"
+	AHAudioUnit* AddEffect(const CAComponentDescription desc, int index=-1);
 	void RemoveLastEffect();
+    void RemoveEffectAt(int index);
 //	AHAudioUnit* GetEffectAt(int index=0);
 	list<AHAudioUnit*>& GetEffects() { return effects_; }
     
@@ -57,6 +58,7 @@ public:
     bool IsArmed() { return armed_; }
 	
 protected:
+//public:
 	void ConnectAllNodes() const;
     void DisconnectAllNodes() const;
 };

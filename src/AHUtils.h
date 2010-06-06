@@ -23,6 +23,10 @@ void PrintAllAudioUnits();
 
 void PrintCFStringRef(CFStringRef str);
 
+void printKeys (const void* key, const void* value, void* context);
+void CFDictionaryShow(CFDictionaryRef dict);
+
+
 void PrintIfErr(OSStatus);
 
 // manu is facultative, pass "" if you don't want to use it

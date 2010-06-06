@@ -39,29 +39,46 @@ void print_host(AHHost &host)
 int main( int argc, const char* argv[] )
 {
     //PrintAllAudioUnits();
-    //AHHost host = AHHost();
-    //AHTrack* track = host.AddTrack("automat1");
-    //host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
+    AHHost host = AHHost();
+    AHTrack* track = host.AddTrack("automat1");
     
-    AHHost host2 = AHHost();
-    AHTrack* track2 = host2.AddTrack("automat1");
-    AHAudioUnit* reverb = track2->AddEffect("TAL Reverb Plugin");
-    //camel->LoadAUPresetFromFile("/Users/simon/Lib/Gamme/projects/timbre/synthparams/test/l/0/l0kdhv0/CamelCrusher.aupreset");
-    AHAudioUnit* dub = track2->AddEffect("TAL Dub III Plugin");
-    //dub->LoadAUPresetFromFile("/Users/simon/Lib/Gamme/projects/timbre/synthparams/test/l/0/l0kdhv0/TAL Dub III Plugin.aupreset");
     
-    host2.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
-    //host.BounceToFile("/Users/simon/tmp/test.wav");
-    //track->Arm();
+    //AHAudioUnit* delay = track->AddEffect("AUDelay");
+    //AHAudioUnit* reverb = track->AddEffect("TAL Reverb Plugin");
+    //AHAudioUnit* dub = track->AddEffect("TAL dub III Plugin");
+    //track->AddEffect("camelcrusher");
+    AHAudioUnit* reverb = track->AddEffect("TAL Reverb Plugin");
+    //track->AddEffect("camelcrusher");
+    
+    
+    track->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_aut1.aupreset");
+    reverb->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_rev.aupreset");
+    //dub->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_dub.aupreset");
+    //delay->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_delay.aupreset");
+    host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
+
     printf("\nplaying");
-    host2.Play();
-    usleep(300000);
-    host2.Stop();
-    host2.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/63.mid");
-    host2.Play();
-    usleep(400000);
-    host2.Play();
-    printf("\nstoping");
+    host.Play();
+    sleep(1);
+    //reverb->SaveAUPresetToFile("/Users/simon/tmp/temp_preset.aupreset");
+    printf("\nStop");
+    host.Stop();
+    host.ResetAudioUnits();
+    sleep(2);
+    //AUGraphStop(host.GetAHGraph()->GetAUGraph());
+//    printf("\nReset");
+
+    
+    //track->RemoveEffectAt(1);
+    
+    host.Play();
+    
+    sleep(1);
+    host.Stop();
+    //AUGraphStart(host.GetAHGraph()->GetAUGraph());
+    
+    //host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/63.mid");
+    //host.Play();
 
     //host2.ResetAudioUnits();
     sleep(12); 

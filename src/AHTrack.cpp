@@ -67,26 +67,36 @@ AHAudioUnit* AHTrack::SetSynth(const string name, const string manu)
     }
 }
 
-AHAudioUnit* AHTrack::AddEffect(const CAComponentDescription desc)
+AHAudioUnit* AHTrack::AddEffect(const CAComponentDescription desc, int index)
 {
     graph_->DisconnectMixerInputs(trackIndex_);
 	DisconnectAllNodes();
 	
-	effects_.push_back( graph_->AddAHAudioUnitToGraph(desc) );
+    AHAudioUnit* eff = graph_->AddAHAudioUnitToGraph(desc);
+    
+    if (index==-1)
+        effects_.push_back(eff);
+    else
+    {
+        list<AHAudioUnit*>::iterator it = effects_.begin();
+        for (int i=0; i<index; i++)
+            it++;
+        effects_.insert(it, eff);
+    }
 	
 	ConnectAllNodes();
     graph_->ConnectMixerInputs(trackIndex_);
 	
     graph_->UpdateGraph();
-	return effects_.back();
+	return eff;
 }
 
-AHAudioUnit* AHTrack::AddEffect(const string name , const string manu)
+AHAudioUnit* AHTrack::AddEffect(const string name , const string manu, int index)
 {
     CAComponentDescription desc; 
     if (FindAudioUnitFromName(name, manu, desc))
     {
-        return AddEffect(desc);
+        return AddEffect(desc, index);
     }
     else
     {
@@ -97,6 +107,25 @@ AHAudioUnit* AHTrack::AddEffect(const string name , const string manu)
         return NULL;
     }
 }
+
+void AHTrack::RemoveEffectAt(int index)
+{
+    graph_->DisconnectMixerInputs(trackIndex_);
+	DisconnectAllNodes();
+    list<AHAudioUnit*>::iterator it = effects_.begin();
+    for (int i=0; i<index; i++)
+        it++;
+    
+    graph_->RemoveAHAudioUnitFromGraph(*it);
+    
+    effects_.erase(it);
+    
+	ConnectAllNodes();
+    graph_->ConnectMixerInputs(trackIndex_);
+    
+    graph_->UpdateGraph();
+}
+
 
 void AHTrack::RemoveLastEffect()
 {

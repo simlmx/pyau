@@ -130,7 +130,7 @@ def normalize_volume(host, volume_parameter, target_peak=.4, window_length=2001,
     volume_parameter.value = s
 
 def rms(audio):
-    """ Returns sqrt(mean(audio**2)). *audio* must be an 1D array. """
+    """ Returns sqrt(mean(audio**2)). `audio` must be an 1D array. """
     #print '%.2f' % N.sqrt(N.mean(audio**2)),
     return N.sqrt(N.mean(audio**2))
     
@@ -167,7 +167,6 @@ def normalize_volume_presets(aupreset_file_or_dir, host, audiounit, volume_param
     if save_dir is None:
         print 'Error : you have to specify a save_dir'
     
-    host = host
     au = audiounit
     
     if isdir(aupreset_file_or_dir): 
