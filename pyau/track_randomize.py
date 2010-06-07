@@ -62,7 +62,7 @@ def save_aupresets(aupresets_dir, host):
     """ Saves the aupresets of each unit of the first track of the 'host' in 'aupresets_dir'.
         The name of thes files are the_name_of_the_audio_unit.aupreset    
         
-        Also creates a audiounits.txt file with the list of the names of the audiounits.
+        Also creates a audiounit.txt file with the list of the names of the audiounits.
     """
     
     info_file = open(os.path.join(aupresets_dir, 'audiounit.txt'), 'w')
@@ -74,6 +74,12 @@ def save_aupresets(aupresets_dir, host):
             file_path = os.path.join(dir, au.name + '.aupreset')
             info_file.write('%s\n' % au.name)
             au.save_aupreset(file_path)
+            
+    # something special for kontakt 3
+    # we need to save the path to the original .aupreset somewhere
+    if au.name == 'kontakt 3':
+        with open(os.path.join(aupresets_dir, 'kontakt3_original_preset.txt'),'w') as f:
+            f.write(au._last_aupreset)
                 
 def load_aupresets(aupresets_dir, host=None):
     """ Loads the .aupresets in 'aupresets_dir' back into the (single) track of the 'host'.
@@ -81,7 +87,7 @@ def load_aupresets(aupresets_dir, host=None):
         If there are effects in `host` that doesn't have a corresponding .aupreset, their bypass setting
         will be set to True.
         
-        If the ``host`` is None, we will create it and use what is in audiounits.txt to create the audio units.
+        If the ``host`` is None, we will create it and use what is in audiounit.txt to create the audio units.
         In that case we will return the host. If it was supplied we won't.
     """
     # building the track if it was not already there
