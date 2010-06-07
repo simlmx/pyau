@@ -11,7 +11,7 @@ import numpy as N
 
 import pyau.random_parameters.randfunc as RF
 from param_randomizer import param_randomizer
-from pyau.random_parameters.volume import normalize_volume, check_
+from pyau.random_parameters.volume import normalize_volume, check_volume
     
 def kontakt3_aupreset_dir():
     ''' Returns the directory where to find kontakt3 aupresets.
