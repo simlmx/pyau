@@ -52,10 +52,27 @@ int main( int argc, const char* argv[] )
     
     
     track->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_aut1.aupreset");
+    AHAudioUnit* matrixrev = track->AddEffect("AUMatrixReverb");
     reverb->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_rev.aupreset");
     //dub->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_dub.aupreset");
     //delay->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_delay.aupreset");
     host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
+    
+    printf("presque\n");
+    list<AUPreset> liste = matrixrev->GetFactoryPresetList(0,0);
+    list<AUPreset> liste2 = track->GetSynth()->GetFactoryPresetList(0,0);
+    
+    for (list<AUPreset>::iterator it=liste.begin(); it!=liste.end(); it++) {
+        PrintCFStringRef((*it).presetName);
+        printf("\n");
+        cout << ((*it).presetNumber) << endl;
+    }
+    for (list<AUPreset>::iterator it=liste2.begin(); it!=liste2.end(); it++) {
+        PrintCFStringRef((*it).presetName);
+        printf("\n");
+    }
+    
+    printf("oui\n");
 
     printf("\nplaying");
     host.Play();

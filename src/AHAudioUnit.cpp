@@ -57,10 +57,10 @@ list<AHParameter> AHAudioUnit::GetParameterList(AudioUnitScope scope, AudioUnitE
 {
 	
 	UInt32 size;
-	AudioUnitGetProperty(AU(), kAudioUnitProperty_ParameterList, scope, element, NULL, &size);
+	GetPropertyInfo(kAudioUnitProperty_ParameterList, scope, element, &size, NULL);
 	UInt32 nb_params = size/sizeof(AudioUnitParameterID);		
 	AudioUnitParameterID data[nb_params];
-	AudioUnitGetProperty(AU(), kAudioUnitProperty_ParameterList, scope, element, &data, &size);
+	GetProperty(kAudioUnitProperty_ParameterList, scope, element, &data, &size);
 	
 	list<AHParameter> params;
 	for(UInt32 i=0; i<nb_params; i++)
@@ -70,6 +70,23 @@ list<AHParameter> AHAudioUnit::GetParameterList(AudioUnitScope scope, AudioUnitE
 	}
 					
 	return params;
+}
+
+list<AUPreset> AHAudioUnit::GetFactoryPresetList(AudioUnitScope scope, AudioUnitElement element)
+{
+    //UInt32 size;    
+    //GetPropertyInfo(kAudioUnitProperty_FactoryPresets, scope, element, &size, NULL);
+    CFArrayRef array;
+    list<AUPreset> fp;
+    UInt32 size = sizeof(CFArrayRef);
+    if ( GetProperty(kAudioUnitProperty_FactoryPresets, scope, element, &array, &size) != noErr)
+        return fp;
+    CFArrayGetCount(array);
+    for (CFIndex i=0; i<CFArrayGetCount(array); i++)
+        fp.push_back(*(AUPreset*)CFArrayGetValueAtIndex(array, i));
+    CFRelease(array); // NOT SURE WETHER THIS IS WHAT I'M SUPPOSED TO DO...
+    return fp;
+    
 }
 
 bool AHAudioUnit::GetView()

@@ -17,11 +17,12 @@
 #define __AHAUDIOUNIT__
 
 #include "CAAudioUnit.h"
-//#include "AudioUnit/AudioUnit.h"
+#include "AudioUnit/AudioUnit.h"
 #include "AHParameter.h"
 #include <string>
 #include <list>
 
+using namespace std;
 
 class AHAudioUnit : public CAAudioUnit
 {
@@ -32,10 +33,12 @@ public:
     
     AHAudioUnit():CAAudioUnit(){}
 	
-	virtual void LoadAUPresetFromFile(std::string aupresetPath);
-	virtual void SaveAUPresetToFile(std::string aupresetPath);
+	virtual void LoadAUPresetFromFile(string aupresetPath);
+	virtual void SaveAUPresetToFile(string aupresetPath);
 	
-	virtual std::list<AHParameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
+	virtual list<AHParameter> GetParameterList(AudioUnitScope scope, AudioUnitElement element);
+    virtual std::list<AUPreset> GetFactoryPresetList(AudioUnitScope scope, AudioUnitElement element);
+    
 		
 //	virtual ~AudioUnitWrapper() {}
 	

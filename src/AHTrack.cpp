@@ -110,6 +110,7 @@ AHAudioUnit* AHTrack::AddEffect(const string name , const string manu, int index
 
 void AHTrack::RemoveEffectAt(int index)
 {
+    // TODO : check if there is and effect at index "index" before trying to remove it!
     graph_->DisconnectMixerInputs(trackIndex_);
 	DisconnectAllNodes();
     list<AHAudioUnit*>::iterator it = effects_.begin();
@@ -129,17 +130,21 @@ void AHTrack::RemoveEffectAt(int index)
 
 void AHTrack::RemoveLastEffect()
 {
-    graph_->DisconnectMixerInputs(trackIndex_);
-	DisconnectAllNodes();
+    if (!effects_.empty())
+    {
+        graph_->DisconnectMixerInputs(trackIndex_);
+        DisconnectAllNodes();
 
-    graph_->RemoveAHAudioUnitFromGraph(effects_.back());
-    
-    effects_.pop_back();
-    
-	ConnectAllNodes();
-    graph_->ConnectMixerInputs(trackIndex_);
-    
-    graph_->UpdateGraph();
+        graph_->RemoveAHAudioUnitFromGraph(effects_.back());
+        
+        
+        effects_.pop_back();
+        
+        ConnectAllNodes();
+        graph_->ConnectMixerInputs(trackIndex_);
+        
+        graph_->UpdateGraph();
+    }
 }
 
 void AHTrack::ConnectAllNodes() const
