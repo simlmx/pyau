@@ -1,5 +1,5 @@
 #
-#  PyAudioUnit.py
+#  pyau.py
 #  
 #
 #  Created by simon on 24/03/09.
@@ -97,6 +97,14 @@ class Host(object):
             for i,t in enumerate(self.tracks):
                 s += '%i: %s\n' % (i, t.__str__())
         return s
+        
+    #def __del__(self):
+    #    super(Host, self).__del__()
+    #    for t in self.tracks:
+    #        del t.synth
+    #        for e in t.effects:
+    #            del e
+    #        del t
 
 class Track(object):
     """	Represents a chain of audio units : a synth and a list of effects.

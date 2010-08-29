@@ -2,6 +2,16 @@
 # gui for an audiounit
 # june 2010 - Simon Lemieux
 #
+
+try:
+    import IPython
+    IPython.Shell.hijack_tk()
+except:
+    pass
+
+import Tkinter
+Tkinter.Tk().withdraw() # hack
+
 from Tkinter import *
 
 class AutoScrollbar(Scrollbar):
@@ -23,6 +33,10 @@ class AutoScrollbar(Scrollbar):
 
 def param_change_event_handler(event, param):
     param.value = event.widget.get()
+    
+def reset_change_event_handler(event, param):
+    print 'reset'
+    param.value = param.default_value
 
 
 def launch_gui(au):
@@ -55,7 +69,10 @@ def launch_gui(au):
         
         #txt_value = Entry(frame, text=p.value)
         #lbl_units = Label(frame, text=p.unit)
-        slider.bind('<ButtonRelease-1>', lambda event, param=p : param_change_event_handler(event, param))
+        #slider.bind('<ButtonRelease-1>', lambda event, param=p : param_change_event_handler(event, param))
+        slider.bind('<B1-Motion>', lambda event, param=p : param_change_event_handler(event, param))
+        slider.bind('d', lambda event, param=p : reset_change_event_handler(event, param))
+        
         
         for j,w in enumerate([lbl_name, slider]):
             w.grid(row=i, column=j)        

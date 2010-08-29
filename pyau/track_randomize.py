@@ -34,10 +34,13 @@ def get_track_randomizers(host, volumes=None, prob_on_effects=None):
 def randomize_track(host, randomizers=None, verbose=False):
     """ Randomizes the first track of the 'host' using the randomizers.
         Use get_track_randomizers(...) to generate the randomizers.
-        
+        We recommand to specity the `randomizers` since it's generally better to set their volume individually.
         Returns True if all went well, False if not. However, False should be very unusual, if randomizers were well implemented.
     """
     aus = [host.tracks[0].synth] + host.tracks[0].effects
+    
+    if randomizers is None:
+        randomizers = get_track_randomizers(host)
     
     for au in aus:
         au.bypass = True

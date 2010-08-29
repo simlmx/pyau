@@ -5,6 +5,8 @@
 # Simon Lemieux
 #
 
+__all__ = ['automat1_param_randomizer']
+
 import numpy as N
 
 import pyau.random_parameters.randfunc as RF
