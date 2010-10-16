@@ -67,7 +67,9 @@ def save_aupresets(aupresets_dir, host):
         
         Also creates a audiounits.txt file with the list of the names of the audiounits.
     """
-    
+    if not os.path.exists(aupresets_dir):
+        os.mkdir(aupresets_dir)
+        
     info_file = open(os.path.join(aupresets_dir, 'audiounit.txt'), 'w')
     
     dir = aupresets_dir   
