@@ -600,7 +600,14 @@
 			isa = PBXProject;
 			buildConfigurationList = A9E8845A0874AAEB00B2DFE8 /* Build configuration list for PBXProject "AudiounitHost" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* PrintSequence */;
 			projectDirPath = "";
 			projectRoot = "";

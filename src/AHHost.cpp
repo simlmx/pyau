@@ -381,43 +381,37 @@ void AHHost::MidiReadProc(const MIDIPacketList* pktlist, void* readProcRefCon, v
         if (!numPackets)
             return;
         const MIDIPacket* pkt = &pktlist->packet[0];
-        //bool retour_chariot = false;
+        bool retour_chariot = false;
 		for(int i=0; i<numPackets; ++i)		
 		{
             for(int j=0; j<pkt->length; j++)
             {
-                Byte data = pkt->data[j];
-                Byte data_code = data>>4;
-                if (data_code == 0x09 || data_code == 0x08) // if we receive a note msg, we'll transmit it
+                UInt32 status = (UInt32) pkt->data[j];
+                UInt32 data1 = (UInt32) pkt->data[j+1];
+                UInt32 data2 = (UInt32) pkt->data[j+2];
+                
+                // let's filter some messages before printing
+                /*if ( !(status == 0xf8 || status == 0xfe) )
                 {
-          /*          cout << "( ";
-                    cout << hex << (int)(pkt->data[j]) << " ";
-                    cout << hex << (int)(pkt->data[j+1]) << " ";
-                    cout << hex << (int)(pkt->data[j+2]) << " )";
-                    retour_chariot = true;*/
-                    vector<AHTrack*> tracks = host->GetTracks();
-                    for ( int i=0; i<(int)tracks.size(); i++)
-                    {
-                        if (tracks[i]->IsArmed())
-                        {
-                            AudioUnit au = tracks[i]->GetSynth()->AU();
-                            PrintIfErr( MusicDeviceMIDIEvent(au, (int)pkt->data[j], (int)pkt->data[j+1], (int)pkt->data[j+2], 0));
-                        }
-                    }
+                    cout << "( ";
+                    cout << hex << status << " ";
+                    cout << hex << data1 << " ";
+                    cout << hex << data2 << " )";
+                    retour_chariot = true;
+                }*/
+                vector<AHTrack*> tracks = host->GetTracks();
                     
-                    j+=2;
-                } else if (data == 0xf8 || data == 0xfe) {}
-                else
-                {
-                  //  cout << "( " << hex << (int)pkt->data[j] << " ) ";
-                   // retour_chariot = true;
-                }
+                // And we send the midi message to every armed track
+                for ( int i=0; i<(int)tracks.size(); i++)
+                    if (tracks[i]->IsArmed())
+                        tracks[i]->GetSynth()->MIDIEvent(status, data1, data2, 0);                
+                j+=2;
             }
             pkt = MIDIPacketNext(pkt);
 		}
     
-//    if(retour_chariot)
-  //      cout << endl;   
+    //if(retour_chariot)
+    //    cout << endl;   
 	}
 }
 

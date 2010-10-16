@@ -52,6 +52,7 @@ int main( int argc, const char* argv[] )
     
     
     track->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_aut1.aupreset");
+    track->Arm();
     AHAudioUnit* matrixrev = track->AddEffect("AUMatrixReverb");
     reverb->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_rev.aupreset");
     //dub->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_dub.aupreset");
@@ -73,6 +74,8 @@ int main( int argc, const char* argv[] )
     }
     
     printf("oui\n");
+    
+    CFRunLoopRun();
 
     printf("\nplaying");
     host.Play();
