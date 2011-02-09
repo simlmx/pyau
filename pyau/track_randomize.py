@@ -45,9 +45,11 @@ def randomize_track(host, randomizers=None, verbose=False):
     everything_went_fine = True
     for au,r in zip(aus, randomizers):
         au.bypass = False
-        if r.randomize_parameters() == -1: # if something went wrong
-            if verbose:
-                print '%s had some problem!' % au.name
+        nb_trials = r.randomize_parameters()
+        if nb_trials == -1: # if something went wrong
+            log.warning('Something went wrong for audiounit %s', au.name)
+            #if verbose:
+            #    print '%s had some problem!' % au.name
             everything_went_fine = False
     
     if verbose:
@@ -77,9 +79,10 @@ def save_aupresets(aupresets_dir, host):
             
     # something special for kontakt 3
     # we need to save the path to the original .aupreset somewhere
-    if au.name == 'kontakt 3':
+    synth = host.tracks[0].synth
+    if synth.name.lower() == 'kontakt 3':
         with open(os.path.join(aupresets_dir, 'kontakt3_original_preset.txt'),'w') as f:
-            f.write(au._last_aupreset)
+            f.write(synth._last_aupreset)
                 
 def load_aupresets(aupresets_dir, host=None):
     """ Loads the .aupresets in 'aupresets_dir' back into the (single) track of the 'host'.

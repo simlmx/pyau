@@ -43,7 +43,6 @@ class kontakt3_param_randomizer(param_randomizer):
         """
         for no_trial in range(nb_trials):
             current_aupreset = N.random.randint(len(self.aupresets))
-            #print self.aupresets[self.current_aupreset]
             self.au.load_aupreset(self.aupresets[current_aupreset])
             vol = check_volume(self.host, verbose=False)
             if vol <= 0.:
@@ -54,10 +53,13 @@ class kontakt3_param_randomizer(param_randomizer):
         
     def get_parameters(self):
         ''' One hot for the .aupresets. '''
-        current_aupreset = self.aupresets_dict[current_aupreset]
-        x = N.zeros(len(self.aupresets))
-        x[current_aupreset] = 1.
-        return x
+        #current_aupreset = self.aupresets_dict[current_aupreset]
+        #x = N.zeros(len(self.aupresets))
+        #x[current_aupreset] = 1.
+        #return x
+        
+        # We need to think of something to get these parameters, since they do not depend on presets parameters but on the file itself!
+        return None
         
     def set_parameters(self, x):
         current_aupreset = N.argmax(x)
