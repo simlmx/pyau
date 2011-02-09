@@ -48,9 +48,11 @@ def randomize_track(host, randomizers=None, verbose=False):
     everything_went_fine = True
     for au,r in zip(aus, randomizers):
         au.bypass = False
-        if r.randomize_parameters() == -1: # if something went wrong
-            if verbose:
-                print '%s had some problem!' % au.name
+        nb_trials = r.randomize_parameters()
+        if nb_trials == -1: # if something went wrong
+            log.warning('Something went wrong for audiounit %s', au.name)
+            #if verbose:
+            #    print '%s had some problem!' % au.name
             everything_went_fine = False
     
     if verbose:
@@ -65,7 +67,7 @@ def save_aupresets(aupresets_dir, host):
     """ Saves the aupresets of each unit of the first track of the 'host' in 'aupresets_dir'.
         The name of thes files are the_name_of_the_audio_unit.aupreset    
         
-        Also creates a audiounits.txt file with the list of the names of the audiounits.
+        Also creates a audiounit.txt file with the list of the names of the audiounits.
     """
     if not os.path.exists(aupresets_dir):
         os.mkdir(aupresets_dir)
@@ -79,6 +81,13 @@ def save_aupresets(aupresets_dir, host):
             file_path = os.path.join(dir, au.name + '.aupreset')
             info_file.write('%s\n' % au.name)
             au.save_aupreset(file_path)
+            
+    # something special for kontakt 3
+    # we need to save the path to the original .aupreset somewhere
+    synth = host.tracks[0].synth
+    if synth.name.lower() == 'kontakt 3':
+        with open(os.path.join(aupresets_dir, 'kontakt3_original_preset.txt'),'w') as f:
+            f.write(synth._last_aupreset)
                 
 def load_aupresets(aupresets_dir, host=None):
     """ Loads the .aupresets in 'aupresets_dir' back into the (single) track of the 'host'.
@@ -86,7 +95,7 @@ def load_aupresets(aupresets_dir, host=None):
         If there are effects in `host` that doesn't have a corresponding .aupreset, their bypass setting
         will be set to True.
         
-        If the ``host`` is None, we will create it and use what is in audiounits.txt to create the audio units.
+        If the ``host`` is None, we will create it and use what is in audiounit.txt to create the audio units.
         In that case we will return the host. If it was supplied we won't.
     """
     # building the track if it was not already there

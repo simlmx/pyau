@@ -25,8 +25,8 @@ class kontakt3_param_randomizer(param_randomizer):
         super(kontakt3_param_randomizer, self).__init__(au, host, volume)
         self.aupresets = [os.path.join(kontakt3_aupreset_dir(), f) for f in os.listdir(kontakt3_aupreset_dir()) if f.endswith('.aupreset')]
         self.aupresets.sort() # that way they are in the some order everytime
-        self.current_aupreset = None
-    
+        self.aupresets_dict = dict([(preset,i) for i,preset in enumerate(self.aupresets)])
+            
     def _used_parameters(self):
         print 'Error : _used_parameters() has no sense for Kontakt3'
         
@@ -36,29 +36,32 @@ class kontakt3_param_randomizer(param_randomizer):
                 
     def randomize_parameters(self, nb_trials=10):
         """ Takes a random .aupreset 
-            Returns True if it succeded, False if not.
-            But false should very unusual.
+            Returns the number of tries before getting a "good" sound, and -1 if it fails.
+            But -1 be should very unusual.
             
-            nb_trials : nb of time it will try before it stops and returns False
+            nb_trials : nb of time it will try before it stops and returns -1
         """
         for no_trial in range(nb_trials):
-            self.current_aupreset = N.random.randint(len(self.aupresets))
-            #print self.aupresets[self.current_aupreset]
-            self.au.load_aupreset(self.aupresets[self.current_aupreset])
+            current_aupreset = N.random.randint(len(self.aupresets))
+            self.au.load_aupreset(self.aupresets[current_aupreset])
             vol = check_volume(self.host, verbose=False)
             if vol <= 0.:
-                print "kontakt aupreset %s doesn't like midi file %s" % ( self.aupresets[self.current_aupreset], self.host.midifile )
+                print "kontakt aupreset %s doesn't like midi file %s" % ( self.aupresets[current_aupreset], self.host.midifile )
             else:
                 return no_trial
         return -1
         
     def get_parameters(self):
         ''' One hot for the .aupresets. '''
-        x = N.zeros(len(self.aupresets))
-        x[self.current_aupreset] = 1.
-        return x
+        #current_aupreset = self.aupresets_dict[current_aupreset]
+        #x = N.zeros(len(self.aupresets))
+        #x[current_aupreset] = 1.
+        #return x
+        
+        # We need to think of something to get these parameters, since they do not depend on presets parameters but on the file itself!
+        return None
         
     def set_parameters(self, x):
-        self.current_aupreset = N.argmax(x)
-        self.au.load_aupreset(self.aupresets[self.current_aupreset])
+        current_aupreset = N.argmax(x)
+        self.au.load_aupreset(self.aupresets[current_aupreset])
         

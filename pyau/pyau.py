@@ -185,6 +185,7 @@ class AudioUnit(object):
         self._desc = None
         self._ah_parameters = {}
         self._ah_parameters_dicts = {}
+        self._last_aupreset = ''
         
 
     def get_parameters(self, scope = au.kAudioUnitScope_Global, element = 0):
@@ -215,6 +216,7 @@ class AudioUnit(object):
         """
         
         self._ah_au.LoadAUPresetFromFile(aupreset_file)
+        self._last_aupreset=aupreset_file
         
     def save_aupreset(self, aupreset_file):
         """ Saves the current setting of the parameters in a aupreset file.
