@@ -10,63 +10,67 @@ import sys
 
 from midi import *
 
-def create_1note_midifiles(notes, velocities, duration, midi_filename):
+def create_1note_midifiles(notes, velocities, durations, midi_filename):
     ''' See method print_usage_and_exit() for help
         For more fancy
     '''    
     count = 0
     for n in notes:
         for v in velocities:
-        
-            filename = midi_filename.replace('[note]', str(n)).replace('[velocity]', str(v))
-            #print n,v
-            #print filename
-            file = MidiFile()
-            file.file = open(filename, 'w')
-            file.ticksPerQuarterNote = 96
-            
-            track = MidiTrack(0)
-            file.tracks=[track]
-        
-            time = 0
-        
-            delta0 = DeltaTime(track)
-            delta0.time = 0
-            
-            time += delta0.time
-            
-            note_on = MidiEvent(track)
-            note_on.type = "NOTE_ON"
-            note_on.time = time
-            note_on.velocity = v
-            note_on.pitch = n
-            note_on.channel = 1
-            
-            delta1sec = DeltaTime(track)
-            delta1sec.time = int(96./500.*duration + .5)
-            
-            time += delta1sec.time    
-            
-            note_off = MidiEvent(track)
-            note_off.type = "NOTE_ON"
-            note_off.time = time
-            note_off.velocity = 0
-            note_off.pitch = n
-            note_off.channel = 1
-            
-            time += delta0.time
-            
-            end_of_track = MidiEvent(track)
-            end_of_track.type = "END_OF_TRACK"
-            end_of_track.time = delta0.time + delta1sec.time
-            end_of_track.data = ''
+            for d in durations:
                 
-            track.events = [delta0, note_on, delta1sec, note_off, delta0, end_of_track]
+                filename = midi_filename.replace('[note]', str(n))
+                filename = filename.replace('[velocity]', str(v))
+                filename = filename.replace('[duration]', str(d))
+
+                #print n,v,d
+                #print filename 
+
+                file = MidiFile()
+                file.file = open(filename, 'w')
+                file.ticksPerQuarterNote = 96
+                
+                track = MidiTrack(0)
+                file.tracks=[track]
+                
+                time = 0
+                delta0 = DeltaTime(track)
+                delta0.time = 0
+                
+                time += delta0.time
             
-            #print file
-            file.write()    
-            file.file.close()
-            count += 1
+                note_on = MidiEvent(track)
+                note_on.type = "NOTE_ON"
+                note_on.time = time
+                note_on.velocity = v
+                note_on.pitch = n
+                note_on.channel = 1
+                
+                delta1sec = DeltaTime(track)
+                delta1sec.time = int(96./500.*duration + .5)
+                
+                time += delta1sec.time    
+                
+                note_off = MidiEvent(track)
+                note_off.type = "NOTE_ON"
+                note_off.time = time
+                note_off.velocity = 0
+                note_off.pitch = n
+                note_off.channel = 1
+                
+                time += delta0.time
+            
+                end_of_track = MidiEvent(track)
+                end_of_track.type = "END_OF_TRACK"
+                end_of_track.time = delta0.time + delta1sec.time
+                end_of_track.data = ''
+                
+                track.events = [delta0, note_on, delta1sec, note_off, delta0, end_of_track]
+                
+                #print file
+                file.write()    
+                file.file.close()
+                count += 1
     print '%i midi files have been created' % count
             
 
@@ -79,16 +83,17 @@ def print_usage_and_exit():
     print 'Arguments :'
     print '  - notes'
     print '          Can be either an integer between 0 and 127 (representing the midi note) or'
-    print '          a range X-Y, e.g 101-120 would create 20 midi files with midi notes 101 to 120.'
+    print '          a range first-last-step, e.g 100-106-2 would create 4 midi files with midi notes 100, 102, 104 and 106.'
+
     print '  - velocity'
     print '          The velocity of the note(s), between 0 and 127.'
-    print '          Like the previous parameter, can be of the form X-Y.'
+    print '          Like the previous parameter, can be of the form first-last-step.'
     print '          All combinations of notes/velocities will be computed.' 
     print '          default value of 100'
     print '  - duration'
     print '          The duration of the note(s) in ms'
     print '          default value of 1500 (1.5 sec)'
-    print '          note : If anybody wants the X-Y thing for duration too, it should be easy to add... au pire demandez-le moi!'
+    print '          Again, can be of the form first-last-step.'
     print '  - midi_filename'
     print '          The name of the midi files.'
     print '          "[note]" "[velocity]" "[duration]" will be replaced by, respectively, the note number, the velocity and the duration.'
@@ -105,10 +110,13 @@ if __name__ == '__main__':
     
     def arg_to_range(str):
         ''' Example : convert the string '3-7' into the list [3, 4, 5, 6, 7]
+                      or 3-7-2 to [3,5,7]
         '''
         arg = map(int,str.split('-'))
         if len(arg) == 1:
             arg *= 2
+        if len(arg) == 2:
+            arg.append(1)
         arg[1] +=1
         arg = range(*arg)
         return arg
@@ -126,7 +134,7 @@ if __name__ == '__main__':
         elif args[1] == '-v':
             velocities = arg_to_range(args[2])
         elif args[1] == '-d':
-            duration = int(args[2])
+            durations = arg_to_range(args[2])
         elif args[1] == '-o':
             midi_filename = args[2]
         else:
@@ -134,5 +142,5 @@ if __name__ == '__main__':
             sys.exit()
         args.pop(1); args.pop(1)
         
-    create_1note_midifiles(notes, velocities, duration, midi_filename)
+    create_1note_midifiles(notes, velocities, durations, midi_filename)
     
