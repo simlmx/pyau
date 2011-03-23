@@ -57,6 +57,7 @@ public:
 	
 	vector< list< vector<float> > > Bounce();
 	void Play();
+    void PlayAndBlock(); // same as Play() but without using a callback
 	void Stop();
 	
     AHTrack* AddTrack(const string name, const string manu="");

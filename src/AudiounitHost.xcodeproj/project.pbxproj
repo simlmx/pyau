@@ -40,6 +40,9 @@
 		F4009C2610E7070800A73744 /* CACFDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BE610E7062C00A73744 /* CACFDictionary.h */; };
 		F414460711501CD6001A1223 /* FileSystemUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F414460511501CD6001A1223 /* FileSystemUtils.cpp */; };
 		F414460811501CD6001A1223 /* FileSystemUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F414460611501CD6001A1223 /* FileSystemUtils.h */; };
+		F485156A133A47B40030D07E /* CAAudioFileFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4851569133A47B40030D07E /* CAAudioFileFormats.h */; };
+		F485156D133A47E80030D07E /* CAFilePathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F485156C133A47E80030D07E /* CAFilePathUtils.h */; };
+		F4851570133A47FF0030D07E /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F485156F133A47FF0030D07E /* CAAutoDisposer.h */; };
 		F48F265B114F052000CB4686 /* AHAudioUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F48F2651114F052000CB4686 /* AHAudioUnit.cpp */; };
 		F48F265C114F052000CB4686 /* AHAudioUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = F48F2652114F052000CB4686 /* AHAudioUnit.h */; };
 		F48F265D114F052000CB4686 /* AHHost.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F48F2653114F052000CB4686 /* AHHost.cpp */; };
@@ -121,12 +124,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F49DBEF01172244B0019F359 /* PBXContainerItemProxy */ = {
+		F48515A8133A49150030D07E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 14E5A5280EA9385B00430DF8;
-			remoteInfo = AudioUnitHost;
+			remoteGlobalIDString = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
+			remoteInfo = "AudioUnitHost 10.5";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -194,6 +197,9 @@
 		F4009C0810E706C600A73744 /* AUOutputBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUOutputBL.h; path = Extras/CoreAudio/PublicUtility/AUOutputBL.h; sourceTree = DEVELOPER_DIR; };
 		F414460511501CD6001A1223 /* FileSystemUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemUtils.cpp; sourceTree = "<group>"; };
 		F414460611501CD6001A1223 /* FileSystemUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemUtils.h; sourceTree = "<group>"; };
+		F4851569133A47B40030D07E /* CAAudioFileFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAAudioFileFormats.h; path = Examples/CoreAudio/PublicUtility/CAAudioFileFormats.h; sourceTree = DEVELOPER_DIR; };
+		F485156C133A47E80030D07E /* CAFilePathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAFilePathUtils.h; path = Examples/CoreAudio/PublicUtility/CAFilePathUtils.h; sourceTree = DEVELOPER_DIR; };
+		F485156F133A47FF0030D07E /* CAAutoDisposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CAAutoDisposer.h; path = Examples/CoreAudio/PublicUtility/CAAutoDisposer.h; sourceTree = DEVELOPER_DIR; };
 		F48F2651114F052000CB4686 /* AHAudioUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AHAudioUnit.cpp; sourceTree = "<group>"; };
 		F48F2652114F052000CB4686 /* AHAudioUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHAudioUnit.h; sourceTree = "<group>"; };
 		F48F2653114F052000CB4686 /* AHHost.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AHHost.cpp; sourceTree = "<group>"; };
@@ -431,6 +437,9 @@
 		F4D90F60116E621400EF4EAD /* PublicUtilities10.5 */ = {
 			isa = PBXGroup;
 			children = (
+				F485156F133A47FF0030D07E /* CAAutoDisposer.h */,
+				F485156C133A47E80030D07E /* CAFilePathUtils.h */,
+				F4851569133A47B40030D07E /* CAAudioFileFormats.h */,
 				F4D90F84116E62E400EF4EAD /* CAAudioChannelLayout.h */,
 				F4D90F89116E62F100EF4EAD /* CAAudioChannelLayoutObject.cpp */,
 				F4D90F85116E62E400EF4EAD /* CAAudioChannelLayout.cpp */,
@@ -533,6 +542,9 @@
 				F4D90F8D116E630400EF4EAD /* CAAUParameter.h in Headers */,
 				F4D90F91116E634400EF4EAD /* AUOutputBL.h in Headers */,
 				F4D90F96116E635C00EF4EAD /* CAComponentDescription.h in Headers */,
+				F485156A133A47B40030D07E /* CAAudioFileFormats.h in Headers */,
+				F485156D133A47E80030D07E /* CAFilePathUtils.h in Headers */,
+				F4851570133A47FF0030D07E /* CAAutoDisposer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,7 +580,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F49DBEF11172244B0019F359 /* PBXTargetDependency */,
+				F48515A9133A49150030D07E /* PBXTargetDependency */,
 			);
 			name = simonTest;
 			productName = simonTest;
@@ -600,7 +612,6 @@
 			isa = PBXProject;
 			buildConfigurationList = A9E8845A0874AAEB00B2DFE8 /* Build configuration list for PBXProject "AudiounitHost" */;
 			compatibilityVersion = "Xcode 3.1";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -686,10 +697,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F49DBEF11172244B0019F359 /* PBXTargetDependency */ = {
+		F48515A9133A49150030D07E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
-			targetProxy = F49DBEF01172244B0019F359 /* PBXContainerItemProxy */;
+			target = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
+			targetProxy = F48515A8133A49150030D07E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

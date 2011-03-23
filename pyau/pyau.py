@@ -13,7 +13,9 @@ from copy import deepcopy
 from numpy.random import rand
 
 import pyau_swig as au
-from au_gui import launch_gui
+
+# TODO : fix this : gui makes conflicts via ssh
+#from au_gui import launch_gui
 
 #try:
 #    import IPython
@@ -43,9 +45,12 @@ class Host(object):
                             _set_midi,
                             doc = 'Gets/sets the current midi file path.\nUsually the number of tracks has to match the number of instruments (audiosources) in the AUChainGroup')
                             
-    def play(self):
+    def play(self, block=False):
         """ Plays the midi file using the AUChainGraph. """
-        self._ah_host.Play()
+        if block:
+            self._ah_host.PlayAndBlock()
+        else:
+            self._ah_host.Play()
 
     def stop(self):
         """ Stops the playing started with 'play'. """

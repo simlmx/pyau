@@ -108,6 +108,24 @@ OSStatus AHHost::PlayCallBack(	void *							inRefCon,
     return noErr;
 }
 
+void AHHost::PlayAndBlock()
+{
+    // could be improved, we should listen to the sound to know when to stop, not to the sequence_length, which is
+    // often too long
+    Stop();
+    ResetAudioUnits();
+    AHMidiPlayer* midiplayer = this->GetAHMidiPlayer();
+    midiplayer->Start();
+    
+    MusicTimeStamp time;
+    while(true)
+    {
+        PrintIfErr( MusicPlayerGetTime(midiplayer->GetMusicPlayer(), &time) );
+        if( time >= midiplayer->GetSequenceLength() )
+            return;
+    }
+}
+
 
 void AHHost::Stop()
 {
