@@ -39,76 +39,29 @@ void print_host(AHHost &host)
 int main( int argc, const char* argv[] )
 {
     //PrintAllAudioUnits();
-    AHHost host = AHHost();
-    AHTrack* track = host.AddTrack("automat1");
+    AHHost host1 = AHHost();
+    AHHost host2 = AHHost();
     
+    AHTrack* track1 = host1.AddTrack("Kontakt 3");
+    AHTrack* track2 = host2.AddTrack("Kontakt 3");
     
-    //AHAudioUnit* delay = track->AddEffect("AUDelay");
-    //AHAudioUnit* reverb = track->AddEffect("TAL Reverb Plugin");
-    //AHAudioUnit* dub = track->AddEffect("TAL dub III Plugin");
-    //track->AddEffect("camelcrusher");
-    AHAudioUnit* reverb = track->AddEffect("TAL Reverb Plugin");
-    //track->AddEffect("camelcrusher");
+    track1->GetSynth()->LoadAUPresetFromFile("/Volumes/data/valid/valid_kontakt/z/g/zgstmij/Kontakt 3.aupreset");
+    track2->GetSynth()->LoadAUPresetFromFile("/Volumes/data/valid/valid_kontakt/z/w/zw8xz1s/Kontakt 3.aupreset");
     
+    //AHAudioUnit* dub1 = track1->AddEffect("TAL dub III Plugin");
+    AHAudioUnit* dub2 = track2->AddEffect("TAL dub III Plugin");
     
-    //track->GetSynth()->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_aut1.aupreset");
-    //track->Arm();
-    //AHAudioUnit* matrixrev = track->AddEffect("AUMatrixReverb");
-    //reverb->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_rev.aupreset");
-    //dub->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_dub.aupreset");
-    //delay->LoadAUPresetFromFile("/Users/simon/tmp/debug_reset_delay.aupreset");
-    host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
+    //dub1->LoadAUPresetFromFile("/Volumes/data/valid/valid_kontakt/z/g/zgstmij/TAL dub III Plugin.aupreset");
+    dub2->LoadAUPresetFromFile("/Volumes/data/valid/valid_kontakt/z/w/zw8xz1s/TAL dub III Plugin.aupreset");
     
-    host.PlayAndBlock();
-    cout << "salut";
+    host1.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
+    host2.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
     
-    CFRunLoopRun();
-    
-    /*
-    printf("presque\n");
-    list<AUPreset> liste = matrixrev->GetFactoryPresetList(0,0);
-    list<AUPreset> liste2 = track->GetSynth()->GetFactoryPresetList(0,0);
-    
-    for (list<AUPreset>::iterator it=liste.begin(); it!=liste.end(); it++) {
-        PrintCFStringRef((*it).presetName);
-        printf("\n");
-        cout << ((*it).presetNumber) << endl;
-    }
-    for (list<AUPreset>::iterator it=liste2.begin(); it!=liste2.end(); it++) {
-        PrintCFStringRef((*it).presetName);
-        printf("\n");
-    }*/
-    
-    printf("oui\n");
+    host2.Play();
+    usleep(50000);
+    host2.Stop();
+    host2.ResetAudioUnits();
+    host1.Play();
     
     CFRunLoopRun();
-
-    printf("\nplaying");
-    host.Play();
-    sleep(1);
-    //reverb->SaveAUPresetToFile("/Users/simon/tmp/temp_preset.aupreset");
-    printf("\nStop");
-    host.Stop();
-    host.ResetAudioUnits();
-    sleep(2);
-    //AUGraphStop(host.GetAHGraph()->GetAUGraph());
-//    printf("\nReset");
-
-    
-    //track->RemoveEffectAt(1);
-    
-    host.Play();
-    
-    sleep(1);
-    host.Stop();
-    //AUGraphStart(host.GetAHGraph()->GetAUGraph());
-    
-    //host.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/63.mid");
-    //host.Play();
-
-    //host2.ResetAudioUnits();
-    sleep(12); 
-    
-
 }
-    

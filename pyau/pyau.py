@@ -59,7 +59,7 @@ class Host(object):
     def reset_audiounits(self):
         """ "Resets" audiounits... I'm not sure what it does exactly.
             It is supposed to clean internal buffers, e.g. for reverbs and delays.
-            This function should be used unless you know what you're doing!
+            This function should not be used unless you know what you're doing!
         """
         self._ah_host.ResetAudioUnits()
 
