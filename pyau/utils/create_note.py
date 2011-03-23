@@ -47,7 +47,7 @@ def create_1note_midifiles(notes, velocities, durations, midi_filename):
                 note_on.channel = 1
                 
                 delta1sec = DeltaTime(track)
-                delta1sec.time = int(96./500.*duration + .5)
+                delta1sec.time = int(96./500.*d + .5)
                 
                 time += delta1sec.time    
                 
