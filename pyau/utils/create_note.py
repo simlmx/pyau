@@ -98,6 +98,7 @@ def print_usage_and_exit():
     print '          The name of the midi files.'
     print '          "[note]" "[velocity]" "[duration]" will be replaced by, respectively, the note number, the velocity and the duration.'
     print '          e.g. "python create_note.py -n 40 -o note_[note].mid" will create a file name note_40.mid'
+    print '          default value of [note].mid'
     print 
     print 'Typical use :' 
     print '   python create_note.py -n 0-127 -v 80 -d 1000 -o [note].mid'
@@ -127,7 +128,8 @@ if __name__ == '__main__':
         print_usage_and_exit()    
     
     velocities = [100]
-    duration = 1500
+    durations = [1500]
+    midi_filename = '[note].mid'
     while len(args)>=3:
         if args[1] == '-n':
             notes = arg_to_range(args[2])
