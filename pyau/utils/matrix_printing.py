@@ -3,12 +3,16 @@
 # I use it for bad printing via ssh when I cannot use matplotlib!
 #
 # Simon Lemieux
+
+
 # april 20th 2010
 #
 
-from numpy import max, min
+from numpy import max, min, array
 
-def print_matrix(matrix, pixels=' .o0'):
+DEFAULT_PIXELS = ' .-+o0#'
+
+def print_matrix(matrix, pixels=DEFAULT_PIXELS):
     """ Prints a matrix... """
     matrix = matrix.copy().astype('float')
     max_ = max(matrix)
@@ -27,5 +31,29 @@ def print_matrix(matrix, pixels=' .o0'):
         print
 
 
-            
+def print_image(file_path, resize = (80,-1) ,pixels=DEFAULT_PIXELS):
+    """ Prints an image in the console.
+        resize = (x,y), x _or_ y can be -1
+                    None for original
+    """
+    import Image
+    
+    im = Image.open(file_path)
+    size = im.size
+    
+    if resize is not None:
+        resize = list(resize)
+        if resize[0] == -1:
+            resize[0] = int(round( size[0]*resize[1]/size[1] ))
+        elif resize[1] == -1:
+            resize[1] = int(round( size[1]*resize[0]/size[0] ))
+        im = im.resize(resize)
+        size = resize
+        
+    im = im.convert('F') # black and white
+    data = im.getdata()
+    x = array(data).reshape(size[::-1])
+
+    print_matrix(x, pixels)
+    
     
