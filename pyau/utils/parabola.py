@@ -3,7 +3,7 @@
 # Simon Lemieux
 #
 
-from numpy import array
+from numpy import array, hstack, ones
 from numpy.linalg import solve
 
 def fit_parabola(points):
@@ -13,13 +13,12 @@ def fit_parabola(points):
         
         TODO : throw something when the three points are //
     """
-    xs = [x[0] for x in points]
-    ys = [x[1] for x in points]
+    xs = points[:,0]
+    ys = points[:,1]
     
-    A = array([[ x**n for n in [2,1,0] ] for x in xs])
-    B = array(ys)
+    A = hstack([ xs.reshape(3,1) **n for n in [2,1]] +  [ ones(3).reshape(3,1) ])
     
-    X = solve(A,B)
+    X = solve(A,ys)
     a,b,c = X.flatten()
     
     return a,b,c

@@ -6,15 +6,21 @@
 # 19 jan 2010
 #
 
-from os.path import join
+from os.path import join, exists
 from setuptools import setup, Extension
 import platform
 
+potential_publicutility_dirs = [
+    '/Developer/Extras/CoreAudio/PublicUtility',
+    '/Developer/Examples/CoreAudio/PublicUtility',
+]
 
-if  platform.mac_ver()[0].rsplit('.',1)[0] == '10.6':
-    publicutility_dir = '/Developer/Extras/CoreAudio/PublicUtility'
-else:
-    publicutility_dir = '/Developer/Examples/CoreAudio/PublicUtility'
+publicutility_dir = ''
+for pud in potential_publicutility_dirs:
+    if exists(pud):
+        publicutility_dir = pud
+        break
+    raise Exception('Error : Not CoreAudio PublicUtility directory found.')
 
 src_dir = 'src'     
 
@@ -74,4 +80,5 @@ setup(name="pyau",
       author="Simon Lemieux and Sean Wood",
       author_email="lemieux.simon@gmail.com",
       ext_modules = [ext],
+      packages = ['pyau'],
 )

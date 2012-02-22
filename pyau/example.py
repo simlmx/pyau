@@ -6,7 +6,7 @@ h = pyau.Host()
 
 # adding some tracks 
 # we have to specify the synth (by his name) of the track
-t = h.add_track('automat1')
+t = h.add_track('DLSMusicDevice')
 t2 = h.add_track('DLSMusicDevice')
 # we can also specify the manufacturer, if there might be a conflict (2 audio units with the same name)
 t3 = h.add_track('DLSMusicDevice', 'apple')
