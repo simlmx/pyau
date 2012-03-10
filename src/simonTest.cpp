@@ -57,7 +57,7 @@ int main( int argc, const char* argv[] )
     host1.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
     host2.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
     
-    host2.Play();
+    host2.Play();3
     usleep(50000);
     host2.Stop();
     host2.ResetAudioUnits();
