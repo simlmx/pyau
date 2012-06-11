@@ -38,8 +38,8 @@ void print_host(AHHost &host)
 
 int main( int argc, const char* argv[] )
 {
-    //PrintAllAudioUnits();
-    AHHost host1 = AHHost();
+    PrintAllAudioUnits();
+    /*AHHost host1 = AHHost();
     AHHost host2 = AHHost();
     
     AHTrack* track1 = host1.AddTrack("Kontakt 3");
@@ -57,11 +57,11 @@ int main( int argc, const char* argv[] )
     host1.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
     host2.LoadMidiFile("/Users/simon/Lib/pyau/pyau/ressources/59.mid");
     
-    host2.Play();3
+    host2.Play();
     usleep(50000);
     host2.Stop();
     host2.ResetAudioUnits();
     host1.Play();
     
-    CFRunLoopRun();
+    CFRunLoopRun();*/
 }

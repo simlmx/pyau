@@ -11,8 +11,9 @@ from setuptools import setup, Extension
 import platform
 
 potential_publicutility_dirs = [
-    '/Developer/Extras/CoreAudio/PublicUtility',
-    '/Developer/Examples/CoreAudio/PublicUtility',
+    'src/core_audio_public_utility',
+#    '/Developer/Extras/CoreAudio/PublicUtility',
+#    '/Developer/Examples/CoreAudio/PublicUtility',
 ]
 
 publicutility_dir = ''
@@ -20,7 +21,7 @@ for pud in potential_publicutility_dirs:
     if exists(pud):
         publicutility_dir = pud
         break
-    raise Exception('Error : Not CoreAudio PublicUtility directory found.')
+    raise Exception('Error : No CoreAudio PublicUtility directory found.')
 
 src_dir = 'src'     
 

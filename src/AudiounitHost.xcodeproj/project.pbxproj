@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		142147640EB8EAB40089B0EB /* libAudioUnitHost.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */; };
+		142147640EB8EAB40089B0EB /* libMidi2Audio.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */; };
 		14E5A64B0EA9388700430DF8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D74C5F0243EFAA01370FF7 /* CoreFoundation.framework */; };
 		14E5A64C0EA9388700430DF8 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5D74C600243EFAA01370FF7 /* CoreServices.framework */; };
 		14E5A64D0EA9388700430DF8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68A0282348701CA27A0 /* AudioToolbox.framework */; };
@@ -40,6 +40,8 @@
 		F4009C2610E7070800A73744 /* CACFDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BE610E7062C00A73744 /* CACFDictionary.h */; };
 		F414460711501CD6001A1223 /* FileSystemUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F414460511501CD6001A1223 /* FileSystemUtils.cpp */; };
 		F414460811501CD6001A1223 /* FileSystemUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F414460611501CD6001A1223 /* FileSystemUtils.h */; };
+		F43B2024157D51E4001C3DE5 /* CAAudioFileFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009BF910E7068400A73744 /* CAAudioFileFormats.h */; };
+		F43B2029157D520C001C3DE5 /* CAFilePathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F4009C0210E706A300A73744 /* CAFilePathUtils.h */; };
 		F485156A133A47B40030D07E /* CAAudioFileFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4851569133A47B40030D07E /* CAAudioFileFormats.h */; };
 		F485156D133A47E80030D07E /* CAFilePathUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = F485156C133A47E80030D07E /* CAFilePathUtils.h */; };
 		F4851570133A47FF0030D07E /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = F485156F133A47FF0030D07E /* CAAutoDisposer.h */; };
@@ -93,7 +95,7 @@
 		F4C38909116D3A7300DCFEA0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68A0282348701CA27A0 /* AudioToolbox.framework */; };
 		F4C3890A116D3A7300DCFEA0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68B0282348701CA27A0 /* AudioUnit.framework */; };
 		F4C3890B116D3A7300DCFEA0 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */; };
-		F4C3890D116D3A7300DCFEA0 /* libAudioUnitHost.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */; };
+		F4C3890D116D3A7300DCFEA0 /* libMidi2Audio.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */; };
 		F4D90F39116E61AF00EF4EAD /* AUBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4D90F2F116E61AF00EF4EAD /* AUBuffer.cpp */; };
 		F4D90F3A116E61AF00EF4EAD /* AUBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F4D90F30116E61AF00EF4EAD /* AUBuffer.h */; };
 		F4D90F3B116E61AF00EF4EAD /* AUDebugDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4D90F31116E61AF00EF4EAD /* AUDebugDispatcher.cpp */; };
@@ -119,17 +121,17 @@
 		F4D90F97116E635C00EF4EAD /* CAComponentDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4D90F95116E635C00EF4EAD /* CAComponentDescription.cpp */; };
 		F4F56D9E0F70655C002A265C /* simonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */; };
 		F4F56DA30F70659F002A265C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68A0282348701CA27A0 /* AudioToolbox.framework */; };
-		F4F56F4D0F707D6F002A265C /* libAudioUnitHost.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */; };
+		F4F56F4D0F707D6F002A265C /* libMidi2Audio.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */; };
 		F4F570B40F718558002A265C /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F530D68B0282348701CA27A0 /* AudioUnit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F48515A8133A49150030D07E /* PBXContainerItemProxy */ = {
+		F43B2016157D517E001C3DE5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F4C388B2116D3A7300DCFEA0;
-			remoteInfo = "AudioUnitHost 10.5";
+			remoteGlobalIDString = 14E5A5280EA9385B00430DF8;
+			remoteInfo = AudioUnitHost;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -140,7 +142,7 @@
 			dstPath = "$(HOME)/local/lib";
 			dstSubfolderSpec = 0;
 			files = (
-				142147640EB8EAB40089B0EB /* libAudioUnitHost.dylib in CopyFiles */,
+				142147640EB8EAB40089B0EB /* libMidi2Audio.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,14 +152,14 @@
 			dstPath = "$(HOME)/local/lib";
 			dstSubfolderSpec = 0;
 			files = (
-				F4C3890D116D3A7300DCFEA0 /* libAudioUnitHost.dylib in CopyFiles */,
+				F4C3890D116D3A7300DCFEA0 /* libMidi2Audio.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAudioUnitHost.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMidi2Audio.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC8A4FE903705E200DCA2268 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<absolute>"; };
 		F4005EE30F6EAD7C00CA47AE /* simonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simonTest.cpp; sourceTree = "<group>"; };
 		F4005EE80F6EAD8A00CA47AE /* simonTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = simonTest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,7 +222,7 @@
 		F48F276A1150037A00CB4686 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CADebugMacros.h; path = Extras/CoreAudio/PublicUtility/CADebugMacros.h; sourceTree = DEVELOPER_DIR; };
 		F49DBF091172256F0019F359 /* AHUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHUtils.h; path = ../../../../Lib/pygmy/src/AudiounitHost/AHUtils.h; sourceTree = SOURCE_ROOT; };
 		F49DBF0E117225A00019F359 /* AHGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHGraph.h; path = ../../../../Lib/pygmy/src/AudiounitHost/AHGraph.h; sourceTree = SOURCE_ROOT; };
-		F4C38912116D3A7300DCFEA0 /* libAudioUnitHost.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAudioUnitHost.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4C38912116D3A7300DCFEA0 /* libMidi2Audio.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMidi2Audio.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4D90F2F116E61AF00EF4EAD /* AUBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUBuffer.cpp; path = Examples/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.cpp; sourceTree = DEVELOPER_DIR; };
 		F4D90F30116E61AF00EF4EAD /* AUBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AUBuffer.h; path = Examples/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.h; sourceTree = DEVELOPER_DIR; };
 		F4D90F31116E61AF00EF4EAD /* AUDebugDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AUDebugDispatcher.cpp; path = Examples/CoreAudio/AudioUnits/AUPublic/Utility/AUDebugDispatcher.cpp; sourceTree = DEVELOPER_DIR; };
@@ -269,7 +271,7 @@
 			files = (
 				F4005EEE0F6EADA000CA47AE /* CoreFoundation.framework in Frameworks */,
 				F4F56DA30F70659F002A265C /* AudioToolbox.framework in Frameworks */,
-				F4F56F4D0F707D6F002A265C /* libAudioUnitHost.dylib in Frameworks */,
+				F4F56F4D0F707D6F002A265C /* libMidi2Audio.dylib in Frameworks */,
 				F4F570B40F718558002A265C /* AudioUnit.framework in Frameworks */,
 				F49A569C0FCD962F001D0F80 /* CoreMIDI.framework in Frameworks */,
 				F49A57020FCDAAED001D0F80 /* CoreServices.framework in Frameworks */,
@@ -338,9 +340,9 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */,
+				14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */,
 				F4005EE80F6EAD8A00CA47AE /* simonTest */,
-				F4C38912116D3A7300DCFEA0 /* libAudioUnitHost.dylib */,
+				F4C38912116D3A7300DCFEA0 /* libMidi2Audio.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -506,6 +508,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43B2029157D520C001C3DE5 /* CAFilePathUtils.h in Headers */,
+				F43B2024157D51E4001C3DE5 /* CAAudioFileFormats.h in Headers */,
 				F49DBF24117226E10019F359 /* CAComponent.h in Headers */,
 				F49DBF20117226D80019F359 /* CAAudioUnit.h in Headers */,
 				F49DBF21117226D80019F359 /* AHAudioUnit.h in Headers */,
@@ -566,7 +570,7 @@
 			);
 			name = AudioUnitHost;
 			productName = Midi2Audio;
-			productReference = 14E5A5290EA9385B00430DF8 /* libAudioUnitHost.dylib */;
+			productReference = 14E5A5290EA9385B00430DF8 /* libMidi2Audio.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		F4005EE70F6EAD8A00CA47AE /* simonTest */ = {
@@ -580,7 +584,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F48515A9133A49150030D07E /* PBXTargetDependency */,
+				F43B2017157D517E001C3DE5 /* PBXTargetDependency */,
 			);
 			name = simonTest;
 			productName = simonTest;
@@ -602,7 +606,7 @@
 			);
 			name = "AudioUnitHost 10.5";
 			productName = Midi2Audio;
-			productReference = F4C38912116D3A7300DCFEA0 /* libAudioUnitHost.dylib */;
+			productReference = F4C38912116D3A7300DCFEA0 /* libMidi2Audio.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -612,6 +616,7 @@
 			isa = PBXProject;
 			buildConfigurationList = A9E8845A0874AAEB00B2DFE8 /* Build configuration list for PBXProject "AudiounitHost" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -697,10 +702,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F48515A9133A49150030D07E /* PBXTargetDependency */ = {
+		F43B2017157D517E001C3DE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F4C388B2116D3A7300DCFEA0 /* AudioUnitHost 10.5 */;
-			targetProxy = F48515A8133A49150030D07E /* PBXContainerItemProxy */;
+			target = 14E5A5280EA9385B00430DF8 /* AudioUnitHost */;
+			targetProxy = F43B2016157D517E001C3DE5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -709,6 +714,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -738,6 +744,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
@@ -764,6 +771,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				EXECUTABLE_PREFIX = lib;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -808,6 +816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -827,6 +836,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -842,6 +852,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
