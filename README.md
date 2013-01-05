@@ -28,7 +28,8 @@ A mac with at least Leopard (10.5) with the following installed
 
 Installation
 ============
-pip install git+git://github.com/simlmx/pyau.git
+
+    pip install git+git://github.com/simlmx/pyau.git
 
 In the python interpreter, verify that the following works:
 
