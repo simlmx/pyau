@@ -14,7 +14,7 @@ Current features
 * Supports multiple tracks
 * Can use midi files to bounce audio
 * Listens to incoming midi messages (e.g. from a keyboard)
-* ~~ Ugly generic gui for audio units ~~ Disabled because buggy...
+* ~~Ugly generic gui for audio units~~ Disabled because buggy...
 
 
 Requirements
