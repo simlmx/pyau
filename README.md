@@ -28,9 +28,11 @@ A mac with at least Leopard (10.5) with the following installed
 
 Installation
 ============
-pip install git+git://github.com/django/django.git
+pip install git+git://github.com/simlmx/pyau.git
 
-In the python interpreter you can then test that "import pyau" works.
+In the python interpreter, verify you can import
+    import pyau
+works.
 
 
 Usage
