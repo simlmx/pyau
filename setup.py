@@ -1,4 +1,4 @@
-# 
+#
 # setup for the audiounit extention
 # since not used by many people, we can compile it separatly if we want it
 #
@@ -23,7 +23,7 @@ for pud in potential_publicutility_dirs:
         break
     raise Exception('Error : No CoreAudio PublicUtility directory found.')
 
-src_dir = 'src'     
+src_dir = 'src'
 
 import numpy
 
@@ -44,17 +44,17 @@ ext = Extension('_pyau_swig',
                 join( publicutility_dir, 'CAStreamBasicDescription.cpp' ),
                 join( publicutility_dir, 'AUOutputBL.cpp' ),
                 join( publicutility_dir, 'CAComponent.cpp' ),
-                
+
                 join( src_dir, 'AHHost.cpp' ),
                 join( src_dir, 'AHGraph.cpp' ),
                 join( src_dir, 'AHMidiPlayer.cpp' ),
                 join( src_dir, 'AHAudioUnit.cpp' ),
                 join( src_dir, 'AHTrack.cpp' ),
-                join( src_dir, 'AHParameter.cpp' ),								
+                join( src_dir, 'AHParameter.cpp' ),
                 join( src_dir, 'AHUtils.cpp' ),
                 join( src_dir, 'FileSystemUtils.cpp' ),
 
-                
+
                  ],
        include_dirs=[	src_dir,
                         publicutility_dir,
@@ -70,14 +70,14 @@ ext = Extension('_pyau_swig',
             '-framework', 'CoreServices',
             '-framework', 'AudioToolbox',
             '-framework', 'AudioUnit',
-            '-framework', 'CoreMIDI',              
+            '-framework', 'CoreMIDI',
             ],
        )
 
 setup(name="pyau",
       version="0.1",
-      description="Python AudioUnit host",
-      long_description="""Python AudioUnit host""",
+      description="Python Audio Unit host",
+      long_description="""Python Audio Unit host""",
       author="Simon Lemieux and Sean Wood",
       author_email="lemieux.simon@gmail.com",
       ext_modules = [ext],
