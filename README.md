@@ -30,9 +30,9 @@ Installation
 ============
 pip install git+git://github.com/simlmx/pyau.git
 
-In the python interpreter, verify you can import
+In the python interpreter, verify that the following works:
+
     import pyau
-works.
 
 
 Usage
