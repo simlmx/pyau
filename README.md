@@ -29,9 +29,11 @@ A mac with at least Leopard (10.5) with the following installed
 Installation
 ============
 
-    pip install git+git://github.com/simlmx/pyau.git
+    git clone https://github.com/simlmx/pyau.git
+    cd pyau
+    python setup.py install
 
-In the python interpreter, verify that the following works:
+In the python interpreter (opened from a different directory), verify that the following works:
 
     import pyau
 
