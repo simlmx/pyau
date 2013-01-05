@@ -31,6 +31,7 @@ Installation
 
     git clone https://github.com/simlmx/pyau.git
     cd pyau
+    python setup.py build  # Make sure you don't skip this step!
     python setup.py install
 
 In the python interpreter (opened from a different directory), verify that the following works:
