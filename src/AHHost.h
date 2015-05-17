@@ -53,6 +53,8 @@ public:
     
     
     void LoadMidiFile(const string midiFile);
+    void CreateOneNote(int noteNumnber, float duration, int velocity);
+
 //	void LoadInstrument( const string& instrument, UInt32 busIndex = 0 );
 	
 	vector< list< vector<float> > > Bounce();

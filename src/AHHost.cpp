@@ -77,6 +77,11 @@ void AHHost::LoadMidiFile(const std::string midiFile)
 	midiPlayer_.LoadMidiFile(midiFile);	
 }
 
+void AHHost::CreateOneNote(int noteNumber, float duration, int velocity)
+{
+    midiPlayer_.CreateOneNote(noteNumber, duration, velocity); 
+}
+
 // Most was copy-pasted from PlaySequence example
 void AHHost::Play()
 {	
@@ -335,15 +340,11 @@ vector< list< vector<float> > > AHHost::RenderToBuffer()//CAStreamBasicDescripti
 		{
 			vector<float> data_temp(bufferSize_);
 			AudioBuffer ab = abl->mBuffers[i];
-
 			// TODO : if my understanding is correct, since we assume that we are using the genericOutput, we also assume that 32-bit little-endian float, deinterleaved
 			//        are coming from AudioUnitRender
 			memcpy(&(data_temp[0]), ab.mData, ab.mDataByteSize);
 			data[i].push_back(data_temp);
 			
-			//for(int j=0; j<10; j++)
-			//	printf("%.5f ", data_temp[j]);
-			//printf("\n");
 		}
 				
         midiPlayer_.GetTime( &currentTime );        

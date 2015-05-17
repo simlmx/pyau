@@ -54,6 +54,64 @@ void AHMidiPlayer::Stop()
     PrintIfErr( MusicPlayerStop( musicPlayer_ ) );
 }
 
+void AHMidiPlayer::CreateOneNote(int noteNumber, float duration, int velocity)
+{
+    // new music stuff
+    MusicPlayer temp_musicPlayer;
+    MusicSequence temp_musicSequence;
+    PrintIfErr( NewMusicPlayer(&temp_musicPlayer));
+    PrintIfErr( NewMusicSequence(&temp_musicSequence) );
+    PrintIfErr( MusicPlayerSetSequence(temp_musicPlayer, temp_musicSequence) );
+    
+
+    // Disposing old music stuff
+    MusicTrack track;
+    UInt32 ntracks = GetTrackCount();
+    for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
+    {
+        PrintIfErr( MusicSequenceGetIndTrack( musicSequence_, 0, &track ) );// 0 because we always delete the first one
+        PrintIfErr( MusicSequenceDisposeTrack(musicSequence_, track) );
+    }
+    PrintIfErr( DisposeMusicPlayer(musicPlayer_) );
+    PrintIfErr( DisposeMusicSequence(musicSequence_) );
+    
+    // Create a MusicSequence with one track, one note called temp_musicSequence
+    PrintIfErr(MusicSequenceNewTrack(temp_musicSequence, &track));
+    MusicTimeStamp beat = 1.0;
+    MIDINoteMessage mess;
+    mess.channel = 0;
+    mess.note = noteNumber;
+    mess.velocity = velocity;
+    mess.releaseVelocity = 0;
+    mess.duration = duration;
+    PrintIfErr(MusicTrackNewMIDINoteEvent(track, beat, &mess));
+
+    musicPlayer_ = temp_musicPlayer;
+    musicSequence_ = temp_musicSequence;
+    
+    PrintIfErr( MusicSequenceSetAUGraph(musicSequence_, graph_->GetAUGraph()) );
+               
+
+    // // figure out sequence length, and add 8 beats to the end of the file to take decay etc. into account
+    MusicTimeStamp trackLength;
+    UInt32 propsize = sizeof( MusicTimeStamp );
+    
+    ntracks = GetTrackCount();
+    //CAShow(musicSequence_);
+    musicSequenceLength_ = 0;
+    for( UInt32 trackIndex = 0; trackIndex < ntracks; ++trackIndex )
+    {        
+        PrintIfErr( MusicSequenceGetIndTrack( musicSequence_, trackIndex, &track ) );
+        PrintIfErr( MusicTrackGetProperty( track, kSequenceTrackProperty_TrackLength, &trackLength, &propsize ) );
+
+        if ( trackLength > musicSequenceLength_ ) musicSequenceLength_ = trackLength;
+    }
+    musicSequenceLength_ += 8;
+    
+    SetupMidiChannelMapping();
+
+}
+
 void AHMidiPlayer::LoadMidiFile( const string& midiFilePath )
 {
     // new music stuff
