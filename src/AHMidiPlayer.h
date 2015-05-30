@@ -33,6 +33,8 @@ public:
     ~AHMidiPlayer();
         
     void LoadMidiFile( const std::string& midiFile );
+    void CreateOneNote(int noteNumber, float duration, int velocity);
+
     void GetTime( MusicTimeStamp* currentTime );
     MusicTimeStamp GetSequenceLength() { return musicSequenceLength_; }
     MusicSequence GetMusicSequence() { return musicSequence_; }
