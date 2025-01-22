@@ -79,7 +79,6 @@ setup(name="pyau",
       description="Python Audio Unit host",
       long_description="""Python Audio Unit host""",
       author="Simon Lemieux and Sean Wood",
-      author_email="lemieux.simon@gmail.com",
       ext_modules = [ext],
       packages = ['pyau'],
 )
